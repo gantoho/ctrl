@@ -1,0 +1,9 @@
+[package]
+name = "ctrl-components"
+version = "0.1.0"
+edition = "2021"
+description = "Ctrl UI 组件库：所有 UI 组件实现"
+
+[dependencies]
+dioxus = { workspace = true }
+ctrl-core = { path = "../ctrl-core" }

@@ -1,0 +1,28 @@
+# ── Rust ──
+/target/
+**/*.rs.bk
+*.pdb
+
+# ── Cargo.lock (库项目不提交，应用/示例可提交) ──
+# 由于包含 examples/demo 应用，可选择提交 Cargo.lock。
+# 下面的规则提交应用级 lock 文件，忽略库级。
+# Cargo.lock
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── 构建产物 ──
+dist/
+pkg/
+*.wasm
+
+# ── 环境变量 ──
+.env
+.env.local
+.env.*.local

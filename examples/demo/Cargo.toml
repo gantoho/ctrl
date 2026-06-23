@@ -1,0 +1,9 @@
+[package]
+name = "ctrl-demo"
+version = "0.1.0"
+edition = "2021"
+description = "Ctrl UI 组件库演示应用"
+
+[dependencies]
+dioxus = { workspace = true }
+ctrl = { path = "../../crates/ctrl" }

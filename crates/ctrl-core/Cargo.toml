@@ -1,0 +1,8 @@
+[package]
+name = "ctrl-core"
+version = "0.1.0"
+edition = "2021"
+description = "Ctrl UI 组件库核心层：主题系统、公共类型、工具函数"
+
+[dependencies]
+dioxus = { workspace = true }

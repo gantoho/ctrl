@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ctrl-core",
+    "crates/ctrl-components",
+    "crates/ctrl",
+    "examples/demo",
+]
+
+[workspace.dependencies]
+dioxus = { version = "0.5", features = ["web"] }

@@ -1,0 +1,9 @@
+[package]
+name = "ctrl"
+version = "0.1.0"
+edition = "2021"
+description = "Ctrl UI 组件库：开箱即用的聚合导出包"
+
+[dependencies]
+ctrl-core = { path = "../ctrl-core" }
+ctrl-components = { path = "../ctrl-components" }

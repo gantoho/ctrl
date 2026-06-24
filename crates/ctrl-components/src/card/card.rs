@@ -1,35 +1,5 @@
 use dioxus::prelude::*;
 
-/// Card 组件注入的 CSS 样式
-const CARD_CSS: &str = r#"
-/* ── 卡片 ── */
-.ctrl-card {
-    background: var(--ctrl-bg);
-    overflow: hidden;
-    border-radius: var(--ctrl-radius-lg);
-}
-.ctrl-card--bordered {
-    border: 1px solid var(--ctrl-border);
-}
-.ctrl-card--shadow {
-    box-shadow: var(--ctrl-shadow-sm);
-}
-
-/* ── 头部 ── */
-.ctrl-card__header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--ctrl-border);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--ctrl-text);
-}
-
-/* ── 内容 ── */
-.ctrl-card__body {
-    padding: 20px;
-}
-"#;
-
 /// Card 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct CardProps {
@@ -78,7 +48,6 @@ pub fn Card(props: CardProps) -> Element {
     let card_class = classes.join(" ");
 
     rsx! {
-        style { {CARD_CSS} }
         div {
             class: "{card_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

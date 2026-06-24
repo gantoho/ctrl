@@ -1,5 +1,4 @@
 use dioxus::prelude::*;
-// Routable, Router, Link, Outlet 等已通过 dioxus::prelude::* 导入
 use ctrl::prelude::*;
 
 mod components;
@@ -9,6 +8,27 @@ use components::layout::DocsLayout;
 use pages::home::HomePage;
 use pages::components::ComponentsPage;
 use pages::theme::ThemePage;
+
+/// 组件 CSS 样式文件（通过 asset!() 加载，支持热重载）
+static CSS_BUTTON: Asset = asset!("/assets/css/button.css");
+static CSS_INPUT: Asset = asset!("/assets/css/input.css");
+static CSS_SWITCH: Asset = asset!("/assets/css/switch.css");
+static CSS_CHECKBOX: Asset = asset!("/assets/css/checkbox.css");
+static CSS_RADIO: Asset = asset!("/assets/css/radio.css");
+static CSS_SELECT: Asset = asset!("/assets/css/select.css");
+static CSS_TAG: Asset = asset!("/assets/css/tag.css");
+static CSS_CARD: Asset = asset!("/assets/css/card.css");
+static CSS_DIALOG: Asset = asset!("/assets/css/dialog.css");
+static CSS_TABLE: Asset = asset!("/assets/css/table.css");
+static CSS_BADGE: Asset = asset!("/assets/css/badge.css");
+static CSS_AVATAR: Asset = asset!("/assets/css/avatar.css");
+static CSS_PROGRESS: Asset = asset!("/assets/css/progress.css");
+static CSS_TOOLTIP: Asset = asset!("/assets/css/tooltip.css");
+static CSS_TABS: Asset = asset!("/assets/css/tabs.css");
+static CSS_ALERT: Asset = asset!("/assets/css/alert.css");
+static CSS_BREADCRUMB: Asset = asset!("/assets/css/breadcrumb.css");
+static CSS_PAGINATION: Asset = asset!("/assets/css/pagination.css");
+static CSS_MESSAGE: Asset = asset!("/assets/css/message.css");
 
 fn main() {
     dioxus::launch(App);
@@ -65,6 +85,28 @@ fn App() -> Element {
     };
 
     rsx! {
+        // 加载组件 CSS（Dioxus 0.7 推荐方式，支持热重载）
+        // reset.css 已由 ThemeProvider 自动注入
+        document::Stylesheet { href: CSS_BUTTON }
+        document::Stylesheet { href: CSS_INPUT }
+        document::Stylesheet { href: CSS_SWITCH }
+        document::Stylesheet { href: CSS_CHECKBOX }
+        document::Stylesheet { href: CSS_RADIO }
+        document::Stylesheet { href: CSS_SELECT }
+        document::Stylesheet { href: CSS_TAG }
+        document::Stylesheet { href: CSS_CARD }
+        document::Stylesheet { href: CSS_DIALOG }
+        document::Stylesheet { href: CSS_TABLE }
+        document::Stylesheet { href: CSS_BADGE }
+        document::Stylesheet { href: CSS_AVATAR }
+        document::Stylesheet { href: CSS_PROGRESS }
+        document::Stylesheet { href: CSS_TOOLTIP }
+        document::Stylesheet { href: CSS_TABS }
+        document::Stylesheet { href: CSS_ALERT }
+        document::Stylesheet { href: CSS_BREADCRUMB }
+        document::Stylesheet { href: CSS_PAGINATION }
+        document::Stylesheet { href: CSS_MESSAGE }
+
         ThemeProvider {
             theme: theme,
             Router::<Route> {}

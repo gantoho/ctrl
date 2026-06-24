@@ -1,67 +1,6 @@
 use dioxus::prelude::*;
 use ctrl_core::types::Size;
 
-/// Input 组件注入的 CSS 样式
-const INPUT_CSS: &str = r#"
-/* ── 输入框基础样式 ── */
-.ctrl-input {
-    display: inline-flex;
-    width: 100%;
-    font-family: var(--ctrl-font-family);
-    font-size: var(--ctrl-font-size-md);
-    border-radius: var(--ctrl-radius-md);
-    transition: all var(--ctrl-transition);
-    outline: none;
-    line-height: 1.5;
-    box-sizing: border-box;
-    background: var(--ctrl-bg);
-    color: var(--ctrl-text);
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: none;
-    border: 1px solid var(--ctrl-border);
-}
-.ctrl-input:focus {
-    border-color: var(--ctrl-primary);
-    box-shadow: 0 0 0 1px var(--ctrl-primary);
-}
-
-/* ── 尺寸 ── */
-.ctrl-input--sm { font-size: var(--ctrl-font-size-sm); padding: 4px 10px; height: 32px; }
-.ctrl-input--md { font-size: var(--ctrl-font-size-md); padding: 8px 12px; height: 36px; }
-.ctrl-input--lg { font-size: var(--ctrl-font-size-lg); padding: 12px 16px; height: 44px; }
-
-/* ── 禁用 ── */
-.ctrl-input--disabled {
-    background: var(--ctrl-bg-disabled);
-    color: var(--ctrl-text-disabled);
-    cursor: not-allowed;
-}
-.ctrl-input--disabled:focus {
-    border-color: var(--ctrl-border);
-    box-shadow: none;
-}
-
-/* ── 错误 ── */
-.ctrl-input--error {
-    border-color: var(--ctrl-danger);
-    box-shadow: 0 0 0 1px var(--ctrl-danger);
-}
-.ctrl-input--error:focus {
-    border-color: var(--ctrl-danger);
-    box-shadow: 0 0 0 1px var(--ctrl-danger);
-}
-
-/* ── 只读 ── */
-.ctrl-input--readonly {
-    cursor: default;
-}
-.ctrl-input--readonly:focus {
-    border-color: var(--ctrl-border);
-    box-shadow: none;
-}
-"#;
-
 /// Input 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct InputProps {
@@ -155,7 +94,6 @@ pub fn Input(props: InputProps) -> Element {
     let onblur = props.onblur.clone();
 
     rsx! {
-        style { {INPUT_CSS} }
         input {
             class: "{user_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

@@ -10,3 +10,4 @@ members = [
 
 [workspace.dependencies]
 dioxus = { version = "0.7", features = ["web"] }
+gloo-timers = "0.3"

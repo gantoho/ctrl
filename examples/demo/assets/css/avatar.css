@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Avatar 头像
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--ctrl-bg-secondary);
+    border: 1px solid var(--ctrl-border);
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+/* 尺寸 */
+.ctrl-avatar--sm {
+    width: 28px;
+    height: 28px;
+    font-size: var(--ctrl-font-size-xs);
+}
+.ctrl-avatar--md {
+    width: 36px;
+    height: 36px;
+    font-size: var(--ctrl-font-size-sm);
+}
+.ctrl-avatar--lg {
+    width: 48px;
+    height: 48px;
+    font-size: var(--ctrl-font-size-lg);
+}
+
+/* 方形变体 */
+.ctrl-avatar--square {
+    border-radius: var(--ctrl-radius-md);
+}
+
+/* 图片 */
+.ctrl-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 文字 fallback */
+.ctrl-avatar__text {
+    font-weight: 600;
+    color: var(--ctrl-text-secondary);
+    user-select: none;
+    line-height: 1;
+}

@@ -54,10 +54,18 @@ fn build_css_vars(theme: &Theme) -> String {
             --ctrl-text-disabled: {text_disabled};
             --ctrl-border: {border};
             --ctrl-border-hover: {border_hover};
+            --ctrl-text-on-primary: {text_on_primary};
+            --ctrl-mask-bg: {mask_bg};
             --ctrl-font-family: {font_family};
+            --ctrl-font-size-xs: {font_size_xs};
             --ctrl-font-size-sm: {font_size_sm};
             --ctrl-font-size-md: {font_size_md};
             --ctrl-font-size-lg: {font_size_lg};
+            --ctrl-spacing-xs: {spacing_xs};
+            --ctrl-spacing-sm: {spacing_sm};
+            --ctrl-spacing-md: {spacing_md};
+            --ctrl-spacing-lg: {spacing_lg};
+            --ctrl-spacing-xl: {spacing_xl};
             --ctrl-radius-sm: {radius_sm};
             --ctrl-radius-md: {radius_md};
             --ctrl-radius-lg: {radius_lg};
@@ -83,10 +91,18 @@ fn build_css_vars(theme: &Theme) -> String {
         text_disabled = c.text_disabled,
         border = c.border,
         border_hover = c.border_hover,
+        text_on_primary = c.text_on_primary,
+        mask_bg = c.mask_bg,
         font_family = theme.font_family,
+        font_size_xs = theme.font_size_xs,
         font_size_sm = theme.font_size_sm,
         font_size_md = theme.font_size_md,
         font_size_lg = theme.font_size_lg,
+        spacing_xs = theme.spacing_xs,
+        spacing_sm = theme.spacing_sm,
+        spacing_md = theme.spacing_md,
+        spacing_lg = theme.spacing_lg,
+        spacing_xl = theme.spacing_xl,
         radius_sm = theme.radius_sm,
         radius_md = theme.radius_md,
         radius_lg = theme.radius_lg,
@@ -96,44 +112,8 @@ fn build_css_vars(theme: &Theme) -> String {
     )
 }
 
-/// 全局 CSS 重置样式 —— 消除浏览器默认样式对组件的干扰
-const GLOBAL_RESET_CSS: &str = r#"
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: var(--ctrl-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-button::-moz-focus-inner,
-input::-moz-focus-inner,
-select::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: var(--ctrl-text-disabled);
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-"#;
+/// 全局重置样式
+const RESET_CSS: &str = include_str!("../../assets/reset.css");
 
 #[allow(non_snake_case)]
 pub fn ThemeProvider(props: ThemeProviderProps) -> Element {
@@ -144,8 +124,10 @@ pub fn ThemeProvider(props: ThemeProviderProps) -> Element {
     use_context_provider(|| theme);
 
     rsx! {
+        // 全局重置样式（消除浏览器默认样式干扰）
+        style { {RESET_CSS} }
+        // 动态 CSS 变量（因每个用户的主题配置不同）
         style { {css_vars} }
-        style { {GLOBAL_RESET_CSS} }
         {props.children}
     }
 }

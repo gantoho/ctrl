@@ -424,6 +424,7 @@ version = "0.1.0"
 dependencies = [
  "ctrl-core",
  "dioxus",
+ "gloo-timers 0.3.0",
 ]
 
 [[package]]

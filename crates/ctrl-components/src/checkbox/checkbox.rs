@@ -1,51 +1,5 @@
 use dioxus::prelude::*;
 
-/// Checkbox 组件注入的 CSS 样式
-const CHECKBOX_CSS: &str = r#"
-/* ── 容器 ── */
-.ctrl-checkbox {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    user-select: none;
-    font-size: var(--ctrl-font-size-md);
-    color: var(--ctrl-text);
-}
-.ctrl-checkbox--disabled {
-    cursor: not-allowed;
-    color: var(--ctrl-text-disabled);
-}
-
-/* ── 复选框 ── */
-.ctrl-checkbox__box {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    border-radius: var(--ctrl-radius-sm);
-    transition: all var(--ctrl-transition);
-    flex-shrink: 0;
-    background: var(--ctrl-bg);
-    border: 1px solid var(--ctrl-border);
-    cursor: pointer;
-}
-.ctrl-checkbox__box--checked {
-    background: var(--ctrl-primary);
-    border-color: var(--ctrl-primary);
-}
-.ctrl-checkbox__box--disabled {
-    background: var(--ctrl-bg-disabled);
-    border-color: var(--ctrl-border);
-    cursor: not-allowed;
-}
-.ctrl-checkbox__box--disabled.ctrl-checkbox__box--checked {
-    background: var(--ctrl-primary-light);
-    border-color: var(--ctrl-primary-light);
-}
-"#;
-
 /// Checkbox 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct CheckboxProps {
@@ -102,7 +56,7 @@ pub fn Checkbox(props: CheckboxProps) -> Element {
     let checked = props.checked;
     let disabled = props.disabled;
 
-    let icon_color = if props.disabled { "var(--ctrl-primary)" } else { "white" };
+    let icon_color = if props.disabled { "var(--ctrl-primary)" } else { "var(--ctrl-text-on-primary)" };
 
     let check_icon = if props.indeterminate {
         rsx! {
@@ -131,7 +85,6 @@ pub fn Checkbox(props: CheckboxProps) -> Element {
     };
 
     rsx! {
-        style { {CHECKBOX_CSS} }
         label {
             class: "{label_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Tooltip 气泡提示
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-tooltip {
+    position: relative;
+    display: inline-flex;
+}
+
+/* 气泡本体 */
+.ctrl-tooltip__popper {
+    position: absolute;
+    z-index: 1000;
+    padding: var(--ctrl-spacing-xs) var(--ctrl-spacing-sm);
+    font-size: var(--ctrl-font-size-sm);
+    font-weight: 500;
+    color: var(--ctrl-bg);
+    background: var(--ctrl-text);
+    border-radius: var(--ctrl-radius-sm);
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1.5;
+    box-shadow: var(--ctrl-shadow-sm);
+}
+
+/* top */
+.ctrl-tooltip__popper--top {
+    bottom: calc(100% + var(--ctrl-spacing-sm));
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* bottom */
+.ctrl-tooltip__popper--bottom {
+    top: calc(100% + var(--ctrl-spacing-sm));
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* left */
+.ctrl-tooltip__popper--left {
+    right: calc(100% + var(--ctrl-spacing-sm));
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* right */
+.ctrl-tooltip__popper--right {
+    left: calc(100% + var(--ctrl-spacing-sm));
+    top: 50%;
+    transform: translateY(-50%);
+}

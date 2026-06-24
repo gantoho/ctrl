@@ -1,42 +1,5 @@
 use dioxus::prelude::*;
 
-/// Tag 组件注入的 CSS 样式
-const TAG_CSS: &str = r#"
-/* ── 标签 ── */
-.ctrl-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 10px;
-    border-radius: var(--ctrl-radius-sm);
-    font-size: var(--ctrl-font-size-sm);
-    line-height: 1.5;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-/* ── 关闭按钮 ── */
-.ctrl-tag__close {
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    margin-left: 2px;
-    opacity: 0.7;
-    transition: opacity 0.15s;
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0;
-}
-.ctrl-tag__close:hover {
-    opacity: 1;
-}
-"#;
-
 /// Tag 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct TagProps {
@@ -87,7 +50,6 @@ pub fn Tag(props: TagProps) -> Element {
     );
 
     rsx! {
-        style { {TAG_CSS} }
         span {
             class: "{tag_class}",
             style: "{color_style}",

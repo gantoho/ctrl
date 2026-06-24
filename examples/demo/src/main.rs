@@ -1,6 +1,27 @@
 use dioxus::prelude::*;
 use ctrl::prelude::*;
 
+/// 组件 CSS 样式文件（通过 asset!() 加载，支持热重载）
+static CSS_BUTTON: Asset = asset!("/assets/css/button.css");
+static CSS_INPUT: Asset = asset!("/assets/css/input.css");
+static CSS_SWITCH: Asset = asset!("/assets/css/switch.css");
+static CSS_CHECKBOX: Asset = asset!("/assets/css/checkbox.css");
+static CSS_RADIO: Asset = asset!("/assets/css/radio.css");
+static CSS_SELECT: Asset = asset!("/assets/css/select.css");
+static CSS_TAG: Asset = asset!("/assets/css/tag.css");
+static CSS_CARD: Asset = asset!("/assets/css/card.css");
+static CSS_DIALOG: Asset = asset!("/assets/css/dialog.css");
+static CSS_TABLE: Asset = asset!("/assets/css/table.css");
+static CSS_BADGE: Asset = asset!("/assets/css/badge.css");
+static CSS_AVATAR: Asset = asset!("/assets/css/avatar.css");
+static CSS_PROGRESS: Asset = asset!("/assets/css/progress.css");
+static CSS_TOOLTIP: Asset = asset!("/assets/css/tooltip.css");
+static CSS_TABS: Asset = asset!("/assets/css/tabs.css");
+static CSS_ALERT: Asset = asset!("/assets/css/alert.css");
+static CSS_BREADCRUMB: Asset = asset!("/assets/css/breadcrumb.css");
+static CSS_PAGINATION: Asset = asset!("/assets/css/pagination.css");
+static CSS_MESSAGE: Asset = asset!("/assets/css/message.css");
+
 fn main() {
     dioxus::launch(App);
 }
@@ -8,6 +29,28 @@ fn main() {
 #[allow(non_snake_case)]
 fn App() -> Element {
     rsx! {
+        // 加载组件 CSS（Dioxus 0.7 推荐方式，支持热重载）
+        // reset.css 已由 ThemeProvider 自动注入
+        document::Stylesheet { href: CSS_BUTTON }
+        document::Stylesheet { href: CSS_INPUT }
+        document::Stylesheet { href: CSS_SWITCH }
+        document::Stylesheet { href: CSS_CHECKBOX }
+        document::Stylesheet { href: CSS_RADIO }
+        document::Stylesheet { href: CSS_SELECT }
+        document::Stylesheet { href: CSS_TAG }
+        document::Stylesheet { href: CSS_CARD }
+        document::Stylesheet { href: CSS_DIALOG }
+        document::Stylesheet { href: CSS_TABLE }
+        document::Stylesheet { href: CSS_BADGE }
+        document::Stylesheet { href: CSS_AVATAR }
+        document::Stylesheet { href: CSS_PROGRESS }
+        document::Stylesheet { href: CSS_TOOLTIP }
+        document::Stylesheet { href: CSS_TABS }
+        document::Stylesheet { href: CSS_ALERT }
+        document::Stylesheet { href: CSS_BREADCRUMB }
+        document::Stylesheet { href: CSS_PAGINATION }
+        document::Stylesheet { href: CSS_MESSAGE }
+
         ThemeProvider {
             div {
                 style: "max-width: 720px; margin: 0 auto; padding: 40px 20px; font-family: var(--ctrl-font-family);",
@@ -285,6 +328,183 @@ fn App() -> Element {
                 }
 
                 // ════════════════════════════════════
+                // 11. Badge
+                // ════════════════════════════════════
+                Section { title: "Badge 徽标".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            div { style: "display: flex; gap: 24px; align-items: center;",
+                                Badge { count: "5".to_string(),
+                                    div { style: "width: 40px; height: 40px; background: var(--ctrl-bg-secondary); border-radius: var(--ctrl-radius-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--ctrl-border);", "消息" }
+                                }
+                                Badge { count: "120".to_string(),
+                                    div { style: "width: 40px; height: 40px; background: var(--ctrl-bg-secondary); border-radius: var(--ctrl-radius-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--ctrl-border);", "通知" }
+                                }
+                                Badge { dot: true,
+                                    div { style: "width: 40px; height: 40px; background: var(--ctrl-bg-secondary); border-radius: var(--ctrl-radius-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--ctrl-border);", "状态" }
+                                }
+                            }
+                        }
+                        DemoCard { title: "自定义颜色".to_string(),
+                            div { style: "display: flex; gap: 24px; align-items: center;",
+                                Badge { count: "3".to_string(), color: "var(--ctrl-success)".to_string(),
+                                    div { style: "width: 40px; height: 40px; background: var(--ctrl-bg-secondary); border-radius: var(--ctrl-radius-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--ctrl-border);", "成功" }
+                                }
+                                Badge { count: "99+".to_string(), color: "var(--ctrl-warning)".to_string(),
+                                    div { style: "width: 40px; height: 40px; background: var(--ctrl-bg-secondary); border-radius: var(--ctrl-radius-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--ctrl-border);", "警告" }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 12. Avatar
+                // ════════════════════════════════════
+                Section { title: "Avatar 头像".to_string(),
+                    Row {
+                        DemoCard { title: "尺寸".to_string(),
+                            div { style: "display: flex; gap: 12px; align-items: center;",
+                                Avatar { size: Size::Sm, "S" }
+                                Avatar { size: Size::Md, "M" }
+                                Avatar { size: Size::Lg, "L" }
+                            }
+                        }
+                        DemoCard { title: "形状".to_string(),
+                            div { style: "display: flex; gap: 12px; align-items: center;",
+                                Avatar { size: Size::Lg, "圆" }
+                                Avatar { size: Size::Lg, shape: "square".to_string(), "方" }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 13. Progress
+                // ════════════════════════════════════
+                Section { title: "Progress 进度条".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 12px;",
+                                Progress { percent: 20.0 }
+                                Progress { percent: 60.0, color: "var(--ctrl-success)".to_string() }
+                                Progress { percent: 90.0, color: "var(--ctrl-warning)".to_string(), show_text: true }
+                            }
+                        }
+                        DemoCard { title: "动态进度".to_string(),
+                            ProgressDynamicDemo {}
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 14. Tooltip
+                // ════════════════════════════════════
+                Section { title: "Tooltip 气泡提示".to_string(),
+                    Row {
+                        DemoCard { title: "位置方向".to_string(),
+                            div { style: "display: flex; gap: 16px; align-items: center; flex-wrap: wrap;",
+                                Tooltip { content: "顶部提示".to_string(), placement: "top".to_string(),
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Top" }
+                                }
+                                Tooltip { content: "底部提示".to_string(), placement: "bottom".to_string(),
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
+                                }
+                                Tooltip { content: "左侧提示".to_string(), placement: "left".to_string(),
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Left" }
+                                }
+                                Tooltip { content: "右侧提示".to_string(), placement: "right".to_string(),
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Right" }
+                                }
+                            }
+                        }
+                        {} // 占位
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 15. Tabs
+                // ════════════════════════════════════
+                Section { title: "Tabs 标签页".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            TabsBasicDemo {}
+                        }
+                        DemoCard { title: "禁用标签".to_string(),
+                            TabsDisabledDemo {}
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 16. Alert
+                // ════════════════════════════════════
+                Section { title: "Alert 警告提示".to_string(),
+                    Row {
+                        DemoCard { title: "全局横幅（点击触发）".to_string(),
+                            AlertBannerDemo {}
+                        }
+                        DemoCard { title: "内联提示（始终显示）".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 12px;",
+                                Alert { r#type: AlertType::Info, title: "系统通知".to_string(), description: "新版本已发布，建议立即更新。".to_string() }
+                                Alert { r#type: AlertType::Success, title: "保存成功".to_string(), description: "您的数据已成功保存到服务器。".to_string(), closable: true }
+                                Alert { r#type: AlertType::Warning, description: "当前网络不稳定，部分功能可能受限。".to_string() }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 17. Breadcrumb
+                // ════════════════════════════════════
+                Section { title: "Breadcrumb 面包屑".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            Breadcrumb {
+                                BreadcrumbItem { href: "#".to_string(), "首页" }
+                                BreadcrumbItem { href: "#".to_string(), "组件" }
+                                BreadcrumbItem { "面包屑" }
+                            }
+                        }
+                        DemoCard { title: "自定义分隔符".to_string(),
+                            Breadcrumb { separator: ">".to_string(),
+                                BreadcrumbItem { href: "#".to_string(), "Home" }
+                                BreadcrumbItem { href: "#".to_string(), "Library" }
+                                BreadcrumbItem { "Data" }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 18. Pagination
+                // ════════════════════════════════════
+                Section { title: "Pagination 分页".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            PaginationBasicDemo {}
+                        }
+                        DemoCard { title: "大数据量".to_string(),
+                            Pagination { total: 200, page_size: 10 }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 19. Message
+                // ════════════════════════════════════
+                Section { title: "Message 全局提示".to_string(),
+                    Row {
+                        DemoCard { title: "点击触发全局提示".to_string(),
+                            MessageTriggerDemo {}
+                        }
+                        DemoCard { title: "不同位置".to_string(),
+                            MessagePositionDemo {}
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
                 // 主题定制说明
                 // ════════════════════════════════════
                 Section { title: "主题定制".to_string(),
@@ -538,6 +758,268 @@ fn DialogConfirmDemo() -> Element {
             }
             if confirmed() {
                 span { style: "display: block; margin-top: 8px; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-success);", "✓ 操作已确认" }
+            }
+        }
+    }
+}
+
+#[component]
+fn ProgressDynamicDemo() -> Element {
+    let mut percent = use_signal(|| 30.0);
+    rsx! {
+        div { style: "display: flex; flex-direction: column; gap: 12px;",
+            Progress { percent: percent(), color: "var(--ctrl-primary)".to_string(), show_text: true }
+            div { style: "display: flex; gap: 8px;",
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| { let p = percent(); if p > 0.0 { percent.set((p - 10.0).max(0.0)); } }, "-" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| { let p = percent(); if p < 100.0 { percent.set((p + 10.0).min(100.0)); } }, "+" }
+            }
+        }
+    }
+}
+
+#[component]
+fn TabsBasicDemo() -> Element {
+    let mut active = use_signal(|| "tab1".to_string());
+    let items = vec![
+        ("tab1".to_string(), "标签一".to_string(), false),
+        ("tab2".to_string(), "标签二".to_string(), false),
+        ("tab3".to_string(), "标签三".to_string(), false),
+    ];
+    rsx! {
+        div { style: "width: 100%;",
+            TabNav { items: items, active: active(), onchange: move |v| active.set(v) }
+            TabContent {
+                div { style: "padding: 8px 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);",
+                    if active() == "tab1" { "这是标签一的内容" }
+                    else if active() == "tab2" { "这是标签二的内容" }
+                    else { "这是标签三的内容" }
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn TabsDisabledDemo() -> Element {
+    let mut active = use_signal(|| "d1".to_string());
+    let items = vec![
+        ("d1".to_string(), "可用".to_string(), false),
+        ("d2".to_string(), "禁用".to_string(), true),
+        ("d3".to_string(), "可用".to_string(), false),
+    ];
+    rsx! {
+        div { style: "width: 100%;",
+            TabNav { items: items, active: active(), onchange: move |v| active.set(v) }
+            TabContent {
+                div { style: "padding: 8px 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);",
+                    "当前: {active()}"
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn PaginationBasicDemo() -> Element {
+    let mut page = use_signal(|| 1u32);
+    rsx! {
+        div { style: "display: flex; flex-direction: column; gap: 8px;",
+            Pagination { current: page(), total: 50, page_size: 10, onchange: move |v| page.set(v) }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "当前第 {page()} 页" }
+        }
+    }
+}
+
+#[component]
+fn AlertBannerDemo() -> Element {
+    const MAX_ALERTS: usize = 5;
+
+    type AlertItem = (u32, AlertType, String, String, bool); // id, type, title, desc, closing
+
+    let mut alerts = use_signal(|| Vec::<AlertItem>::new());
+    let mut next_id = use_signal(|| 0u32);
+
+    let titles = vec!["系统维护通知", "存储空间不足", "网络连接失败"];
+    let descs = vec![
+        "今晚 22:00 - 23:00 将进行系统升级，届时服务将暂停。",
+        "您的存储空间已使用 95%，请尽快清理。",
+        "无法连接到服务器，请检查网络后重试。",
+    ];
+    let types = [AlertType::Info, AlertType::Warning, AlertType::Error];
+
+    let mut add_alert = move || {
+        let idx = next_id() as usize % 3;
+        let id = next_id();
+        next_id.set(id + 1);
+
+        let mut list = alerts.write();
+        // 只统计未在 closing 状态的有效条目
+        let active_count = list.iter().filter(|(_, _, _, _, c)| !c).count();
+        if active_count >= MAX_ALERTS {
+            // 标记最旧的一条未 closing 条目为 closing，触发它的退出动画
+            if let Some(oldest) = list.iter_mut().find(|(_, _, _, _, c)| !*c) {
+                oldest.4 = true;
+            }
+        }
+        list.push((id, types[idx].clone(), titles[idx].to_string(), descs[idx].to_string(), false));
+    };
+
+    rsx! {
+        AlertBannerContainer {
+            for (id, a_type, title, desc, closing) in alerts().iter() {
+                {
+                    let alert_id = *id;
+                    let t = a_type.clone();
+                    let ti = title.clone();
+                    let d = desc.clone();
+                    let c = *closing;
+                    rsx! {
+                        Alert {
+                            key: "{alert_id}",
+                            r#type: t,
+                            title: ti,
+                            description: d,
+                            mode: AlertMode::Banner,
+                            closable: true,
+                            closing: c,
+                            duration: 5000,
+                            onclose: move |_| alerts.write().retain(|(aid, _, _, _, _)| *aid != alert_id),
+                        }
+                    }
+                }
+            }
+        }
+        div { style: "display: flex; flex-direction: column; gap: 12px;",
+            p { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary); margin: 0 0 4px;", "多次点击累加显示，最多 5 条，超出时从最旧的开始依次退出。" }
+            div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_alert(), "触发横幅" }
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "当前横幅数量: {alerts().len()}（上限 {MAX_ALERTS}）"
+            }
+        }
+    }
+}
+
+#[component]
+fn MessageTriggerDemo() -> Element {
+    const MAX_MESSAGES: usize = 5;
+
+    type MsgItem = (u32, MessageType, String, bool); // id, type, content, closing
+
+    let mut messages = use_signal(|| Vec::<MsgItem>::new());
+    let mut next_id = use_signal(|| 0u32);
+
+    let mut add_message = move |t: MessageType, c: &str| {
+        let id = next_id();
+        next_id.set(id + 1);
+
+        let mut list = messages.write();
+        let active_count = list.iter().filter(|(_, _, _, cl)| !cl).count();
+        if active_count >= MAX_MESSAGES {
+            if let Some(oldest) = list.iter_mut().find(|(_, _, _, cl)| !*cl) {
+                oldest.3 = true;
+            }
+        }
+        list.push((id, t, c.to_string(), false));
+    };
+
+    rsx! {
+        MessageContainer {
+            for (id, m_type, content, closing) in messages().iter() {
+                {
+                    let msg_id = *id;
+                    let t = m_type.clone();
+                    let c2 = content.clone();
+                    let cl = *closing;
+                    rsx! {
+                        Message {
+                            key: "{msg_id}",
+                            r#type: t,
+                            content: c2,
+                            closing: cl,
+                            duration: 3000,
+                            onclose: move |_| messages.write().retain(|(mid, _, _, _)| *mid != msg_id),
+                        }
+                    }
+                }
+            }
+        }
+        div { style: "display: flex; flex-direction: column; gap: 12px;",
+            p { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary); margin: 0 0 4px;", "多次点击累加显示，最多 5 条，超出时从最旧的开始依次退出。" }
+            div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Info, "这是一条信息提示"), "Info" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Success, "操作成功完成！"), "Success" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Warning, "请注意数据安全"), "Warning" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Error, "操作失败，请重试"), "Error" }
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "当前消息数量: {messages().len()}（上限 {MAX_MESSAGES}）"
+            }
+        }
+    }
+}
+
+#[component]
+fn MessagePositionDemo() -> Element {
+    const MAX_MESSAGES: usize = 5;
+
+    type PosMsgItem = (u32, MessagePlacement, bool); // id, placement, closing
+
+    let mut messages = use_signal(|| Vec::<PosMsgItem>::new());
+    let next_id = use_signal(|| 0u32);
+    let mut pos_placement = use_signal(|| MessagePlacement::Top);
+
+    let mut add_message = {
+        let mut messages = messages.clone();
+        let mut next_id = next_id.clone();
+        let pos_placement = pos_placement.clone();
+        move || {
+            let id = next_id();
+            next_id.set(id + 1);
+
+            let mut list = messages.write();
+            let active_count = list.iter().filter(|(_, _, cl)| !cl).count();
+            if active_count >= MAX_MESSAGES {
+                if let Some(oldest) = list.iter_mut().find(|(_, _, cl)| !*cl) {
+                    oldest.2 = true;
+                }
+            }
+            list.push((id, pos_placement(), false));
+        }
+    };
+
+    rsx! {
+        MessageContainer {
+            placement: pos_placement(),
+            for (id, _, closing) in messages().iter() {
+                {
+                    let msg_id = *id;
+                    let cl = *closing;
+                    rsx! {
+                        Message {
+                            key: "{msg_id}",
+                            r#type: MessageType::Success,
+                            content: "消息已发送".to_string(),
+                            closing: cl,
+                            duration: 3000,
+                            onclose: move |_| messages.write().retain(|(mid, _, _)| *mid != msg_id),
+                        }
+                    }
+                }
+            }
+        }
+        div { style: "display: flex; flex-direction: column; gap: 12px;",
+            p { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary); margin: 0 0 4px;", "选择位置后点击发送，最多 5 条，超出时从最旧的开始依次退出。" }
+            div { style: "display: flex; gap: 8px; flex-wrap: wrap; align-items: center;",
+                Button { variant: if pos_placement() == MessagePlacement::Top { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::Top), "顶部居中" }
+                Button { variant: if pos_placement() == MessagePlacement::TopRight { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::TopRight), "顶部靠右" }
+                Button { variant: if pos_placement() == MessagePlacement::TopLeft { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::TopLeft), "顶部靠左" }
+                Button { variant: if pos_placement() == MessagePlacement::Bottom { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::Bottom), "底部居中" }
+            }
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| add_message(), "发送消息" }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "当前消息数量: {messages().len()}（上限 {MAX_MESSAGES}）"
             }
         }
     }

@@ -9,14 +9,14 @@
 //! ```toml
 //! [dependencies]
 //! ctrl = "0.1"
-//! dioxus = { version = "0.5", features = ["web"] }
+//! dioxus = { version = "0.7", features = ["web"] }
 //! ```
 //!
 //! 然后在 `main.rs` 中：
 //!
 //! ```rust,no_run
 //! use dioxus::prelude::*;
-//! use ctrl::prelude::*;
+//! use ctrl::*;
 //!
 //! fn App() -> Element {
 //!     rsx! {
@@ -28,20 +28,6 @@
 //!     }
 //! }
 //! ```
-//!
-//! ## 主题定制
-//!
-//! ```rust,no_run
-//! use ctrl::theme::{Theme, ColorPalette};
-//!
-//! let my_theme = Theme {
-//!     colors: ColorPalette {
-//!         primary: "#FF6B35",
-//!         ..Default::default()
-//!     },
-//!     ..Default::default()
-//! };
-//! ```
 
 // 核心层
 pub use ctrl_core::*;
@@ -49,21 +35,10 @@ pub use ctrl_core::*;
 // 组件层
 pub use ctrl_components::*;
 
-/// 便捷导入：一次性导入所有常用类型和组件
+/// 便捷导入
 pub mod prelude {
     pub use ctrl_core::theme::{ThemeProvider, ThemeProviderProps};
     pub use ctrl_core::types::*;
     pub use ctrl_core::utils::cn;
-    pub use ctrl_components::{
-        Button, ButtonProps,
-        Input, InputProps,
-        Switch, SwitchProps,
-        Checkbox, CheckboxProps,
-        Radio, RadioProps,
-        Select, SelectProps,
-        Tag, TagProps,
-        Card, CardProps,
-        Dialog, DialogProps,
-        Table, TableColumn, TableProps,
-    };
+    pub use ctrl_components::*;
 }

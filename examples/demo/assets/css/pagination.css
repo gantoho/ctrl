@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Pagination 分页
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ctrl-spacing-xs);
+}
+
+/* 页码 / 上下页 按钮 */
+.ctrl-pagination__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 var(--ctrl-spacing-sm);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    background: var(--ctrl-bg);
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--ctrl-transition);
+    outline: none;
+    user-select: none;
+    appearance: none;
+    line-height: 1;
+}
+
+/* 悬停 */
+.ctrl-pagination__btn:hover:not(.ctrl-pagination__btn--active):not(.ctrl-pagination__btn--disabled) {
+    color: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+}
+
+/* 激活（当前页） */
+.ctrl-pagination__btn--active {
+    background: var(--ctrl-primary);
+    color: var(--ctrl-text-on-primary);
+    border-color: var(--ctrl-primary);
+    font-weight: 600;
+}
+
+/* 禁用 */
+.ctrl-pagination__btn--disabled {
+    color: var(--ctrl-text-disabled);
+    cursor: not-allowed;
+    opacity: 0.5;
+}

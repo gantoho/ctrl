@@ -1,51 +1,5 @@
 use dioxus::prelude::*;
 
-/// Radio 组件注入的 CSS 样式
-const RADIO_CSS: &str = r#"
-/* ── 容器 ── */
-.ctrl-radio {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    user-select: none;
-    font-size: var(--ctrl-font-size-md);
-    color: var(--ctrl-text);
-}
-.ctrl-radio--disabled {
-    cursor: not-allowed;
-    color: var(--ctrl-text-disabled);
-}
-
-/* ── 圆圈 ── */
-.ctrl-radio__circle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    transition: all var(--ctrl-transition);
-    flex-shrink: 0;
-    background: var(--ctrl-bg);
-    border: 1px solid var(--ctrl-border);
-    cursor: pointer;
-}
-.ctrl-radio__circle--checked {
-    border: 4px solid var(--ctrl-primary);
-    background: var(--ctrl-bg);
-}
-.ctrl-radio__circle--disabled {
-    background: var(--ctrl-bg-disabled);
-    border-color: var(--ctrl-border);
-    cursor: not-allowed;
-}
-.ctrl-radio__circle--disabled.ctrl-radio__circle--checked {
-    border-color: var(--ctrl-border-hover);
-    background: var(--ctrl-bg);
-}
-"#;
-
 /// Radio 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct RadioProps {
@@ -102,7 +56,6 @@ pub fn Radio(props: RadioProps) -> Element {
     let value = props.value.clone();
 
     rsx! {
-        style { {RADIO_CSS} }
         label {
             class: "{label_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

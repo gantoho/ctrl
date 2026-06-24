@@ -1,0 +1,121 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Alert 警告提示
+   ═══════════════════════════════════════════════════ */
+
+/* ── Banner 容器：fixed 定位 + flexbox 堆叠 ── */
+.ctrl-alert-banner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.ctrl-alert-banner-container > * {
+    pointer-events: auto;
+}
+
+.ctrl-alert {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--ctrl-spacing-md) var(--ctrl-spacing-lg);
+    border-radius: var(--ctrl-radius-md);
+    border: 1px solid;
+    font-size: var(--ctrl-font-size-md);
+    line-height: 1.5;
+    gap: var(--ctrl-spacing-md);
+    width: 100%;
+}
+
+/* ── 内联模式 ── */
+.ctrl-alert--inline {
+    position: static;
+}
+
+/* ── Banner 模式（每条都带滑入动画） ── */
+.ctrl-alert--banner {
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    animation: ctrl-alert-slide-down 0.3s ease;
+}
+
+@keyframes ctrl-alert-slide-down {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 类型变体 ── */
+.ctrl-alert--info {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+    color: #1E40AF;
+}
+.ctrl-alert--success {
+    background: #F0FDF4;
+    border-color: #BBF7D0;
+    color: #166534;
+}
+.ctrl-alert--warning {
+    background: #FFFBEB;
+    border-color: #FDE68A;
+    color: #92400E;
+}
+.ctrl-alert--error {
+    background: #FEF2F2;
+    border-color: #FECACA;
+    color: #991B1B;
+}
+
+/* 图标 */
+.ctrl-alert__icon {
+    font-size: var(--ctrl-font-size-lg);
+    flex-shrink: 0;
+    line-height: 1.5;
+    margin-top: 1px;
+}
+
+/* 内容区 */
+.ctrl-alert__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.ctrl-alert__title {
+    font-weight: 600;
+    font-size: var(--ctrl-font-size-md);
+    margin-bottom: var(--ctrl-spacing-xs);
+}
+
+.ctrl-alert__description {
+    font-size: var(--ctrl-font-size-sm);
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+/* 关闭按钮 */
+.ctrl-alert__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--ctrl-font-size-sm);
+    color: inherit;
+    opacity: 0.5;
+    padding: 0;
+    border-radius: var(--ctrl-radius-sm);
+    flex-shrink: 0;
+    transition: opacity var(--ctrl-transition);
+}
+.ctrl-alert__close:hover {
+    opacity: 1;
+}

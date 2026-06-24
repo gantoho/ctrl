@@ -6,4 +6,5 @@ description = "Ctrl UI 组件库：所有 UI 组件实现"
 
 [dependencies]
 dioxus = { workspace = true }
+gloo-timers = { workspace = true }
 ctrl-core = { path = "../ctrl-core" }

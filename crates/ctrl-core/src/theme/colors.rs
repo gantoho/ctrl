@@ -37,15 +37,19 @@ pub struct ColorPalette {
     pub border: &'static str,
     /// 边框悬停
     pub border_hover: &'static str,
+    /// 主色/次级色上的文字色（如白色按钮上的文字）
+    pub text_on_primary: &'static str,
+    /// 遮罩层背景色
+    pub mask_bg: &'static str,
 }
 
 impl Default for ColorPalette {
     fn default() -> Self {
         Self {
-            primary: "#4F46E5",
-            primary_hover: "#4338CA",
-            primary_active: "#3730A3",
-            primary_light: "#E0E7FF",
+            primary: "#3FC99E",
+            primary_hover: "#2FB58A",
+            primary_active: "#1FA376",
+            primary_light: "#E6FAF5",
             secondary: "#6B7280",
             secondary_hover: "#4B5563",
             success: "#10B981",
@@ -60,6 +64,8 @@ impl Default for ColorPalette {
             text_disabled: "#6B7280",
             border: "#E5E7EB",
             border_hover: "#D1D5DB",
+            text_on_primary: "#FFFFFF",
+            mask_bg: "rgba(0, 0, 0, 0.45)",
         }
     }
 }

@@ -1,53 +1,5 @@
 use dioxus::prelude::*;
 
-/// Table 组件注入的 CSS 样式
-const TABLE_CSS: &str = r#"
-/* ── 表格容器 ── */
-.ctrl-table-wrap {
-    overflow-x: auto;
-    border-radius: var(--ctrl-radius-md);
-}
-
-/* ── 表格 ── */
-.ctrl-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--ctrl-font-size-md);
-    color: var(--ctrl-text);
-}
-.ctrl-table--bordered {
-    border: 1px solid var(--ctrl-border);
-}
-
-/* ── 表头 ── */
-.ctrl-table__th {
-    padding: 12px 16px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid var(--ctrl-border);
-    background: var(--ctrl-bg-secondary);
-}
-.ctrl-table--bordered .ctrl-table__th {
-    border: 1px solid var(--ctrl-border);
-}
-
-/* ── 表行 ── */
-.ctrl-table__tr {
-    border-bottom: 1px solid var(--ctrl-border);
-}
-.ctrl-table__tr--striped {
-    background: var(--ctrl-bg-secondary);
-}
-
-/* ── 表格单元格 ── */
-.ctrl-table__td {
-    padding: 12px 16px;
-}
-.ctrl-table--bordered .ctrl-table__td {
-    border: 1px solid var(--ctrl-border);
-}
-"#;
-
 /// Table 列定义
 #[derive(Clone, PartialEq)]
 pub struct TableColumn {
@@ -110,7 +62,6 @@ pub fn Table(props: TableProps) -> Element {
     let striped = props.striped;
 
     rsx! {
-        style { {TABLE_CSS} }
         div {
             class: "{wrap_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

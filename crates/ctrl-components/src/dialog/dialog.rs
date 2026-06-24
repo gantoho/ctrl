@@ -1,91 +1,5 @@
 use dioxus::prelude::*;
 
-/// Dialog 组件注入的 CSS 样式
-const DIALOG_CSS: &str = r#"
-/* ── 遮罩层 ── */
-.ctrl-dialog-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.ctrl-dialog-mask {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-}
-
-/* ── 弹窗主体 ── */
-.ctrl-dialog {
-    position: relative;
-    background: var(--ctrl-bg);
-    border-radius: var(--ctrl-radius-lg);
-    box-shadow: var(--ctrl-shadow-md);
-    max-width: calc(100vw - 48px);
-    max-height: calc(100vh - 48px);
-    display: flex;
-    flex-direction: column;
-}
-
-/* ── 头部 ── */
-.ctrl-dialog__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--ctrl-border);
-    flex-shrink: 0;
-}
-.ctrl-dialog__title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--ctrl-text);
-    margin: 0;
-}
-
-/* ── 关闭按钮 ── */
-.ctrl-dialog__close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: none;
-    border: none;
-    border-radius: var(--ctrl-radius-sm);
-    cursor: pointer;
-    color: var(--ctrl-text-secondary);
-    font-size: 1.25rem;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-}
-.ctrl-dialog__close:hover {
-    background: var(--ctrl-bg-secondary);
-}
-
-/* ── 内容 ── */
-.ctrl-dialog__body {
-    padding: 24px;
-    overflow-y: auto;
-    flex: 1;
-    color: var(--ctrl-text);
-    font-size: var(--ctrl-font-size-md);
-}
-
-/* ── 底部 ── */
-.ctrl-dialog__footer {
-    padding: 12px 24px;
-    border-top: 1px solid var(--ctrl-border);
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    flex-shrink: 0;
-}
-"#;
-
 /// Dialog 组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct DialogProps {
@@ -146,7 +60,6 @@ pub fn Dialog(props: DialogProps) -> Element {
     let dialog_style = format!("width: {w}; {extra}", w = props.width, extra = props.style);
 
     rsx! {
-        style { {DIALOG_CSS} }
         // 遮罩层
         div {
             class: "ctrl-dialog-overlay",

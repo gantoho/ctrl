@@ -54,5 +54,16 @@ pub mod prelude {
     pub use ctrl_core::theme::{ThemeProvider, ThemeProviderProps};
     pub use ctrl_core::types::*;
     pub use ctrl_core::utils::cn;
-    pub use ctrl_components::{Button, ButtonProps, Input, InputProps};
+    pub use ctrl_components::{
+        Button, ButtonProps,
+        Input, InputProps,
+        Switch, SwitchProps,
+        Checkbox, CheckboxProps,
+        Radio, RadioProps,
+        Select, SelectProps,
+        Tag, TagProps,
+        Card, CardProps,
+        Dialog, DialogProps,
+        Table, TableColumn, TableProps,
+    };
 }

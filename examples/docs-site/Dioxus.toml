@@ -1,0 +1,10 @@
+[application]
+name = "ctrl-docs-site"
+default_platform = "web"
+
+[web.app]
+title = "Ctrl UI - Dioxus 组件库"
+
+[web.watcher]
+watch_path = ["src", "../../crates"]
+reload_html = true

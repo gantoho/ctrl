@@ -1,98 +1,137 @@
 use dioxus::prelude::*;
 use ctrl_core::types::{Size, Variant};
 
-/// 构建按钮样式字符串
-fn build_button_style(
-    variant: Variant,
-    size: Size,
-    hovered: bool,
-    disabled: bool,
-    block: bool,
-    custom_style: &str,
-) -> String {
-    let mut styles: Vec<String> = vec![
-        "display: inline-flex".into(),
-        "align-items: center".into(),
-        "justify-content: center".into(),
-        "font-family: var(--ctrl-font-family)".into(),
-        format!("font-size: {}", size.font_size_var()),
-        "border-radius: var(--ctrl-radius-md)".into(),
-        "transition: all var(--ctrl-transition)".into(),
-        "border: 1px solid transparent".into(),
-        "outline: none".into(),
-        "line-height: 1.5".into(),
-        "gap: 6px".into(),
-        "text-decoration: none".into(),
-        "user-select: none".into(),
-        "font-weight: 500".into(),
-        "white-space: nowrap".into(),
-        format!("padding: {}", size.padding()),
-        format!("height: {}", size.height()),
-    ];
+/// Button 组件注入的 CSS 样式（使用伪类，不依赖信号）
+const BUTTON_CSS: &str = r#"
+/* ── 按钮基础样式 ── */
+.ctrl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ctrl-font-family);
+    font-size: var(--ctrl-font-size-md);
+    border-radius: var(--ctrl-radius-md);
+    transition: all var(--ctrl-transition);
+    border: 1px solid transparent;
+    outline: none;
+    line-height: 1.5;
+    gap: 6px;
+    text-decoration: none;
+    user-select: none;
+    font-weight: 500;
+    white-space: nowrap;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: none;
+    cursor: pointer;
+}
+
+/* ── 尺寸 ── */
+.ctrl-btn--sm { font-size: var(--ctrl-font-size-sm); padding: 4px 12px; height: 32px; }
+.ctrl-btn--md { font-size: var(--ctrl-font-size-md); padding: 8px 20px; height: 36px; }
+.ctrl-btn--lg { font-size: var(--ctrl-font-size-lg); padding: 12px 24px; height: 44px; }
+
+/* ── 变体：Primary ── */
+.ctrl-btn--primary {
+    background: var(--ctrl-primary);
+    color: white;
+    border-color: var(--ctrl-primary);
+}
+.ctrl-btn--primary:hover:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-primary-hover);
+    border-color: var(--ctrl-primary-hover);
+}
+.ctrl-btn--primary:active:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-primary-active);
+    border-color: var(--ctrl-primary-active);
+}
+
+/* ── 变体：Secondary ── */
+.ctrl-btn--secondary {
+    background: var(--ctrl-secondary);
+    color: white;
+    border-color: var(--ctrl-secondary);
+}
+.ctrl-btn--secondary:hover:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-secondary-hover);
+    border-color: var(--ctrl-secondary-hover);
+}
+.ctrl-btn--secondary:active:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-secondary-hover);
+    border-color: var(--ctrl-secondary-hover);
+}
+
+/* ── 变体：Outline ── */
+.ctrl-btn--outline {
+    background: transparent;
+    color: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+}
+.ctrl-btn--outline:hover:not(.ctrl-btn--disabled) {
+    background: transparent;
+    color: var(--ctrl-primary-hover);
+    border-color: var(--ctrl-primary-hover);
+}
+.ctrl-btn--outline:active:not(.ctrl-btn--disabled) {
+    background: transparent;
+    color: var(--ctrl-primary-active);
+    border-color: var(--ctrl-primary-active);
+}
+
+/* ── 变体：Ghost ── */
+.ctrl-btn--ghost {
+    background: transparent;
+    color: var(--ctrl-primary);
+    border-color: transparent;
+}
+.ctrl-btn--ghost:hover:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-primary-light);
+    color: var(--ctrl-primary-hover);
+}
+.ctrl-btn--ghost:active:not(.ctrl-btn--disabled) {
+    background: var(--ctrl-primary-light);
+    color: var(--ctrl-primary-active);
+}
+
+/* ── 禁用 ── */
+.ctrl-btn--disabled {
+    background: var(--ctrl-bg-disabled);
+    color: var(--ctrl-text-disabled);
+    border-color: var(--ctrl-border);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── 块级 ── */
+.ctrl-btn--block { width: 100%; }
+"#;
+
+/// 构建按钮 class 列表
+fn build_button_class(variant: Variant, size: Size, disabled: bool, block: bool) -> String {
+    let mut classes = vec!["ctrl-btn".to_string()];
 
     match variant {
-        Variant::Primary => {
-            let bg = if hovered {
-                "var(--ctrl-primary-hover)"
-            } else {
-                "var(--ctrl-primary)"
-            };
-            styles.push(format!("background: {bg}"));
-            styles.push("color: white".into());
-            styles.push(format!("border-color: {bg}"));
-        }
-        Variant::Secondary => {
-            let bg = if hovered {
-                "var(--ctrl-secondary-hover)"
-            } else {
-                "var(--ctrl-secondary)"
-            };
-            styles.push(format!("background: {bg}"));
-            styles.push("color: white".into());
-            styles.push(format!("border-color: {bg}"));
-        }
-        Variant::Outline => {
-            let color = if hovered {
-                "var(--ctrl-primary-hover)"
-            } else {
-                "var(--ctrl-primary)"
-            };
-            styles.push("background: transparent".into());
-            styles.push(format!("color: {color}"));
-            styles.push(format!("border-color: {color}"));
-        }
-        Variant::Ghost => {
-            let color = if hovered {
-                "var(--ctrl-primary-hover)"
-            } else {
-                "var(--ctrl-primary)"
-            };
-            styles.push("background: transparent".into());
-            styles.push(format!("color: {color}"));
-            styles.push("border-color: transparent".into());
-            if hovered {
-                styles.push("background: var(--ctrl-primary-light)".into());
-            }
-        }
+        Variant::Primary => classes.push("ctrl-btn--primary".into()),
+        Variant::Secondary => classes.push("ctrl-btn--secondary".into()),
+        Variant::Outline => classes.push("ctrl-btn--outline".into()),
+        Variant::Ghost => classes.push("ctrl-btn--ghost".into()),
+    }
+
+    match size {
+        Size::Sm => classes.push("ctrl-btn--sm".into()),
+        Size::Md => classes.push("ctrl-btn--md".into()),
+        Size::Lg => classes.push("ctrl-btn--lg".into()),
     }
 
     if disabled {
-        styles.push("opacity: 0.5".into());
-        styles.push("cursor: not-allowed".into());
-        styles.push("pointer-events: none".into());
-    } else {
-        styles.push("cursor: pointer".into());
+        classes.push("ctrl-btn--disabled".into());
     }
 
     if block {
-        styles.push("width: 100%".into());
+        classes.push("ctrl-btn--block".into());
     }
 
-    if !custom_style.is_empty() {
-        styles.push(custom_style.to_string());
-    }
-
-    styles.join("; ")
+    classes.join(" ")
 }
 
 /// Button 组件属性
@@ -138,38 +177,30 @@ pub struct ButtonProps {
 }
 
 /// Button 按钮组件
-///
-/// # 示例
-///
-/// ```rust
-/// rsx! {
-///     Button { variant: Variant::Primary, size: Size::Md, "点击我" }
-///     Button { variant: Variant::Outline, disabled: true, "禁用" }
-/// }
-/// ```
 #[allow(non_snake_case)]
 pub fn Button(props: ButtonProps) -> Element {
-    let mut hovered = use_signal(|| false);
-
-    let style_str = build_button_style(
+    let btn_class = build_button_class(
         props.variant,
         props.size,
-        hovered(),
         props.disabled,
         props.block,
-        &props.style,
     );
+
+    let user_class = if props.class.is_empty() {
+        btn_class.clone()
+    } else {
+        format!("{} {}", btn_class, props.class)
+    };
 
     let onclick = props.onclick.clone();
 
     rsx! {
+        style { {BUTTON_CSS} }
         button {
-            class: if props.class.is_empty() { None } else { Some(props.class.as_str()) },
-            style: "{style_str}",
+            class: "{user_class}",
+            style: if !props.style.is_empty() { props.style.as_str() } else { "" },
             r#type: "{props.r#type}",
             disabled: props.disabled,
-            onmouseenter: move |_| hovered.set(true),
-            onmouseleave: move |_| hovered.set(false),
             onclick: move |evt| {
                 if let Some(ref handler) = onclick {
                     handler.call(evt);

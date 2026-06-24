@@ -6,11 +6,19 @@
 2. [ThemeProvider 主题配置](#2-themeprovider-主题配置)
 3. [Button 按钮](#3-button-按钮)
 4. [Input 输入框](#4-input-输入框)
-5. [样式覆盖](#5-样式覆盖)
-6. [主题定制](#6-主题定制)
-7. [完整示例](#7-完整示例)
-8. [注意事项](#8-注意事项)
-9. [常见问题](#9-常见问题)
+5. [Switch 开关](#5-switch-开关)
+6. [Checkbox 复选框](#6-checkbox-复选框)
+7. [Radio 单选框](#7-radio-单选框)
+8. [Select 下拉选择](#8-select-下拉选择)
+9. [Tag 标签](#9-tag-标签)
+10. [Card 卡片](#10-card-卡片)
+11. [Dialog 对话框](#11-dialog-对话框)
+12. [Table 表格](#12-table-表格)
+13. [样式覆盖](#13-样式覆盖)
+14. [主题定制](#14-主题定制)
+15. [完整示例](#15-完整示例)
+16. [注意事项](#16-注意事项)
+17. [常见问题](#17-常见问题)
 
 ---
 
@@ -393,9 +401,394 @@ rsx! {
 
 ---
 
-## 5. 样式覆盖
+## 5. Switch 开关
 
-### 5.1 三种覆盖方式
+### 5.1 基础用法
+
+通过 `checked` 和 `onchange` 管理开关状态：
+
+```rust
+let mut on = use_signal(|| false);
+
+rsx! {
+    Switch {
+        checked: on(),
+        onchange: move |v| on.set(v),
+    }
+    span { if on() { "已开启" } else { "已关闭" } }
+}
+```
+
+### 5.2 尺寸
+
+```rust
+Switch { size: Size::Sm }           // 小
+Switch { size: Size::Md }           // 中（默认）
+Switch { size: Size::Lg }           // 大
+```
+
+### 5.3 禁用状态
+
+```rust
+Switch { disabled: true }            // 关闭-禁用
+Switch { disabled: true, checked: true }  // 开启-禁用
+```
+
+### 5.4 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `checked` | `bool` | `false` | 否 | 是否选中 |
+| `disabled` | `bool` | `false` | 否 | 是否禁用 |
+| `size` | `Size` | `Md` | 否 | 开关尺寸 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onchange` | `Option<EventHandler<bool>>` | `None` | 否 | 状态变化事件 |
+
+---
+
+## 6. Checkbox 复选框
+
+### 6.1 基础用法
+
+```rust
+let mut checked = use_signal(|| false);
+
+rsx! {
+    Checkbox {
+        checked: checked(),
+        label: "同意协议".to_string(),
+        onchange: move |v| checked.set(v),
+    }
+}
+```
+
+### 6.2 各种状态
+
+```rust
+// 未选中
+Checkbox { label: "未选中".to_string() }
+
+// 已选中
+Checkbox { checked: true, label: "已选中".to_string() }
+
+// 半选状态（常用于全选场景）
+Checkbox { indeterminate: true, label: "半选".to_string() }
+
+// 禁用
+Checkbox { disabled: true, label: "禁用".to_string() }
+Checkbox { checked: true, disabled: true, label: "禁用已选中".to_string() }
+```
+
+### 6.3 全选示例
+
+```rust
+let items = vec!["选项 A", "选项 B", "选项 C"];
+let items_len = items.len();
+let mut checked = use_signal(|| vec![false; items_len]);
+
+let all = checked().iter().all(|&c| c);
+let some = checked().iter().any(|&c| c);
+let indet = some && !all;
+
+rsx! {
+    Checkbox {
+        checked: all,
+        indeterminate: indet,
+        label: "全选".to_string(),
+        onchange: move |v| checked.set(vec![v; items_len]),
+    }
+    for (i, item) in items.iter().enumerate() {
+        Checkbox {
+            key: "{i}",
+            checked: checked()[i],
+            label: item.to_string(),
+            onchange: move |v| { let mut c = checked(); c[i] = v; checked.set(c); },
+        }
+    }
+}
+```
+
+### 6.4 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `checked` | `bool` | `false` | 否 | 是否选中 |
+| `disabled` | `bool` | `false` | 否 | 是否禁用 |
+| `indeterminate` | `bool` | `false` | 否 | 半选状态 |
+| `label` | `String` | `""` | 否 | 标签文本 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onchange` | `Option<EventHandler<bool>>` | `None` | 否 | 状态变化事件 |
+
+---
+
+## 7. Radio 单选框
+
+### 7.1 基础用法
+
+Radio 通过 `value` + `onchange` 实现互斥选择：
+
+```rust
+let mut selected = use_signal(|| "a".to_string());
+
+rsx! {
+    Radio { value: "a".to_string(), label: "选项 A".to_string(), checked: selected() == "a", onchange: move |v| selected.set(v) }
+    Radio { value: "b".to_string(), label: "选项 B".to_string(), checked: selected() == "b", onchange: move |v| selected.set(v) }
+    Radio { value: "c".to_string(), label: "选项 C".to_string(), checked: selected() == "c", onchange: move |v| selected.set(v) }
+}
+```
+
+### 7.2 禁用状态
+
+```rust
+Radio { value: "a".to_string(), label: "已禁用".to_string(), checked: true, disabled: true }
+Radio { value: "b".to_string(), label: "禁用未选".to_string(), disabled: true }
+```
+
+### 7.3 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `checked` | `bool` | `false` | 否 | 是否选中 |
+| `disabled` | `bool` | `false` | 否 | 是否禁用 |
+| `value` | `String` | `""` | 是 | 单选项的值 |
+| `label` | `String` | `""` | 否 | 标签文本 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onchange` | `Option<EventHandler<String>>` | `None` | 否 | 选中变化事件 |
+
+---
+
+## 8. Select 下拉选择
+
+### 8.1 基础用法
+
+```rust
+let mut value = use_signal(|| String::new());
+let options = vec![
+    ("a".to_string(), "选项 A".to_string(), false),
+    ("b".to_string(), "选项 B".to_string(), false),
+    ("c".to_string(), "选项 C（禁用）".to_string(), true),
+];
+
+rsx! {
+    Select {
+        options: options,
+        placeholder: "请选择".to_string(),
+        value: value(),
+        onchange: move |v| value.set(v),
+    }
+}
+```
+
+### 8.2 尺寸
+
+```rust
+Select { size: Size::Sm, options, placeholder: "小" }
+Select { size: Size::Md, options, placeholder: "中" }   // 默认
+Select { size: Size::Lg, options, placeholder: "大" }
+```
+
+### 8.3 禁用
+
+```rust
+Select { disabled: true, options, placeholder: "整个禁用" }
+```
+
+### 8.4 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `options` | `Vec<(String,String,bool)>` | `[]` | 否 | 选项列表 (值,标签,禁用) |
+| `value` | `String` | `""` | 否 | 当前选中值 |
+| `placeholder` | `String` | `"请选择"` | 否 | 占位文本 |
+| `size` | `Size` | `Md` | 否 | 选择器尺寸 |
+| `disabled` | `bool` | `false` | 否 | 是否禁用 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onchange` | `Option<EventHandler<String>>` | `None` | 否 | 选中变化事件 |
+
+---
+
+## 9. Tag 标签
+
+### 9.1 基础用法
+
+```rust
+rsx! {
+    Tag { color: "var(--ctrl-primary)".to_string(), "Primary" }
+    Tag { color: "var(--ctrl-success)".to_string(), "Success" }
+    Tag { color: "var(--ctrl-warning)".to_string(), "Warning" }
+    Tag { color: "var(--ctrl-danger)".to_string(), "Danger" }
+    Tag { color: "var(--ctrl-info)".to_string(), "Info" }
+}
+```
+
+### 9.2 可关闭标签
+
+```rust
+Tag { color: "var(--ctrl-primary)".to_string(), closable: true, "可关闭" }
+```
+
+### 9.3 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `color` | `String` | `var(--ctrl-primary)` | 否 | 标签颜色（CSS 颜色值） |
+| `closable` | `bool` | `false` | 否 | 是否可关闭 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onclose` | `Option<EventHandler<()>>` | `None` | 否 | 关闭事件回调 |
+| `children` | `Element` | — | 是 | 标签内容 |
+
+---
+
+## 10. Card 卡片
+
+### 10.1 基础用法
+
+```rust
+rsx! {
+    Card { title: "卡片标题".to_string(),
+        p { "这是卡片的内容区域，可以放置任何元素。" }
+    }
+}
+```
+
+### 10.2 选项
+
+```rust
+// 默认：带边框、无阴影
+Card { title: "默认".to_string(), ... }
+
+// 带阴影
+Card { shadow: true, title: "阴影".to_string(), ... }
+
+// 无边框
+Card { bordered: false, title: "无边框".to_string(), ... }
+
+// 自定义头部
+Card { header: rsx! { div { "自定义头部" } }, ... }
+```
+
+### 10.3 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `title` | `String` | `""` | 否 | 卡片标题 |
+| `bordered` | `bool` | `true` | 否 | 是否显示边框 |
+| `shadow` | `bool` | `false` | 否 | 是否带阴影 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `header` | `Option<Element>` | `None` | 否 | 自定义头部插槽 |
+| `children` | `Element` | — | 是 | 卡片内容 |
+
+---
+
+## 11. Dialog 对话框
+
+### 11.1 基础用法
+
+```rust
+let mut visible = use_signal(|| false);
+
+rsx! {
+    Button { onclick: move |_| visible.set(true), "打开对话框" }
+    Dialog {
+        visible: visible(),
+        title: "提示".to_string(),
+        onclose: move |_| visible.set(false),
+        p { "这是一条提示信息" }
+    }
+}
+```
+
+### 11.2 带底部操作
+
+```rust
+Dialog {
+    visible: visible(),
+    title: "确认操作".to_string(),
+    footer: rsx! {
+        Button { variant: Variant::Ghost, onclick: move |_| visible.set(false), "取消" }
+        Button { variant: Variant::Primary, onclick: move |_| visible.set(false), "确定" }
+    },
+    p { "确定要执行此操作吗？" }
+}
+```
+
+### 11.3 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `visible` | `bool` | `false` | 否 | 是否显示 |
+| `title` | `String` | `""` | 否 | 对话框标题 |
+| `width` | `String` | `"480px"` | 否 | 对话框宽度 |
+| `show_close` | `bool` | `true` | 否 | 是否显示关闭按钮 |
+| `mask_closable` | `bool` | `true` | 否 | 点击遮罩是否关闭 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+| `onclose` | `Option<EventHandler<()>>` | `None` | 否 | 关闭事件 |
+| `footer` | `Option<Element>` | `None` | 否 | 底部操作区插槽 |
+| `children` | `Element` | — | 是 | 对话框内容 |
+
+---
+
+## 12. Table 表格
+
+### 12.1 基础用法
+
+```rust
+let columns = vec![
+    TableColumn { title: "名称".into(), ..Default::default() },
+    TableColumn { title: "类型".into(), ..Default::default() },
+    TableColumn { title: "默认值".into(), ..Default::default() },
+    TableColumn { title: "说明".into(), ..Default::default() },
+];
+
+let data = vec![
+    vec!["variant".into(), "Variant".into(), "Primary".into(), "按钮变体".into()],
+    vec!["size".into(), "Size".into(), "Md".into(), "按钮尺寸".into()],
+];
+
+rsx! {
+    Table {
+        columns: columns,
+        data: data,
+    }
+}
+```
+
+### 12.2 斑马纹
+
+```rust
+Table { striped: true, columns: cols, data: data }
+```
+
+### 12.3 其他选项
+
+```rust
+// 无边框
+Table { bordered: false, columns: cols, data: data }
+```
+
+### 12.4 完整 Props 参考
+
+| 属性 | 类型 | 默认值 | 必填 | 说明 |
+|------|------|--------|------|------|
+| `columns` | `Vec<TableColumn>` | `[]` | 是 | 列定义 |
+| `data` | `Vec<Vec<String>>` | `[]` | 是 | 行数据 |
+| `striped` | `bool` | `false` | 否 | 是否显示斑马纹 |
+| `bordered` | `bool` | `true` | 否 | 是否显示边框 |
+| `class` | `String` | `""` | 否 | 自定义 CSS 类名 |
+| `style` | `String` | `""` | 否 | 自定义内联样式 |
+
+---
+
+## 13. 样式覆盖
+
+### 13.1 三种覆盖方式
 
 Ctrl UI 提供三种层级的样式覆盖，从简单到复杂：
 
@@ -492,7 +885,7 @@ CSS 变量默认值（ThemeProvider）     ← 最低
 
 ---
 
-## 6. 主题定制
+## 14. 主题定制
 
 ### 6.1 方式一：ThemeProvider 传参（推荐）
 
@@ -606,7 +999,7 @@ fn App() -> Element {
 
 ---
 
-## 7. 完整示例
+## 15. 完整示例
 
 ### 7.1 登录表单
 
@@ -746,7 +1139,7 @@ fn LoginForm() -> Element {
 }
 ```
 
-### 7.2 使用 cn() 工具函数
+### 15.2 使用 cn() 工具函数
 
 ```rust
 use ctrl::utils::cn;
@@ -834,7 +1227,7 @@ let onclick = props.onclick.clone();
 
 用户无需关心这一点，正常传递闭包即可。
 
-### 8.5 自定义 class 的使用
+### 16.5 自定义 class 的使用
 
 ```rust
 // 传入的 class 字符串直接设置为 HTML class 属性

@@ -48,6 +48,7 @@ fn build_css_vars(theme: &Theme) -> String {
             --ctrl-info: {info};
             --ctrl-bg: {bg};
             --ctrl-bg-secondary: {bg_secondary};
+            --ctrl-bg-disabled: {bg_disabled};
             --ctrl-text: {text};
             --ctrl-text-secondary: {text_secondary};
             --ctrl-text-disabled: {text_disabled};
@@ -76,6 +77,7 @@ fn build_css_vars(theme: &Theme) -> String {
         info = c.info,
         bg = c.bg,
         bg_secondary = c.bg_secondary,
+        bg_disabled = c.bg_disabled,
         text = c.text,
         text_secondary = c.text_secondary,
         text_disabled = c.text_disabled,
@@ -94,6 +96,45 @@ fn build_css_vars(theme: &Theme) -> String {
     )
 }
 
+/// 全局 CSS 重置样式 —— 消除浏览器默认样式对组件的干扰
+const GLOBAL_RESET_CSS: &str = r#"
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--ctrl-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+select::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--ctrl-text-disabled);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+"#;
+
 #[allow(non_snake_case)]
 pub fn ThemeProvider(props: ThemeProviderProps) -> Element {
     let theme = props.theme.unwrap_or_default();
@@ -104,6 +145,7 @@ pub fn ThemeProvider(props: ThemeProviderProps) -> Element {
 
     rsx! {
         style { {css_vars} }
+        style { {GLOBAL_RESET_CSS} }
         {props.children}
     }
 }

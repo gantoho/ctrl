@@ -25,6 +25,8 @@ pub struct ColorPalette {
     pub bg: &'static str,
     /// 次级背景
     pub bg_secondary: &'static str,
+    /// 禁用背景
+    pub bg_disabled: &'static str,
     /// 文字色
     pub text: &'static str,
     /// 次级文字
@@ -43,7 +45,7 @@ impl Default for ColorPalette {
             primary: "#4F46E5",
             primary_hover: "#4338CA",
             primary_active: "#3730A3",
-            primary_light: "#EEF2FF",
+            primary_light: "#E0E7FF",
             secondary: "#6B7280",
             secondary_hover: "#4B5563",
             success: "#10B981",
@@ -52,9 +54,10 @@ impl Default for ColorPalette {
             info: "#3B82F6",
             bg: "#FFFFFF",
             bg_secondary: "#F9FAFB",
+            bg_disabled: "#E5E7EB",
             text: "#111827",
             text_secondary: "#6B7280",
-            text_disabled: "#D1D5DB",
+            text_disabled: "#6B7280",
             border: "#E5E7EB",
             border_hover: "#D1D5DB",
         }

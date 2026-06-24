@@ -1,0 +1,12 @@
+[package]
+name = "ctrl-docs-site"
+version = "0.1.0"
+edition = "2021"
+description = "Ctrl UI 组件库官方网站"
+
+[dependencies]
+dioxus = { workspace = true, features = ["router"] }
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+gloo-timers = { version = "0.2", features = ["futures"] }
+ctrl = { path = "../../crates/ctrl" }

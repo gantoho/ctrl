@@ -45,9 +45,17 @@ ctrl/                              # 仓库根目录
 │   │       ├── button/
 │   │       │   ├── mod.rs
 │   │       │   └── button.rs      # Button 组件实现
-│   │       └── input/
-│   │           ├── mod.rs
-│   │           └── input.rs       # Input 组件实现
+│   │       ├── input/
+│   │       │   ├── mod.rs
+│   │       │   └── input.rs       # Input 组件实现
+│   │       ├── switch/            # Switch 开关
+│   │       ├── checkbox/          # Checkbox 复选框
+│   │       ├── radio/             # Radio 单选框
+│   │       ├── select/            # Select 下拉选择
+│   │       ├── tag/               # Tag 标签
+│   │       ├── card/              # Card 卡片
+│   │       ├── dialog/            # Dialog 对话框
+│   │       └── table/             # Table 表格
 │   │
 │   └── ctrl/                      # 聚合导出 crate（用户唯一依赖）
 │       ├── Cargo.toml
@@ -133,7 +141,13 @@ pub mod prelude {
     pub use ctrl_core::theme::{ThemeProvider, ThemeProviderProps};
     pub use ctrl_core::types::*;
     pub use ctrl_core::utils::cn;
-    pub use ctrl_components::{Button, ButtonProps, Input, InputProps};
+    pub use ctrl_components::{
+        Button, ButtonProps, Input, InputProps,
+        Switch, SwitchProps, Checkbox, CheckboxProps,
+        Radio, RadioProps, Select, SelectProps,
+        Tag, TagProps, Card, CardProps,
+        Dialog, DialogProps, Table, TableColumn, TableProps,
+    };
 }
 ```
 
@@ -553,6 +567,168 @@ Input {
     oninput: move |evt: FormEvent| value.set(evt.value()),
 }
 ```
+
+### 7.3 Switch 开关
+
+**文件：** `crates/ctrl-components/src/switch/switch.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `checked` | `bool` | `false` | 是否选中 |
+| `disabled` | `bool` | `false` | 是否禁用 |
+| `size` | `Size` | `Md` | 开关尺寸 |
+| `onchange` | `Option<EventHandler<bool>>` | `None` | 状态变化事件，返回新值 |
+
+#### 内部状态
+
+- `checked: bool` — 由父组件通过 `checked` prop 控制，`onchange` 返回切换后的新值
+
+#### 尺寸映射
+
+| 尺寸 | 轨道尺寸 | 圆点尺寸 |
+|------|---------|---------|
+| `Sm` | `32×18px` | `14px` |
+| `Md` | `40×22px` | `18px` |
+| `Lg` | `48×26px` | `22px` |
+
+### 7.4 Checkbox 复选框
+
+**文件：** `crates/ctrl-components/src/checkbox/checkbox.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `checked` | `bool` | `false` | 是否选中 |
+| `disabled` | `bool` | `false` | 是否禁用 |
+| `indeterminate` | `bool` | `false` | 半选状态（优先级高于 checked） |
+| `label` | `String` | `""` | 标签文本 |
+| `onchange` | `Option<EventHandler<bool>>` | `None` | 状态变化事件 |
+
+#### 图标渲染
+
+- 选中时：白色对勾 SVG 图标
+- 半选时：白色横条 SVG 图标
+- 未选中时：无图标
+
+### 7.5 Radio 单选框
+
+**文件：** `crates/ctrl-components/src/radio/radio.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `checked` | `bool` | `false` | 是否选中 |
+| `disabled` | `bool` | `false` | 是否禁用 |
+| `value` | `String` | `""` | 单选项的值 |
+| `label` | `String` | `""` | 标签文本 |
+| `onchange` | `Option<EventHandler<String>>` | `None` | 选中变化事件，返回选中值 |
+
+#### 选中样式
+
+选中时边框变为 `4px solid var(--ctrl-primary)`，形成外圈实心效果。
+
+### 7.6 Select 下拉选择
+
+**文件：** `crates/ctrl-components/src/select/select.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `options` | `Vec<(String, String, bool)>` | `[]` | 选项列表 (值, 标签, 是否禁用) |
+| `value` | `String` | `""` | 当前选中值 |
+| `placeholder` | `String` | `"请选择"` | 占位文本 |
+| `size` | `Size` | `Md` | 选择器尺寸 |
+| `disabled` | `bool` | `false` | 是否禁用 |
+| `onchange` | `Option<EventHandler<String>>` | `None` | 选中变化事件 |
+
+#### 内部状态
+
+- `open: Signal<bool>` — 下拉面板开/关状态
+- 点击选项后自动关闭面板
+
+### 7.7 Tag 标签
+
+**文件：** `crates/ctrl-components/src/tag/tag.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `color` | `String` | `var(--ctrl-primary)` | 标签颜色（CSS 颜色值） |
+| `closable` | `bool` | `false` | 是否可关闭 |
+| `onclose` | `Option<EventHandler<()>>` | `None` | 关闭事件回调 |
+
+#### 样式设计
+
+标签使用传入的 `color` 同时设置文字色、背景色（透明度 8%）和边框色（透明度 19%），实现统一的色调。
+
+### 7.8 Card 卡片
+
+**文件：** `crates/ctrl-components/src/card/card.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `title` | `String` | `""` | 卡片标题 |
+| `bordered` | `bool` | `true` | 是否显示边框 |
+| `shadow` | `bool` | `false` | 是否带阴影 |
+| `header` | `Option<Element>` | `None` | 自定义头部插槽（优先级高于 title） |
+
+#### 布局
+
+- 头部区域：可选的标题栏，由 `title` 或 `header` 控制内容
+- 内容区域：`children` 传入的任意元素，内边距 20px
+
+### 7.9 Dialog 对话框
+
+**文件：** `crates/ctrl-components/src/dialog/dialog.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `visible` | `bool` | `false` | 是否显示 |
+| `title` | `String` | `""` | 对话框标题 |
+| `width` | `String` | `"480px"` | 对话框宽度 |
+| `show_close` | `bool` | `true` | 是否显示右上角关闭按钮 |
+| `mask_closable` | `bool` | `true` | 点击遮罩是否关闭 |
+| `onclose` | `Option<EventHandler<()>>` | `None` | 关闭事件 |
+| `footer` | `Option<Element>` | `None` | 底部操作区插槽 |
+
+#### 层级结构
+
+- 遮罩层：固定定位、半透明黑色背景、z-index 1000
+- 弹窗主体：居中显示、白色背景、圆角、阴影
+- 头部（可选）：标题 + 关闭按钮
+- 内容区：可滚动
+- 底部（可选）：操作按钮区域
+
+### 7.10 Table 表格
+
+**文件：** `crates/ctrl-components/src/table/table.rs`
+
+#### Props 清单
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `columns` | `Vec<TableColumn>` | `[]` | 列定义 |
+| `data` | `Vec<Vec<String>>` | `[]` | 行数据 |
+| `striped` | `bool` | `false` | 是否显示斑马纹 |
+| `bordered` | `bool` | `true` | 是否显示边框 |
+
+#### TableColumn 属性
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `title` | `String` | `""` | 列标题 |
+| `width` | `Option<String>` | `None` | 列宽 |
+| `align` | `Option<String>` | `None` | 对齐方式 |
 
 ---
 

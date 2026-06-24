@@ -5,7 +5,8 @@ members = [
     "crates/ctrl-components",
     "crates/ctrl",
     "examples/demo",
+    "examples/docs-site",
 ]
 
 [workspace.dependencies]
-dioxus = { version = "0.5", features = ["web"] }
+dioxus = { version = "0.7", features = ["web"] }

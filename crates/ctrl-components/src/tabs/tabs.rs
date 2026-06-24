@@ -40,6 +40,7 @@ pub struct TabProps {
 /// Tabs 标签页组件
 #[allow(non_snake_case)]
 pub fn Tabs(props: TabsProps) -> Element {
+    const CSS: &str = include_str!("../../assets/tabs.css");
     let wrapper_class = if props.class.is_empty() {
         "ctrl-tabs".to_string()
     } else {
@@ -47,6 +48,7 @@ pub fn Tabs(props: TabsProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{wrapper_class}",
             {props.children}

@@ -33,6 +33,7 @@ pub struct CardProps {
 /// Card 卡片组件
 #[allow(non_snake_case)]
 pub fn Card(props: CardProps) -> Element {
+    const CSS: &str = include_str!("../../assets/card.css");
     let mut classes = vec!["ctrl-card".to_string()];
 
     if props.bordered {
@@ -48,6 +49,7 @@ pub fn Card(props: CardProps) -> Element {
     let card_class = classes.join(" ");
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{card_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

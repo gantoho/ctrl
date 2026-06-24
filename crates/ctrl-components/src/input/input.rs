@@ -76,6 +76,7 @@ fn build_input_class(size: Size, disabled: bool, error: bool, readonly: bool) ->
 /// Input 输入框组件
 #[allow(non_snake_case)]
 pub fn Input(props: InputProps) -> Element {
+    const CSS: &str = include_str!("../../assets/input.css");
     let input_class = build_input_class(
         props.size,
         props.disabled,
@@ -94,6 +95,7 @@ pub fn Input(props: InputProps) -> Element {
     let onblur = props.onblur.clone();
 
     rsx! {
+        style { {CSS} }
         input {
             class: "{user_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

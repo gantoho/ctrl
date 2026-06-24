@@ -29,6 +29,7 @@ pub struct TagProps {
 /// Tag 标签组件
 #[allow(non_snake_case)]
 pub fn Tag(props: TagProps) -> Element {
+    const CSS: &str = include_str!("../../assets/tag.css");
     let mut visible = use_signal(|| true);
     let onclose = props.onclose.clone();
 
@@ -50,6 +51,7 @@ pub fn Tag(props: TagProps) -> Element {
     );
 
     rsx! {
+        style { {CSS} }
         span {
             class: "{tag_class}",
             style: "{color_style}",

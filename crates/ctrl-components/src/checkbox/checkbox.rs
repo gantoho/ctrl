@@ -34,6 +34,7 @@ pub struct CheckboxProps {
 /// Checkbox 复选框组件
 #[allow(non_snake_case)]
 pub fn Checkbox(props: CheckboxProps) -> Element {
+    const CSS: &str = include_str!("../../assets/checkbox.css");
     let mut label_classes = vec!["ctrl-checkbox".to_string()];
     let mut box_classes = vec!["ctrl-checkbox__box".to_string()];
 
@@ -85,6 +86,7 @@ pub fn Checkbox(props: CheckboxProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         label {
             class: "{label_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

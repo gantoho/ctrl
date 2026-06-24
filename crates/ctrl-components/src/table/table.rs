@@ -44,6 +44,7 @@ pub struct TableProps {
 /// Table 表格组件
 #[allow(non_snake_case)]
 pub fn Table(props: TableProps) -> Element {
+    const CSS: &str = include_str!("../../assets/table.css");
     let mut table_classes = vec!["ctrl-table".to_string()];
     if props.bordered {
         table_classes.push("ctrl-table--bordered".into());
@@ -62,6 +63,7 @@ pub fn Table(props: TableProps) -> Element {
     let striped = props.striped;
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{wrap_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

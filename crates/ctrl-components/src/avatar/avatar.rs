@@ -56,6 +56,7 @@ pub struct AvatarProps {
 /// Avatar 头像组件
 #[allow(non_snake_case)]
 pub fn Avatar(props: AvatarProps) -> Element {
+    const CSS: &str = include_str!("../../assets/avatar.css");
     let avatar_class = build_avatar_class(props.size, &props.shape, &props.class);
     let style = if props.style.is_empty() {
         String::new()
@@ -77,6 +78,7 @@ pub fn Avatar(props: AvatarProps) -> Element {
         }
     } else {
         rsx! {
+            style { {CSS} }
             div {
                 class: "{avatar_class}",
                 style: "{style}",

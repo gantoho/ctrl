@@ -54,6 +54,7 @@ pub struct SwitchProps {
 /// Switch 开关组件
 #[allow(non_snake_case)]
 pub fn Switch(props: SwitchProps) -> Element {
+    const CSS: &str = include_str!("../../assets/switch.css");
     let switch_class = build_switch_class(props.size, props.checked, props.disabled);
 
     let user_class = if props.class.is_empty() {
@@ -67,6 +68,7 @@ pub fn Switch(props: SwitchProps) -> Element {
     let disabled = props.disabled;
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{user_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

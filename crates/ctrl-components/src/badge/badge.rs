@@ -34,6 +34,7 @@ pub struct BadgeProps {
 /// Badge 徽标组件
 #[allow(non_snake_case)]
 pub fn Badge(props: BadgeProps) -> Element {
+    const CSS: &str = include_str!("../../assets/badge.css");
     let badge_class = if props.class.is_empty() {
         "ctrl-badge__wrapper".to_string()
     } else {
@@ -62,6 +63,7 @@ pub fn Badge(props: BadgeProps) -> Element {
     let badge_style = format!("background: {color}; {extra}", extra = props.style);
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{badge_class}",
             style: "position: relative; display: inline-flex;",

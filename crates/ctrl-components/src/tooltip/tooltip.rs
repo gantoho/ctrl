@@ -22,6 +22,7 @@ pub struct TooltipProps {
 /// Tooltip 气泡提示组件（纯 CSS 实现，无需 JavaScript 定位）
 #[allow(non_snake_case)]
 pub fn Tooltip(props: TooltipProps) -> Element {
+    const CSS: &str = include_str!("../../assets/tooltip.css");
     let mut visible = use_signal(|| false);
 
     let placement_class = format!("ctrl-tooltip__popper--{}", props.placement);
@@ -32,6 +33,7 @@ pub fn Tooltip(props: TooltipProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{wrapper_class}",
             onmouseenter: move |_| visible.set(true),

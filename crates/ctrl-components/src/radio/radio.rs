@@ -34,6 +34,7 @@ pub struct RadioProps {
 /// Radio 单选框组件
 #[allow(non_snake_case)]
 pub fn Radio(props: RadioProps) -> Element {
+    const CSS: &str = include_str!("../../assets/radio.css");
     let mut label_classes = vec!["ctrl-radio".to_string()];
     let mut circle_classes = vec!["ctrl-radio__circle".to_string()];
 
@@ -56,6 +57,7 @@ pub fn Radio(props: RadioProps) -> Element {
     let value = props.value.clone();
 
     rsx! {
+        style { {CSS} }
         label {
             class: "{label_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

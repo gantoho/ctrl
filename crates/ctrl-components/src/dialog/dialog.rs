@@ -44,6 +44,7 @@ pub struct DialogProps {
 /// Dialog 对话框组件
 #[allow(non_snake_case)]
 pub fn Dialog(props: DialogProps) -> Element {
+    const CSS: &str = include_str!("../../assets/dialog.css");
     if !props.visible {
         return rsx! {};
     }
@@ -60,6 +61,7 @@ pub fn Dialog(props: DialogProps) -> Element {
     let dialog_style = format!("width: {w}; {extra}", w = props.width, extra = props.style);
 
     rsx! {
+        style { {CSS} }
         // 遮罩层
         div {
             class: "ctrl-dialog-overlay",

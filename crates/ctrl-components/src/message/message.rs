@@ -45,6 +45,8 @@ pub struct MessageContainerProps {
 
 /// Message 容器组件 —— 提供 fixed 定位，多条消息自动堆叠
 ///
+/// 组件内嵌 CSS 样式（include_str!），用户无需手动加载样式文件。
+///
 /// ```ignore
 /// rsx! {
 ///     MessageContainer {
@@ -61,6 +63,8 @@ pub struct MessageContainerProps {
 /// ```
 #[allow(non_snake_case)]
 pub fn MessageContainer(props: MessageContainerProps) -> Element {
+    const CSS: &str = include_str!("../../assets/message.css");
+
     let placement_class = match props.placement {
         MessagePlacement::Top => "ctrl-message-container--top",
         MessagePlacement::TopRight => "ctrl-message-container--top-right",
@@ -69,6 +73,7 @@ pub fn MessageContainer(props: MessageContainerProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         div {
             class: "ctrl-message-container {placement_class}",
             {props.children}
@@ -106,10 +111,10 @@ pub struct MessageProps {
 /// 单条 Message 组件 —— 需放在 MessageContainer 内使用
 #[allow(non_snake_case)]
 pub fn Message(props: MessageProps) -> Element {
-    // leaving 阶段：先播放退出动画（250ms），动画结束后才调用 onclose 通知父组件移除
+    // 退出动画播放完成后 调用 onclose 通知父组件移除
     let mut leaving = use_signal(|| false);
 
-    // 关闭流程（自动消失、点击关闭、或 closing 外部信号）—— 先进入 leaving 状态播退出动画，再通知父组件
+    // 关闭流程（自动消失、点击关闭、或 closing 外部信号）
     let trigger_close = {
         let mut l = leaving.clone();
         let onclose = props.onclose.clone();
@@ -121,7 +126,7 @@ pub fn Message(props: MessageProps) -> Element {
             let oc = onclose.clone();
             spawn(async move {
                 use gloo_timers::future::TimeoutFuture;
-                TimeoutFuture::new(320).await; // 等待退出动画+盒模型收缩完成
+                TimeoutFuture::new(250).await; // 等待退出动画播放完毕
                 if let Some(ref handler) = oc {
                     handler.call(());
                 }
@@ -149,7 +154,7 @@ pub fn Message(props: MessageProps) -> Element {
         let oc = props.onclose.clone();
         spawn(async move {
             use gloo_timers::future::TimeoutFuture;
-            TimeoutFuture::new(320).await;
+            TimeoutFuture::new(250).await;
             if let Some(ref handler) = oc {
                 handler.call(());
             }

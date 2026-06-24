@@ -35,50 +35,31 @@
     position: static;
 }
 
-/* ── Banner 模式（每条都带滑入动画） ── */
+/* ── Banner 模式（无 entry animation，避免 Dioxus diff 时重触发）── */
 .ctrl-alert--banner {
     border-radius: 0;
     border-top: none;
     border-left: none;
     border-right: none;
-    animation: ctrl-alert-slide-down 0.3s ease;
+    overflow: hidden;
+    max-height: 800px;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease 0.05s,
+        max-height 0.2s ease,
+        padding-top 0.2s ease,
+        padding-bottom 0.2s ease;
 }
 
-@keyframes ctrl-alert-slide-down {
-    from { opacity: 0; transform: translateY(-100%); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* 退出动画（仅 Banner 模式） */
+/* ── 退出动画：塌缩布局空间 + 淡出，避免 DOM 移除时跳动 ── */
 .ctrl-alert--banner.ctrl-alert--leaving {
-    animation: ctrl-alert-slide-up 0.25s ease forwards;
-    /* 同步收缩盒模型，让其他横幅平滑就位 */
+    opacity: 0;
+    transform: scaleY(0);
     max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    margin: 0;
-    overflow: hidden;
+    transform-origin: top center;
     pointer-events: none;
-    transition:
-        max-height 0.2s ease 0.05s,
-        padding 0.2s ease 0.05s,
-        border-width 0.2s ease 0.05s,
-        margin 0.2s ease 0.05s;
-}
-
-@keyframes ctrl-alert-slide-up {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-        max-height: 120px;
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-100%);
-        max-height: 0;
-    }
 }
 
 /* ── 类型变体 ── */

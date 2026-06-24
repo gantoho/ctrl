@@ -26,6 +26,7 @@ pub struct PaginationProps {
 /// Pagination 分页组件
 #[allow(non_snake_case)]
 pub fn Pagination(props: PaginationProps) -> Element {
+    const CSS: &str = include_str!("../../assets/pagination.css");
     let page_count = if props.page_size == 0 {
         1
     } else {
@@ -40,6 +41,7 @@ pub fn Pagination(props: PaginationProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{wrapper_class}",
             // 上一页

@@ -31,6 +31,7 @@ pub struct ProgressProps {
 /// Progress 进度条组件
 #[allow(non_snake_case)]
 pub fn Progress(props: ProgressProps) -> Element {
+    const CSS: &str = include_str!("../../assets/progress.css");
     let wrapper_class = if props.class.is_empty() {
         "ctrl-progress".to_string()
     } else {
@@ -50,6 +51,7 @@ pub fn Progress(props: ProgressProps) -> Element {
     let text = format!("{:.0}%", percent);
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{wrapper_class}",
             style: "{wrapper_style}",

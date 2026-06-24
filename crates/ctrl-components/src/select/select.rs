@@ -39,6 +39,7 @@ pub struct SelectProps {
 /// Select 下拉选择组件
 #[allow(non_snake_case)]
 pub fn Select(props: SelectProps) -> Element {
+    const CSS: &str = include_str!("../../assets/select.css");
     let mut open = use_signal(|| false);
 
     let selected_label = props
@@ -78,10 +79,10 @@ pub fn Select(props: SelectProps) -> Element {
     let disabled = props.disabled;
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{container_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },
-
             // 触发器
             div {
                 class: "{trigger_class}",

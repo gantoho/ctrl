@@ -33,6 +33,7 @@ pub struct BreadcrumbItemProps {
 /// Breadcrumb 面包屑组件
 #[allow(non_snake_case)]
 pub fn Breadcrumb(props: BreadcrumbProps) -> Element {
+    const CSS: &str = include_str!("../../assets/breadcrumb.css");
     let nav_class = if props.class.is_empty() {
         "ctrl-breadcrumb".to_string()
     } else {
@@ -40,6 +41,7 @@ pub fn Breadcrumb(props: BreadcrumbProps) -> Element {
     };
 
     rsx! {
+        style { {CSS} }
         nav {
             class: "{nav_class}",
             {props.children}

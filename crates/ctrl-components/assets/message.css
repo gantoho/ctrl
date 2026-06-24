@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-/* ── 单条消息 ── */
+/* ── 单条消息（无 entry animation，避免 Dioxus diff 时重触发）── */
 .ctrl-message {
     display: inline-flex;
     align-items: center;
@@ -55,42 +55,30 @@
     box-shadow: var(--ctrl-shadow-md);
     background: var(--ctrl-bg);
     border: 1px solid var(--ctrl-border);
-    animation: ctrl-message-slide-in 0.25s ease;
+    overflow: hidden;
+    max-height: 500px;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        max-height 0.2s ease,
+        margin-bottom 0.2s ease,
+        padding-top 0.2s ease,
+        padding-bottom 0.2s ease,
+        border-top-width 0.2s ease,
+        border-bottom-width 0.2s ease;
 }
 
-@keyframes ctrl-message-slide-in {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* 退出动画 */
+/* ── 退出动画：塌缩布局空间 + 淡出，避免 DOM 移除时跳动 ── */
 .ctrl-message--leaving {
-    animation: ctrl-message-slide-out 0.25s ease forwards;
+    opacity: 0;
+    transform: scale(0.9);
     max-height: 0;
+    margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
-    margin-bottom: 0;
-    border-width: 0;
-    overflow: hidden;
+    border-top-width: 0;
+    border-bottom-width: 0;
     pointer-events: none;
-    transition:
-        max-height 0.2s ease 0.05s,
-        padding 0.2s ease 0.05s,
-        margin-bottom 0.2s ease 0.05s,
-        border-width 0.2s ease 0.05s;
-}
-
-@keyframes ctrl-message-slide-out {
-    from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        max-height: 60px;
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.95);
-        max-height: 0;
-    }
 }
 
 /* 图标 */

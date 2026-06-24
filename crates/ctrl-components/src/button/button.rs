@@ -74,6 +74,7 @@ pub struct ButtonProps {
 /// Button 按钮组件
 #[allow(non_snake_case)]
 pub fn Button(props: ButtonProps) -> Element {
+    const CSS: &str = include_str!("../../assets/button.css");
     let btn_class = build_button_class(
         props.variant,
         props.size,
@@ -90,6 +91,7 @@ pub fn Button(props: ButtonProps) -> Element {
     let onclick = props.onclick.clone();
 
     rsx! {
+        style { {CSS} }
         button {
             class: "{user_class}",
             style: if !props.style.is_empty() { props.style.as_str() } else { "" },

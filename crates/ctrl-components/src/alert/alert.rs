@@ -37,6 +37,8 @@ pub struct AlertBannerContainerProps {
 
 /// Alert Banner 容器 —— 提供 fixed 定位，多条横幅自动垂直堆叠
 ///
+/// 组件内嵌 CSS 样式（include_str!），用户无需手动加载样式文件。
+///
 /// ```ignore
 /// rsx! {
 ///     AlertBannerContainer {
@@ -54,7 +56,10 @@ pub struct AlertBannerContainerProps {
 /// ```
 #[allow(non_snake_case)]
 pub fn AlertBannerContainer(props: AlertBannerContainerProps) -> Element {
+    const CSS: &str = include_str!("../../assets/alert.css");
+
     rsx! {
+        style { {CSS} }
         div {
             class: "ctrl-alert-banner-container",
             {props.children}
@@ -118,7 +123,7 @@ pub struct AlertProps {
 pub fn Alert(props: AlertProps) -> Element {
     let is_banner = props.mode == AlertMode::Banner;
 
-    // leaving 阶段：先播放退出动画（250ms），动画结束后才调用 onclose 通知父组件移除
+    // 退出动画播放完成后调用 onclose
     let mut leaving = use_signal(|| false);
 
     // 关闭流程 —— Banner 模式先播退出动画再通知父组件；Inline 模式立即通知
@@ -134,7 +139,7 @@ pub fn Alert(props: AlertProps) -> Element {
                 let oc = onclose.clone();
                 spawn(async move {
                     use gloo_timers::future::TimeoutFuture;
-                    TimeoutFuture::new(320).await; // 等待退出动画+盒模型收缩完成
+                    TimeoutFuture::new(250).await; // 等待退出动画播放完毕
                     if let Some(ref handler) = oc {
                         handler.call(());
                     }
@@ -167,7 +172,7 @@ pub fn Alert(props: AlertProps) -> Element {
         let oc = props.onclose.clone();
         spawn(async move {
             use gloo_timers::future::TimeoutFuture;
-            TimeoutFuture::new(320).await;
+            TimeoutFuture::new(250).await;
             if let Some(ref handler) = oc {
                 handler.call(());
             }

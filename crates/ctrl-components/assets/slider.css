@@ -1,0 +1,165 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Slider 滑块
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-slider {
+    display: flex;
+    align-items: center;
+    gap: var(--ctrl-spacing-sm);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ctrl-slider--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ctrl-slider--vertical {
+    flex-direction: column;
+    height: 200px;
+    width: auto;
+}
+
+/* 滑轨 */
+.ctrl-slider__rail {
+    flex: 1;
+    position: relative;
+    height: 4px;
+    background: var(--ctrl-bg-disabled);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.ctrl-slider--vertical .ctrl-slider__rail {
+    width: 4px;
+    height: 100%;
+    flex: 1 1 100%;
+}
+
+/* 已填充轨道 */
+.ctrl-slider__track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--ctrl-primary);
+    border-radius: 2px;
+}
+
+.ctrl-slider--dragging .ctrl-slider__track,
+.ctrl-slider--dragging .ctrl-slider__handle {
+    transition: none;
+}
+
+.ctrl-slider--vertical .ctrl-slider__track {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+}
+
+/* 滑块手柄 */
+.ctrl-slider__handle {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: var(--ctrl-primary);
+    border: 2px solid var(--ctrl-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+    z-index: 2;
+}
+
+.ctrl-slider__handle:hover {
+    box-shadow: 0 0 0 4px var(--ctrl-primary-light);
+}
+
+.ctrl-slider__handle:active {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.ctrl-slider--disabled .ctrl-slider__handle {
+    cursor: not-allowed;
+}
+
+.ctrl-slider--vertical .ctrl-slider__handle {
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+/* 刻度标记 */
+.ctrl-slider__marks {
+    position: relative;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.ctrl-slider__mark {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.ctrl-slider__mark--active {
+    color: var(--ctrl-primary);
+}
+
+.ctrl-slider__mark-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--ctrl-border);
+    border-radius: 50%;
+    margin: 0 auto 4px;
+}
+
+.ctrl-slider__mark--active .ctrl-slider__mark-dot {
+    background: var(--ctrl-primary);
+}
+
+/* 数值标签 */
+.ctrl-slider__label {
+    min-width: 36px;
+    text-align: center;
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text);
+    flex-shrink: 0;
+}
+
+/* 当前值提示 */
+.ctrl-slider__tooltip {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    background: var(--ctrl-primary);
+    color: #fff;
+    font-size: var(--ctrl-font-size-xs);
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+
+.ctrl-slider__tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--ctrl-primary);
+}

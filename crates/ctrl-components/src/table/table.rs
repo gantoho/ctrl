@@ -51,7 +51,7 @@ pub fn Table(props: TableProps) -> Element {
     }
     let table_class = table_classes.join(" ");
 
-    let mut wrap_class = "ctrl-table-wrap".to_string();
+    let mut wrap_class = "ctrl-table__wrap".to_string();
     if !props.class.is_empty() {
         wrap_class = format!("{} {}", wrap_class, props.class);
     }

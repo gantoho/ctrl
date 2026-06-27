@@ -7,4 +7,7 @@ description = "Ctrl UI 组件库：所有 UI 组件实现"
 [dependencies]
 dioxus = { workspace = true }
 gloo-timers = { workspace = true }
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = ["Window", "Document", "Element", "DomRect", "ScrollToOptions", "ScrollBehavior", "console"] }
 ctrl-core = { path = "../ctrl-core" }

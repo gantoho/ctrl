@@ -3,27 +3,27 @@ use ctrl_core::types::{Size, Variant};
 
 /// 构建按钮 class 列表
 fn build_button_class(variant: Variant, size: Size, disabled: bool, block: bool) -> String {
-    let mut classes = vec!["ctrl-btn".to_string()];
+    let mut classes = vec!["ctrl-button".to_string()];
 
     match variant {
-        Variant::Primary => classes.push("ctrl-btn--primary".into()),
-        Variant::Secondary => classes.push("ctrl-btn--secondary".into()),
-        Variant::Outline => classes.push("ctrl-btn--outline".into()),
-        Variant::Ghost => classes.push("ctrl-btn--ghost".into()),
+        Variant::Primary => classes.push("ctrl-button--primary".into()),
+        Variant::Secondary => classes.push("ctrl-button--secondary".into()),
+        Variant::Outline => classes.push("ctrl-button--outline".into()),
+        Variant::Ghost => classes.push("ctrl-button--ghost".into()),
     }
 
     match size {
-        Size::Sm => classes.push("ctrl-btn--sm".into()),
-        Size::Md => classes.push("ctrl-btn--md".into()),
-        Size::Lg => classes.push("ctrl-btn--lg".into()),
+        Size::Sm => classes.push("ctrl-button--sm".into()),
+        Size::Md => classes.push("ctrl-button--md".into()),
+        Size::Lg => classes.push("ctrl-button--lg".into()),
     }
 
     if disabled {
-        classes.push("ctrl-btn--disabled".into());
+        classes.push("ctrl-button--disabled".into());
     }
 
     if block {
-        classes.push("ctrl-btn--block".into());
+        classes.push("ctrl-button--block".into());
     }
 
     classes.join(" ")

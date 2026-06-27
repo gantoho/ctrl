@@ -425,6 +425,9 @@ dependencies = [
  "ctrl-core",
  "dioxus",
  "gloo-timers 0.3.0",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]

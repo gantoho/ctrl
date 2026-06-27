@@ -1,0 +1,45 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Space 间距
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-space {
+    display: inline-flex;
+    box-sizing: border-box;
+}
+
+.ctrl-space--block {
+    display: flex;
+    width: 100%;
+}
+
+.ctrl-space--vertical {
+    flex-direction: column;
+}
+
+.ctrl-space--horizontal {
+    flex-direction: row;
+}
+
+.ctrl-space--wrap {
+    flex-wrap: wrap;
+}
+
+.ctrl-space--align-start {
+    align-items: flex-start;
+}
+
+.ctrl-space--align-center {
+    align-items: center;
+}
+
+.ctrl-space--align-end {
+    align-items: flex-end;
+}
+
+.ctrl-space--align-baseline {
+    align-items: baseline;
+}
+
+.ctrl-space__item {
+    box-sizing: border-box;
+}

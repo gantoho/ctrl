@@ -67,7 +67,7 @@ pub fn Dialog(props: DialogProps) -> Element {
             class: "ctrl-dialog-overlay",
             // 半透明背景
             div {
-                class: "ctrl-dialog-mask",
+                class: "ctrl-dialog__mask",
                 onclick: move |_| {
                     if mask_closable {
                         if let Some(ref handler) = onclose {

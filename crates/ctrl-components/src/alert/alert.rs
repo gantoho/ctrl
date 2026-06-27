@@ -31,6 +31,10 @@ pub enum AlertMode {
 /// Alert Banner 容器组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct AlertBannerContainerProps {
+    /// 最大显示数量，超出部分会被隐藏（先进先出）
+    #[props(default = 5)]
+    pub max_count: usize,
+
     /// 子元素（多条 Banner Alert）
     pub children: Element,
 }
@@ -38,31 +42,26 @@ pub struct AlertBannerContainerProps {
 /// Alert Banner 容器 —— 提供 fixed 定位，多条横幅自动垂直堆叠
 ///
 /// 组件内嵌 CSS 样式（include_str!），用户无需手动加载样式文件。
-///
-/// ```ignore
-/// rsx! {
-///     AlertBannerContainer {
-///         for alert in alerts() {
-///             Alert {
-///                 key: "{alert.id}",
-///                 r#type: alert.alert_type,
-///                 title: alert.title,
-///                 mode: AlertMode::Banner,
-///                 onclose: move |_| { ... },
-///             }
-///         }
-///     }
-/// }
-/// ```
 #[allow(non_snake_case)]
 pub fn AlertBannerContainer(props: AlertBannerContainerProps) -> Element {
     const CSS: &str = include_str!("../../assets/alert.css");
+
+    // 限制显示数量：只显示最近的 max_count 条
+    let children: Vec<VNode> = props.children.into_iter().collect();
+    let total = children.len();
+    let skip = if total > props.max_count {
+        total - props.max_count
+    } else {
+        0
+    };
 
     rsx! {
         style { {CSS} }
         div {
             class: "ctrl-alert-banner-container",
-            {props.children}
+            for child in children.into_iter().skip(skip) {
+                {child}
+            }
         }
     }
 }
@@ -139,7 +138,7 @@ pub fn Alert(props: AlertProps) -> Element {
                 let oc = onclose.clone();
                 spawn(async move {
                     use gloo_timers::future::TimeoutFuture;
-                    TimeoutFuture::new(250).await; // 等待退出动画播放完毕
+                    TimeoutFuture::new(400).await; // 等待退出动画播放完毕（CSS 过渡 0.3s）
                     if let Some(ref handler) = oc {
                         handler.call(());
                     }
@@ -172,7 +171,7 @@ pub fn Alert(props: AlertProps) -> Element {
         let oc = props.onclose.clone();
         spawn(async move {
             use gloo_timers::future::TimeoutFuture;
-            TimeoutFuture::new(250).await;
+            TimeoutFuture::new(400).await;
             if let Some(ref handler) = oc {
                 handler.call(());
             }

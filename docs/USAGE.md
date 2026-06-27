@@ -30,7 +30,7 @@
 
 ```toml
 [dependencies]
-dioxus = { version = "0.5", features = ["web"] }
+dioxus = { version = "0.7", features = ["web"] }
 ctrl = { path = "path/to/ctrl/crates/ctrl" }
 ```
 
@@ -1217,7 +1217,7 @@ Input {
 
 ### 8.4 事件处理器的生命周期
 
-在 Dioxus 0.5 中，`EventHandler` 在 `rsx!` 闭包中需要所有权。组件内部通过 `.clone()` 处理：
+在 Dioxus 0.7 中，`EventHandler` 在 `rsx!` 闭包中需要所有权。组件内部通过 `.clone()` 处理：
 
 ```rust
 // 组件内部实现
@@ -1317,9 +1317,9 @@ div {
 
 **A:** 参考 [IMPLEMENTATION.md](./IMPLEMENTATION.md) 中的"扩展指南"章节，按照组件的三步流程（创建目录 → 实现组件 → 注册导出）添加新组件。
 
-### Q: 与 Dioxus 0.6 兼容吗？
+### Q: 与 Dioxus 0.7 兼容吗？
 
-**A:** 当前版本基于 Dioxus 0.5.x 开发。Dioxus 0.6 有 API 变更，升级需要适配。建议在 Dioxus 0.6 稳定后跟进升级。
+**A:** 当前版本基于 Dioxus 0.7 开发，完全兼容。使用 `use_signal`、`Signal::new` 等 0.7 原生 API。
 
 ### Q: 性能如何？内联样式会不会影响渲染性能？
 

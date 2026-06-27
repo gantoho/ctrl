@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Skeleton 骨架屏
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-skeleton {
+    display: block;
+    background: linear-gradient(
+        90deg,
+        var(--ctrl-bg-secondary) 25%,
+        var(--ctrl-bg-disabled) 37%,
+        var(--ctrl-bg-secondary) 63%
+    );
+    background-size: 400% 100%;
+    animation: ctrl-skeleton-shimmer 1.4s ease infinite;
+    border-radius: var(--ctrl-radius-sm);
+}
+
+@keyframes ctrl-skeleton-shimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* 静止态（无动画） */
+.ctrl-skeleton--static {
+    animation: none;
+    background: var(--ctrl-bg-disabled);
+}
+
+/* 圆形 */
+.ctrl-skeleton--circle {
+    border-radius: 50%;
+}
+
+/* 圆角矩形 */
+.ctrl-skeleton--round {
+    border-radius: var(--ctrl-radius-md);
+}
+
+/* 容器 */
+.ctrl-skeleton__wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 段落多行 */
+.ctrl-skeleton--text {
+    height: 1em;
+    margin-bottom: 8px;
+    width: 100%;
+}
+.ctrl-skeleton--text:last-child {
+    width: 60%;
+    margin-bottom: 0;
+}
+
+/* 标题 */
+.ctrl-skeleton--title {
+    height: 1.5em;
+    width: 40%;
+    margin-bottom: 16px;
+}
+
+/* 头像圆形 */
+.ctrl-skeleton--avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+/* 图片矩形 */
+.ctrl-skeleton--image {
+    width: 100%;
+    height: 200px;
+    border-radius: var(--ctrl-radius-md);
+    margin-bottom: 12px;
+}
+
+/* 按钮 */
+.ctrl-skeleton--button {
+    width: 80px;
+    height: 36px;
+    border-radius: var(--ctrl-radius-md);
+}
+
+/* 行内（和文字混排） */
+.ctrl-skeleton--inline {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 综合布局：头像 + 内容行 */
+.ctrl-skeleton__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ctrl-skeleton__lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 卡片骨架：图片 + 标题 + 文字 */
+.ctrl-skeleton__card {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctrl-skeleton__card .ctrl-skeleton--title {
+    width: 60%;
+    margin-bottom: 12px;
+}
+
+/* 列表骨架：可重复的 avatar+text 条目 */
+.ctrl-skeleton__list {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctrl-skeleton__list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.ctrl-skeleton__list-item .ctrl-skeleton__lines {
+    flex: 1;
+}

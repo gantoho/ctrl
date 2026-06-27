@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Timeline 时间线
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* 时间线项 */
+.ctrl-timeline__item {
+    position: relative;
+    padding-left: 28px;
+    padding-bottom: 24px;
+}
+.ctrl-timeline__item:last-child {
+    padding-bottom: 0;
+}
+
+/* 节点圆点 */
+.ctrl-timeline__dot {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ctrl-border-hover);
+    border: 2px solid var(--ctrl-bg);
+    box-shadow: 0 0 0 2px var(--ctrl-border);
+    z-index: 1;
+    box-sizing: content-box;
+}
+
+/* 竖线 */
+.ctrl-timeline__item::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 20px;
+    bottom: 0;
+    width: 2px;
+    background: var(--ctrl-border);
+}
+.ctrl-timeline__item:last-child::before {
+    display: none;
+}
+
+/* 时间标签 */
+.ctrl-timeline__timestamp {
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-disabled);
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* 内容 */
+.ctrl-timeline__content {
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+    line-height: 1.6;
+}
+
+/* 颜色变体 */
+.ctrl-timeline__item--primary .ctrl-timeline__dot {
+    background: var(--ctrl-primary);
+    box-shadow: 0 0 0 2px var(--ctrl-primary-light);
+}
+.ctrl-timeline__item--success .ctrl-timeline__dot {
+    background: var(--ctrl-success);
+    box-shadow: 0 0 0 2px var(--ctrl-success);
+}
+.ctrl-timeline__item--warning .ctrl-timeline__dot {
+    background: var(--ctrl-warning);
+    box-shadow: 0 0 0 2px var(--ctrl-warning);
+}
+.ctrl-timeline__item--danger .ctrl-timeline__dot {
+    background: var(--ctrl-danger);
+    box-shadow: 0 0 0 2px var(--ctrl-danger);
+}

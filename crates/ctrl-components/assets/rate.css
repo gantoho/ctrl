@@ -1,0 +1,94 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Rate 评分
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-rate {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+.ctrl-rate--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ctrl-rate__star {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--ctrl-border);
+    transition: color 0.15s ease, transform 0.15s ease;
+    user-select: none;
+}
+
+.ctrl-rate__star:hover {
+    transform: scale(1.15);
+}
+
+.ctrl-rate__star--active {
+    color: var(--ctrl-warning);
+}
+
+.ctrl-rate__star--half {
+    color: var(--ctrl-border);
+}
+
+.ctrl-rate__star--half .ctrl-rate__star-half {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: var(--ctrl-warning);
+}
+
+.ctrl-rate__star--readonly {
+    cursor: default;
+}
+
+.ctrl-rate__star--readonly:hover {
+    transform: none;
+}
+
+/* 半星热区容器 */
+.ctrl-rate__star-item {
+    position: relative;
+    display: inline-flex;
+}
+
+/* 左半区 / 右半区热区 */
+.ctrl-rate__star-half-zone,
+.ctrl-rate__star-full-zone {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.ctrl-rate__star-half-zone {
+    left: 0;
+}
+
+.ctrl-rate__star-full-zone {
+    right: 0;
+}
+
+.ctrl-rate--disabled .ctrl-rate__star {
+    cursor: not-allowed;
+}
+
+.ctrl-rate--disabled .ctrl-rate__star:hover {
+    transform: none;
+}
+
+.ctrl-rate__text {
+    margin-left: 8px;
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+}

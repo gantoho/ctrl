@@ -21,7 +21,7 @@ pub fn DocsLayout() -> Element {
                 if (!window.__scrollSpyInited) {
                     window.__scrollSpyInited = true;
                     window.__activeSection = '';
-                    window.__scrollSpySections = ['button', 'input', 'switch', 'checkbox', 'radio', 'select', 'tag', 'card', 'dialog', 'table', 'badge', 'avatar', 'progress', 'tooltip', 'tabs', 'alert', 'breadcrumb', 'pagination', 'message'];
+                    window.__scrollSpySections = ['button', 'input', 'switch', 'checkbox', 'radio', 'select', 'tag', 'card', 'dialog', 'table', 'badge', 'avatar', 'progress', 'tooltip', 'tabs', 'alert', 'breadcrumb', 'pagination', 'message', 'divider', 'loading', 'empty', 'skeleton', 'backtop', 'collapse', 'popover', 'drawer', 'notification', 'dropdown', 'menu', 'steps', 'timeline', 'slider', 'rate', 'image', 'space', 'segmented', 'input_number', 'upload', 'carousel', 'form', 'tree', 'date_picker'];
                     window.__updateActiveSection = function() {
                         for (const id of window.__scrollSpySections) {
                             const el = document.getElementById(id);
@@ -129,6 +129,30 @@ fn SidebarContent() -> Element {
             NavItem { label: "Breadcrumb 面包屑".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("breadcrumb".to_string()), active_section: active_section }
             NavItem { label: "Pagination 分页".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("pagination".to_string()), active_section: active_section }
             NavItem { label: "Message 全局提示".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("message".to_string()), active_section: active_section }
+            NavItem { label: "Divider 分割线".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("divider".to_string()), active_section: active_section }
+            NavItem { label: "Loading 加载中".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("loading".to_string()), active_section: active_section }
+            NavItem { label: "Empty 空状态".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("empty".to_string()), active_section: active_section }
+            NavItem { label: "Skeleton 骨架屏".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("skeleton".to_string()), active_section: active_section }
+            NavItem { label: "Backtop 回到顶部".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("backtop".to_string()), active_section: active_section }
+            NavItem { label: "Collapse 折叠面板".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("collapse".to_string()), active_section: active_section }
+            NavItem { label: "Popover 气泡卡片".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("popover".to_string()), active_section: active_section }
+            NavItem { label: "Drawer 抽屉".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("drawer".to_string()), active_section: active_section }
+            NavItem { label: "Notification 通知".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("notification".to_string()), active_section: active_section }
+            NavItem { label: "Dropdown 下拉菜单".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("dropdown".to_string()), active_section: active_section }
+            NavItem { label: "Menu 导航菜单".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("menu".to_string()), active_section: active_section }
+            NavItem { label: "Steps 步骤条".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("steps".to_string()), active_section: active_section }
+            NavItem { label: "Timeline 时间线".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("timeline".to_string()), active_section: active_section }
+            NavItem { label: "Slider 滑块".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("slider".to_string()), active_section: active_section }
+            NavItem { label: "Rate 评分".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("rate".to_string()), active_section: active_section }
+            NavItem { label: "Image 图片".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("image".to_string()), active_section: active_section }
+            NavItem { label: "Space 间距".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("space".to_string()), active_section: active_section }
+            NavItem { label: "Segmented 分段".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("segmented".to_string()), active_section: active_section }
+            NavItem { label: "InputNumber 数字输入".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("input_number".to_string()), active_section: active_section }
+            NavItem { label: "Upload 上传".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("upload".to_string()), active_section: active_section }
+            NavItem { label: "Carousel 走马灯".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("carousel".to_string()), active_section: active_section }
+            NavItem { label: "Form 表单".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("form".to_string()), active_section: active_section }
+            NavItem { label: "Tree 树形控件".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("tree".to_string()), active_section: active_section }
+            NavItem { label: "DatePicker 日期选择".to_string(), target: Route::ComponentsPage {}, current: current_route.clone(), hash: Some("date_picker".to_string()), active_section: active_section }
 
             GroupTitle { title: "指南".to_string() }
             NavItem { label: "主题定制".to_string(), target: Route::ThemePage {}, current: current_route.clone(), hash: None::<String>, active_section: active_section }

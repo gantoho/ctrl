@@ -1,0 +1,46 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Empty 空状态
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: var(--ctrl-text-disabled);
+    text-align: center;
+}
+
+/* 图标占位 */
+.ctrl-empty__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+    font-size: 48px;
+    line-height: 1;
+    opacity: 0.4;
+}
+
+/* SVG 图片 */
+.ctrl-empty__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 描述文字 */
+.ctrl-empty__description {
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text-secondary);
+    margin: 0 0 16px;
+    line-height: 1.5;
+}
+
+/* 底部操作区 */
+.ctrl-empty__footer {
+    margin-top: 8px;
+}

@@ -1,0 +1,119 @@
+.ctrl-carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.ctrl-carousel__viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ctrl-carousel__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease-in-out;
+}
+
+.ctrl-carousel__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 箭头 */
+.ctrl-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ctrl-carousel:hover .ctrl-carousel__arrow {
+  opacity: 1;
+}
+
+.ctrl-carousel__arrow:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.ctrl-carousel__arrow--prev {
+  left: 12px;
+}
+
+.ctrl-carousel__arrow--next {
+  right: 12px;
+}
+
+/* 指示器 */
+.ctrl-carousel__dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.ctrl-carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, width 0.3s;
+}
+
+.ctrl-carousel__dot--active {
+  background: #fff;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* 渐隐效果 */
+.ctrl-carousel--fade .ctrl-carousel__track {
+  transition: none;
+}
+
+.ctrl-carousel--fade .ctrl-carousel__slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.ctrl-carousel--fade .ctrl-carousel__slide--active {
+  opacity: 1;
+  position: relative;
+}

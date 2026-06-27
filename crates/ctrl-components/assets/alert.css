@@ -42,16 +42,16 @@
     border-left: none;
     border-right: none;
     overflow: hidden;
-    max-height: 800px;
+    max-height: 200px;
     transition:
-        opacity 0.2s ease,
-        transform 0.2s ease 0.05s,
-        max-height 0.2s ease,
-        padding-top 0.2s ease,
-        padding-bottom 0.2s ease;
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        max-height 0.3s ease,
+        padding-top 0.3s ease,
+        padding-bottom 0.3s ease;
 }
 
-/* ── 退出动画：塌缩布局空间 + 淡出，避免 DOM 移除时跳动 ── */
+/* ── 退出动画 ── */
 .ctrl-alert--banner.ctrl-alert--leaving {
     opacity: 0;
     transform: scaleY(0);

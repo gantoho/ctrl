@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Divider 分割线
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-divider {
+    display: flex;
+    align-items: center;
+    margin: 16px 0;
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-sm);
+    border: none;
+}
+
+.ctrl-divider::before,
+.ctrl-divider::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--ctrl-border);
+}
+
+/* 带文字 */
+.ctrl-divider--with-text::before {
+    margin-right: 16px;
+}
+.ctrl-divider--with-text::after {
+    margin-left: 16px;
+}
+
+/* 无文字（纯分割线） */
+.ctrl-divider--plain::before {
+    content: none;
+}
+
+/* 垂直分割线 */
+.ctrl-divider--vertical {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 0 8px;
+    vertical-align: middle;
+    border-left: 1px solid var(--ctrl-border);
+    height: 1em;
+    min-height: 1em;
+}
+.ctrl-divider--vertical::before,
+.ctrl-divider--vertical::after {
+    content: none;
+}
+
+/* 虚线 */
+.ctrl-divider--dashed::before,
+.ctrl-divider--dashed::after {
+    border-top-style: dashed;
+}

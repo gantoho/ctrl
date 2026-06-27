@@ -1,0 +1,71 @@
+.ctrl-tree {
+  font-size: 14px;
+  color: var(--ctrl-text-primary, #333);
+}
+
+.ctrl-tree__node {
+  cursor: pointer;
+  user-select: none;
+}
+
+.ctrl-tree__node-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.ctrl-tree__node-content:hover {
+  background: var(--ctrl-bg-hover, #f0f0f0);
+}
+
+.ctrl-tree__node--selected > .ctrl-tree__node-content {
+  background: var(--ctrl-color-primary-light, #e8f0fe);
+  color: var(--ctrl-color-primary, #4a90d9);
+}
+
+.ctrl-tree__node--disabled > .ctrl-tree__node-content {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ctrl-tree__expand {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--ctrl-text-secondary, #999);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.ctrl-tree__expand--expanded {
+  transform: rotate(90deg);
+}
+
+.ctrl-tree__expand--empty {
+  visibility: hidden;
+}
+
+.ctrl-tree__checkbox {
+  flex-shrink: 0;
+}
+
+.ctrl-tree__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ctrl-tree__child_nodes {
+  padding-left: 20px;
+}
+
+.ctrl-tree__child_nodes--hidden {
+  display: none;
+}

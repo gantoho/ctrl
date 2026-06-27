@@ -11,7 +11,7 @@ pub fn HomePage() -> Element {
     let navigator = use_navigator();
     let deps_code: Vec<String> = vec![
         "[dependencies]",
-        "dioxus = { version = \"0.5\", features = [\"web\"] }",
+        "dioxus = { version = \"0.7\", features = [\"web\"] }",
         "ctrl = \"0.1\"",
     ].into_iter().map(String::from).collect();
 

@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Loading 加载中
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ctrl-primary);
+    font-size: var(--ctrl-font-size-md);
+}
+
+/* 旋转动画 */
+.ctrl-loading__spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid var(--ctrl-border);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: ctrl-loading-spin 0.6s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes ctrl-loading-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 尺寸 */
+.ctrl-loading--sm { font-size: var(--ctrl-font-size-xs); }
+.ctrl-loading--md { font-size: var(--ctrl-font-size-md); }
+.ctrl-loading--lg { font-size: var(--ctrl-font-size-lg); }
+
+/* 文字 */
+.ctrl-loading__text {
+    color: var(--ctrl-text-secondary);
+}
+
+/* 全屏遮罩 */
+.ctrl-loading--fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ctrl-mask-bg);
+    font-size: var(--ctrl-font-size-lg);
+}

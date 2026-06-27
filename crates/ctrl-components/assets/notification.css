@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Notification 通知提醒
+   ═══════════════════════════════════════════════════ */
+
+/* ── Provider 容器 ── */
+.ctrl-notification-provider {
+    position: fixed;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    max-width: calc(100vw - 32px);
+}
+
+.ctrl-notification-provider > .ctrl-notification {
+    pointer-events: auto;
+}
+
+.ctrl-notification-provider--top-right {
+    top: 16px;
+    right: 16px;
+    align-items: flex-end;
+}
+
+.ctrl-notification-provider--top-left {
+    top: 16px;
+    left: 16px;
+    align-items: flex-start;
+}
+
+.ctrl-notification-provider--bottom-right {
+    bottom: 16px;
+    right: 16px;
+    align-items: flex-end;
+}
+
+.ctrl-notification-provider--bottom-left {
+    bottom: 16px;
+    left: 16px;
+    align-items: flex-start;
+}
+
+/* ── 通知卡片 ── */
+.ctrl-notification {
+    position: relative;
+    width: 330px;
+    padding: 16px 20px;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    box-shadow: var(--ctrl-shadow-md);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* 初始状态：隐藏 */
+.ctrl-notification:not(.ctrl-notification--entering):not(.ctrl-notification--leaving) {
+    opacity: 0;
+    transform: translateX(60px);
+}
+
+/* 入场动画 */
+.ctrl-notification--entering {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 出场动画 */
+.ctrl-notification--leaving {
+    opacity: 0;
+    transform: translateX(60px);
+    pointer-events: none;
+}
+
+/* 图标 */
+.ctrl-notification__icon {
+    font-size: var(--ctrl-font-size-lg);
+    flex-shrink: 0;
+    line-height: 1.5;
+}
+
+/* 内容 */
+.ctrl-notification__body {
+    flex: 1;
+    min-width: 0;
+}
+.ctrl-notification__title {
+    font-size: var(--ctrl-font-size-md);
+    font-weight: 600;
+    color: var(--ctrl-text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+.ctrl-notification__content {
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+    line-height: 1.5;
+}
+
+/* 关闭按钮 */
+.ctrl-notification__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ctrl-text-disabled);
+    font-size: var(--ctrl-font-size-sm);
+    flex-shrink: 0;
+    transition: color var(--ctrl-transition);
+}
+.ctrl-notification__close:hover {
+    color: var(--ctrl-text);
+}
+
+/* 类型着色 */
+.ctrl-notification--info .ctrl-notification__icon { color: var(--ctrl-info); }
+.ctrl-notification--success .ctrl-notification__icon { color: var(--ctrl-success); }
+.ctrl-notification--warning .ctrl-notification__icon { color: var(--ctrl-warning); }
+.ctrl-notification--error .ctrl-notification__icon { color: var(--ctrl-danger); }

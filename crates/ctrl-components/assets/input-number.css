@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — InputNumber 数字输入框
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-input-number {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    background: var(--ctrl-bg);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.ctrl-input-number:focus-within {
+    border-color: var(--ctrl-primary);
+    box-shadow: 0 0 0 2px var(--ctrl-primary-light);
+}
+
+.ctrl-input-number--disabled {
+    background: var(--ctrl-bg-disabled);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ctrl-input-number--sm {
+    --ctrl-in-height: 28px;
+    --ctrl-in-font: var(--ctrl-font-size-xs);
+}
+
+.ctrl-input-number--md {
+    --ctrl-in-height: 36px;
+    --ctrl-in-font: var(--ctrl-font-size-md);
+}
+
+.ctrl-input-number--lg {
+    --ctrl-in-height: 44px;
+    --ctrl-in-font: var(--ctrl-font-size-lg);
+}
+
+.ctrl-input-number__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: var(--ctrl-in-height, 36px);
+    border: none;
+    background: transparent;
+    color: var(--ctrl-text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.15s ease, background 0.15s ease;
+    user-select: none;
+    flex-shrink: 0;
+    font-family: inherit;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.ctrl-input-number__btn:hover {
+    color: var(--ctrl-primary);
+    background: var(--ctrl-primary-light);
+}
+
+.ctrl-input-number__btn:active {
+    color: var(--ctrl-primary-active);
+}
+
+.ctrl-input-number--disabled .ctrl-input-number__btn {
+    cursor: not-allowed;
+    color: var(--ctrl-text-disabled);
+}
+
+.ctrl-input-number--disabled .ctrl-input-number__btn:hover {
+    background: transparent;
+    color: var(--ctrl-text-disabled);
+}
+
+.ctrl-input-number__input {
+    width: 52px;
+    height: var(--ctrl-in-height, 36px);
+    padding: 0;
+    border: none;
+    border-left: 1px solid var(--ctrl-border);
+    border-right: 1px solid var(--ctrl-border);
+    background: transparent;
+    text-align: center;
+    font-size: var(--ctrl-in-font, var(--ctrl-font-size-md));
+    color: var(--ctrl-text);
+    font-family: inherit;
+    outline: none;
+    appearance: textfield;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    box-sizing: border-box;
+}
+
+/* 隐藏数字输入框的 spinner */
+.ctrl-input-number__input::-webkit-inner-spin-button,
+.ctrl-input-number__input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

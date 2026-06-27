@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
 }
-.ctrl-dialog-mask {
+.ctrl-dialog__mask {
     position: absolute;
     inset: 0;
     background: var(--ctrl-mask-bg);

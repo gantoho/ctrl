@@ -14,6 +14,8 @@ fn App() -> Element {
         // reset.css 已由 ThemeProvider 自动注入
 
         ThemeProvider {
+            NotificationProvider {
+                placement: NotificationPlacement::TopRight,
             div {
                 style: "max-width: 720px; margin: 0 auto; padding: 40px 20px; font-family: var(--ctrl-font-family);",
 
@@ -480,7 +482,398 @@ fn App() -> Element {
                         }
                     }
                 }
+
+                // ════════════════════════════════════
+                // 20. Divider
+                // ════════════════════════════════════
+                Section { title: "Divider 分割线".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 4px; width: 100%;",
+                                span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "上方内容" }
+                                Divider {}
+                                span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "下方内容" }
+                            }
+                        }
+                        DemoCard { title: "带文字".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 12px; width: 100%;",
+                                Divider { content: "分割文字".to_string() }
+                            }
+                        }
+                        DemoCard { title: "虚线".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 12px; width: 100%;",
+                                Divider { dashed: true }
+                            }
+                        }
+                        DemoCard { title: "垂直".to_string(),
+                            div { style: "display: flex; align-items: center; gap: 8px;",
+                                span { "链接" }
+                                Divider { direction: "vertical".to_string() }
+                                span { "菜单" }
+                                Divider { direction: "vertical".to_string() }
+                                span { "设置" }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 21. Loading
+                // ════════════════════════════════════
+                Section { title: "Loading 加载中".to_string(),
+                    Row {
+                        DemoCard { title: "尺寸".to_string(),
+                            div { style: "display: flex; gap: 16px; align-items: center;",
+                                Loading { size: Size::Sm }
+                                Loading { size: Size::Md }
+                                Loading { size: Size::Lg }
+                            }
+                        }
+                        DemoCard { title: "带文字".to_string(),
+                            div { style: "display: flex; gap: 16px; align-items: center;",
+                                Loading { text: "加载中...".to_string(), size: Size::Md }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 22. Empty
+                // ════════════════════════════════════
+                Section { title: "Empty 空状态".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            Empty { description: "暂无数据".to_string() }
+                        }
+                        DemoCard { title: "自定义操作".to_string(),
+                            Empty { description: "还没有内容，快来添加吧".to_string(),
+                                Button { variant: Variant::Primary, size: Size::Sm, "添加内容" }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 23. Skeleton
+                // ════════════════════════════════════
+                Section { title: "Skeleton 骨架屏".to_string(),
+                    Row {
+                        DemoCard { title: "形状控制".to_string(),
+                            div { style: "display: flex; gap: 16px; align-items: flex-end;",
+                                Skeleton { variant: "rect".to_string(), width: "48px".to_string(), height: "48px".to_string() }
+                                Skeleton { variant: "rect".to_string(), shape: "round".to_string(), width: "48px".to_string(), height: "48px".to_string() }
+                                Skeleton { variant: "rect".to_string(), shape: "circle".to_string(), width: "48px".to_string(), height: "48px".to_string() }
+                            }
+                        }
+                        DemoCard { title: "文本多行 & 静止态".to_string(),
+                            div { style: "display: flex; flex-direction: column; gap: 8px;",
+                                Skeleton { variant: "text".to_string(), rows: 2 }
+                                Skeleton { variant: "text".to_string(), rows: 2, animated: false }
+                            }
+                        }
+                    }
+                    Row {
+                        DemoCard { title: "重复列表".to_string(),
+                            Skeleton { variant: "text".to_string(), count: 3, gap: "10px".to_string(), width: "100%".to_string() }
+                        }
+                        DemoCard { title: "圆形头像组".to_string(),
+                            div { style: "display: flex; gap: 8px;",
+                                Skeleton { variant: "avatar".to_string(), shape: "circle".to_string(), count: 3, width: "40px".to_string(), height: "40px".to_string() }
+                            }
+                        }
+                    }
+                    Row {
+                        DemoCard { title: "卡片骨架".to_string(),
+                            SkeletonCard { rows: 2 }
+                        }
+                        DemoCard { title: "列表骨架".to_string(),
+                            SkeletonList { count: 3, rows: 2 }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 24. Backtop
+                // ════════════════════════════════════
+                Section { title: "Backtop 回到顶部".to_string(),
+                    h4 { style: "font-size: 0.925rem; color: var(--ctrl-text-secondary); margin: 0 0 8px 0; font-weight: 400;",
+                        "滚动页面后右下角出现 ↑ 按钮，点击回到顶部。默认 400ms easeOutCubic 缓动。"
+                    }
+                    Row {
+                        DemoCard { title: "Default（easeOutCubic）".to_string(),
+                            Backtop {}
+                        }
+                        DemoCard { title: "easeOutExpo".to_string(),
+                            Backtop { easing: "easeOutExpo".to_string(), duration: 500 }
+                        }
+                    }
+                    Row {
+                        DemoCard { title: "easeOutBack（回弹感）".to_string(),
+                            Backtop { easing: "easeOutBack".to_string(), duration: 500 }
+                        }
+                        DemoCard { title: "easeOutElastic（弹性）".to_string(),
+                            Backtop { easing: "easeOutElastic".to_string(), duration: 600 }
+                        }
+                    }
+                    Row {
+                        DemoCard { title: "弹簧阻尼（damping）".to_string(),
+                            Backtop { damping: true }
+                        }
+                        DemoCard { title: "瞬间（behavior: auto）".to_string(),
+                            Backtop { behavior: "auto".to_string() }
+                        }
+                    }
+                    Row {
+                        DemoCard { title: "回到底部".to_string(),
+                            Backtop { target_position: "bottom".to_string() }
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 25. Collapse
+                // ════════════════════════════════════
+                Section { title: "Collapse 折叠面板".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            CollapseDemo {}
+                        }
+                        DemoCard { title: "无动画".to_string(),
+                            CollapseNoAnimDemo {}
+                        }
+                        DemoCard { title: "手风琴模式".to_string(),
+                            CollapseAccordionDemo {}
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 26. Popover
+                // ════════════════════════════════════
+                Section { title: "Popover 气泡卡片".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            div { style: "display: flex; gap: 12px; flex-wrap: wrap;",
+                                Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "这是一段内容" } },
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Top" }
+                                }
+                                Popover { placement: "bottom".to_string(), title: "通知".to_string(), content: rsx! { span { "底部气泡" } },
+                                    Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
+                                }
+                            }
+                        }
+                        DemoCard { title: "overflow:hidden 容器".to_string(),
+                            div {
+                                style: "overflow: hidden; border: 2px dashed var(--ctrl-border); border-radius: var(--ctrl-radius-md); padding: 20px; width: 180px; height: 60px; display: flex; align-items: center; justify-content: center;",
+                                Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "不会被裁切" } },
+                                    Button { variant: Variant::Primary, size: Size::Sm, "点击弹出" }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 27. Drawer
+                // ════════════════════════════════════
+                Section { title: "Drawer 抽屉".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            DrawerDemo {}
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 28. Notification
+                // ════════════════════════════════════
+                Section { title: "Notification 通知".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            NotificationDemo {}
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 29. Dropdown
+                // ════════════════════════════════════
+                Section { title: "Dropdown 下拉菜单".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            DropdownDemo {}
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 30. Menu
+                // ════════════════════════════════════
+                Section { title: "Menu 导航菜单".to_string(),
+                    Row {
+                        DemoCard { title: "垂直菜单".to_string(),
+                            MenuDemo {}
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 31. Steps
+                // ════════════════════════════════════
+                Section { title: "Steps 步骤条".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            StepsDemo {}
+                        }
+                        {}
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 32. Timeline
+                // ════════════════════════════════════
+                Section { title: "Timeline 时间线".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            Timeline {
+                                TimelineItem { timestamp: "2024-01-15".to_string(), "项目立项" }
+                                TimelineItem { timestamp: "2024-03-20".to_string(), color: "primary".to_string(), "完成需求分析" }
+                                TimelineItem { timestamp: "2024-06-10".to_string(), color: "success".to_string(), "第一阶段开发完成" }
+                                TimelineItem { timestamp: "2024-09-01".to_string(), "项目上线" }
+                            }
+                        }
+                        {}
+                    }
+                }
             }
+        }
+    }
+}
+}
+
+// ── Collapse 演示 ──
+#[component]
+fn CollapseDemo() -> Element {
+    rsx! {
+        Collapse {
+            CollapseItem { title: "标题一".to_string(), expanded: true,
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "标题一展开的内容。" }
+            }
+            CollapseItem { title: "标题二".to_string(),
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "标题二的内容。" }
+            }
+            CollapseItem { title: "禁用项".to_string(), disabled: true,
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这项已禁用。" }
+            }
+        }
+    }
+}
+
+// ── Collapse 无动画演示 ──
+#[component]
+fn CollapseNoAnimDemo() -> Element {
+    rsx! {
+        Collapse {
+            CollapseItem { title: "无动画项".to_string(), animated: false,
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "展开 / 收起无过渡效果。" }
+            }
+            CollapseItem { title: "另一项".to_string(), animated: false, expanded: true,
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "默认展开，切换时瞬间变化。" }
+            }
+        }
+    }
+}
+
+// ── Collapse 手风琴演示 ──
+#[component]
+fn CollapseAccordionDemo() -> Element {
+    rsx! {
+        Collapse {
+            accordion: true,
+            CollapseItem { title: "面板一".to_string(), expanded: true,
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "第一个面板，默认展开。" }
+            }
+            CollapseItem { title: "面板二".to_string(),
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "第二个面板。" }
+            }
+            CollapseItem { title: "面板三".to_string(),
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "第三个面板。" }
+            }
+        }
+    }
+}
+
+// ── Drawer 演示 ──
+#[component]
+fn DrawerDemo() -> Element {
+    let mut visible = use_signal(|| false);
+    rsx! {
+        div {
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| visible.set(true), "打开抽屉" }
+            Drawer {
+                visible: visible(),
+                title: "抽屉标题".to_string(),
+                onclose: move |_| visible.set(false),
+                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-md);", "抽屉内容区域。" }
+            }
+        }
+    }
+}
+
+// ── Notification 演示 ──
+#[component]
+fn NotificationDemo() -> Element {
+    let mut api = use_notification();
+    rsx! {
+        div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.info("信息".to_string(), "这是一条普通信息".to_string()), "信息" }
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.success("成功".to_string(), "操作成功".to_string()), "成功" }
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.warning("警告".to_string(), "请注意".to_string()), "警告" }
+            Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.error("错误".to_string(), "发生错误".to_string()), "错误" }
+        }
+    }
+}
+
+// ── Dropdown 演示 ──
+#[component]
+fn DropdownDemo() -> Element {
+    rsx! {
+        Dropdown {
+            trigger: rsx! { Button { variant: Variant::Primary, size: Size::Sm, "打开菜单" } },
+            DropdownItem { "选项一" }
+            DropdownItem { "选项二" }
+            DropdownDivider {}
+            DropdownItem { disabled: true, "禁用项" }
+        }
+    }
+}
+
+// ── Menu 演示 ──
+#[component]
+fn MenuDemo() -> Element {
+    rsx! {
+        Menu {
+            MenuItem { "首页" }
+            MenuItem { "组件" }
+            MenuItem { "文档" }
+            MenuItem { disabled: true, "禁用项" }
+        }
+    }
+}
+
+// ── Steps 演示 ──
+#[component]
+fn StepsDemo() -> Element {
+    rsx! {
+        Steps {
+            Step { title: "步骤一".to_string(), description: "第一步描述".to_string() }
+            Step { title: "步骤二".to_string(), description: "第二步描述".to_string() }
+            Step { title: "步骤三".to_string(), description: "最后一步".to_string() }
         }
     }
 }
@@ -519,13 +912,6 @@ fn DemoCard(title: String, children: Element) -> Element {
             }
             {children}
         }
-    }
-}
-
-#[component]
-fn Divider() -> Element {
-    rsx! {
-        div { style: "height: 12px;" }
     }
 }
 

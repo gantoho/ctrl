@@ -1,0 +1,74 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Collapse 折叠面板
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-collapse {
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    overflow: hidden;
+    background: var(--ctrl-bg);
+}
+
+/* 折叠条目 */
+.ctrl-collapse__item {
+    border-bottom: 1px solid var(--ctrl-border);
+}
+.ctrl-collapse__item:last-child {
+    border-bottom: none;
+}
+
+/* 标题栏 */
+.ctrl-collapse__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: var(--ctrl-font-size-md);
+    font-weight: 500;
+    color: var(--ctrl-text);
+    user-select: none;
+    transition: background var(--ctrl-transition);
+}
+.ctrl-collapse__header:hover {
+    background: var(--ctrl-bg-secondary);
+}
+.ctrl-collapse__header--disabled {
+    color: var(--ctrl-text-disabled);
+    cursor: not-allowed;
+}
+.ctrl-collapse__header--disabled:hover {
+    background: transparent;
+}
+
+/* 箭头图标 */
+.ctrl-collapse__arrow {
+    display: inline-flex;
+    transition: transform 0.25s ease;
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+.ctrl-collapse__arrow--expanded {
+    transform: rotate(90deg);
+}
+
+/* 内容容器 —— 通过 JS 动态设置 max-height，配合 CSS transition 实现平滑高度动画 */
+.ctrl-collapse__content {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* 内容内层（padding 在内层，不影响 max-height 测量） */
+.ctrl-collapse__content-inner {
+    padding: 0 16px 16px;
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+    line-height: 1.6;
+}
+
+/* 无动画模式：直接控制显隐 */
+.ctrl-collapse__body--no-animation .ctrl-collapse__content {
+    transition: none;
+}

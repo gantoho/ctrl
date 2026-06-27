@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Steps 步骤条
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-steps {
+    display: flex;
+    width: 100%;
+}
+
+/* 垂直 */
+.ctrl-steps--vertical {
+    flex-direction: column;
+}
+
+/* 步骤 */
+.ctrl-steps__item {
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    position: relative;
+}
+.ctrl-steps__item:last-child {
+    flex: none;
+}
+.ctrl-steps--vertical .ctrl-steps__item {
+    min-height: 60px;
+}
+
+/* 步骤头（圆圈 + 标题） */
+.ctrl-steps__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 步骤圆 */
+.ctrl-steps__circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ctrl-bg);
+    border: 2px solid var(--ctrl-border);
+    font-size: var(--ctrl-font-size-sm);
+    font-weight: 600;
+    color: var(--ctrl-text-secondary);
+    flex-shrink: 0;
+    transition: all var(--ctrl-transition);
+}
+
+/* 完成 */
+.ctrl-steps__item--finish .ctrl-steps__circle {
+    background: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+    color: var(--ctrl-text-on-primary);
+}
+
+/* 进行中 */
+.ctrl-steps__item--process .ctrl-steps__circle {
+    background: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+    color: var(--ctrl-text-on-primary);
+}
+
+/* 标题 */
+.ctrl-steps__title {
+    font-size: var(--ctrl-font-size-md);
+    font-weight: 500;
+    color: var(--ctrl-text-secondary);
+    white-space: nowrap;
+}
+.ctrl-steps__item--finish .ctrl-steps__title,
+.ctrl-steps__item--process .ctrl-steps__title {
+    color: var(--ctrl-text);
+    font-weight: 600;
+}
+
+/* 连接线 */
+.ctrl-steps__item::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--ctrl-border);
+    margin-top: 13px;
+    margin-left: 0;
+    transition: background var(--ctrl-transition);
+}
+.ctrl-steps__item:last-child::after {
+    display: none;
+}
+.ctrl-steps__item--finish::after {
+    background: var(--ctrl-primary);
+}
+.ctrl-steps--vertical .ctrl-steps__item::after {
+    width: 2px;
+    height: auto;
+    position: absolute;
+    top: 32px;
+    left: 13px;
+    bottom: -8px;
+    flex: none;
+    margin: 0;
+}
+
+/* 描述 */
+.ctrl-steps__description {
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+    margin-top: 4px;
+    line-height: 1.4;
+}

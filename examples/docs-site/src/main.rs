@@ -71,7 +71,10 @@ fn App() -> Element {
 
         ThemeProvider {
             theme: theme,
-            Router::<Route> {}
+            NotificationProvider {
+                placement: NotificationPlacement::TopRight,
+                Router::<Route> {}
+            }
         }
     }
 }

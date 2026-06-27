@@ -61,7 +61,7 @@ pub fn Tabs(props: TabsProps) -> Element {
 pub fn Tab(props: TabProps) -> Element {
     rsx! {
         div {
-            class: "ctrl-tab__pane",
+            class: "ctrl-tabs__pane",
             {props.children}
         }
     }

@@ -2,7 +2,7 @@
    Ctrl UI — Button 按钮
    ═══════════════════════════════════════════════════ */
 
-.ctrl-btn {
+.ctrl-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -25,74 +25,74 @@
 }
 
 /* 尺寸 */
-.ctrl-btn--sm { font-size: var(--ctrl-font-size-sm); padding: 4px 12px; height: 32px; }
-.ctrl-btn--md { font-size: var(--ctrl-font-size-md); padding: 8px 20px; height: 36px; }
-.ctrl-btn--lg { font-size: var(--ctrl-font-size-lg); padding: 12px 24px; height: 44px; }
+.ctrl-button--sm { font-size: var(--ctrl-font-size-sm); padding: 4px 12px; height: 32px; }
+.ctrl-button--md { font-size: var(--ctrl-font-size-md); padding: 8px 20px; height: 36px; }
+.ctrl-button--lg { font-size: var(--ctrl-font-size-lg); padding: 12px 24px; height: 44px; }
 
 /* 变体：Primary */
-.ctrl-btn--primary {
+.ctrl-button--primary {
     background: var(--ctrl-primary);
     color: var(--ctrl-text-on-primary);
     border-color: var(--ctrl-primary);
 }
-.ctrl-btn--primary:hover:not(.ctrl-btn--disabled) {
+.ctrl-button--primary:hover:not(.ctrl-button--disabled) {
     background: var(--ctrl-primary-hover);
     border-color: var(--ctrl-primary-hover);
 }
-.ctrl-btn--primary:active:not(.ctrl-btn--disabled) {
+.ctrl-button--primary:active:not(.ctrl-button--disabled) {
     background: var(--ctrl-primary-active);
     border-color: var(--ctrl-primary-active);
 }
 
 /* 变体：Secondary */
-.ctrl-btn--secondary {
+.ctrl-button--secondary {
     background: var(--ctrl-secondary);
     color: var(--ctrl-text-on-primary);
     border-color: var(--ctrl-secondary);
 }
-.ctrl-btn--secondary:hover:not(.ctrl-btn--disabled) {
+.ctrl-button--secondary:hover:not(.ctrl-button--disabled) {
     background: var(--ctrl-secondary-hover);
     border-color: var(--ctrl-secondary-hover);
 }
-.ctrl-btn--secondary:active:not(.ctrl-btn--disabled) {
+.ctrl-button--secondary:active:not(.ctrl-button--disabled) {
     background: var(--ctrl-secondary-hover);
     border-color: var(--ctrl-secondary-hover);
 }
 
 /* 变体：Outline */
-.ctrl-btn--outline {
+.ctrl-button--outline {
     background: transparent;
     color: var(--ctrl-primary);
     border-color: var(--ctrl-primary);
 }
-.ctrl-btn--outline:hover:not(.ctrl-btn--disabled) {
+.ctrl-button--outline:hover:not(.ctrl-button--disabled) {
     background: transparent;
     color: var(--ctrl-primary-hover);
     border-color: var(--ctrl-primary-hover);
 }
-.ctrl-btn--outline:active:not(.ctrl-btn--disabled) {
+.ctrl-button--outline:active:not(.ctrl-button--disabled) {
     background: transparent;
     color: var(--ctrl-primary-active);
     border-color: var(--ctrl-primary-active);
 }
 
 /* 变体：Ghost */
-.ctrl-btn--ghost {
+.ctrl-button--ghost {
     background: transparent;
     color: var(--ctrl-primary);
     border-color: transparent;
 }
-.ctrl-btn--ghost:hover:not(.ctrl-btn--disabled) {
+.ctrl-button--ghost:hover:not(.ctrl-button--disabled) {
     background: var(--ctrl-primary-light);
     color: var(--ctrl-primary-hover);
 }
-.ctrl-btn--ghost:active:not(.ctrl-btn--disabled) {
+.ctrl-button--ghost:active:not(.ctrl-button--disabled) {
     background: var(--ctrl-primary-light);
     color: var(--ctrl-primary-active);
 }
 
 /* 禁用 */
-.ctrl-btn--disabled {
+.ctrl-button--disabled {
     background: var(--ctrl-bg-disabled);
     color: var(--ctrl-text-disabled);
     border-color: var(--ctrl-border);
@@ -101,4 +101,4 @@
 }
 
 /* 块级 */
-.ctrl-btn--block { width: 100%; }
+.ctrl-button--block { width: 100%; }

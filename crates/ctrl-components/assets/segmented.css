@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Segmented 分段控制器
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-segmented {
+    display: inline-flex;
+    background: var(--ctrl-bg-secondary);
+    border-radius: var(--ctrl-radius-md);
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.ctrl-segmented--block {
+    display: flex;
+    width: 100%;
+}
+
+.ctrl-segmented--sm {
+    --ctrl-seg-padding: 2px 8px;
+    --ctrl-seg-font: var(--ctrl-font-size-xs);
+}
+
+.ctrl-segmented--md {
+    --ctrl-seg-padding: 4px 12px;
+    --ctrl-seg-font: var(--ctrl-font-size-sm);
+}
+
+.ctrl-segmented--lg {
+    --ctrl-seg-padding: 6px 16px;
+    --ctrl-seg-font: var(--ctrl-font-size-md);
+}
+
+.ctrl-segmented__item {
+    position: relative;
+    flex: 1;
+    padding: var(--ctrl-seg-padding, 4px 12px);
+    font-size: var(--ctrl-seg-font, var(--ctrl-font-size-sm));
+    color: var(--ctrl-text-secondary);
+    text-align: center;
+    border: none;
+    border-radius: var(--ctrl-radius-sm);
+    cursor: pointer;
+    background: transparent;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+    font-family: inherit;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.ctrl-segmented__item:hover {
+    color: var(--ctrl-text);
+}
+
+.ctrl-segmented__item--active {
+    background: var(--ctrl-bg);
+    color: var(--ctrl-text);
+    font-weight: 600;
+    box-shadow: var(--ctrl-shadow-sm);
+}
+
+.ctrl-segmented__item--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.ctrl-segmented__item--disabled:hover {
+    color: var(--ctrl-text-secondary);
+}

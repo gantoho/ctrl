@@ -1,0 +1,94 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Menu 导航菜单
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-menu {
+    background: var(--ctrl-bg);
+    border-right: 1px solid var(--ctrl-border);
+    width: 240px;
+    padding: 8px 0;
+    list-style: none;
+    margin: 0;
+}
+
+/* 横向模式 */
+.ctrl-menu--horizontal {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--ctrl-border);
+    padding: 0;
+}
+
+/* 菜单项 */
+.ctrl-menu__item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+    transition:
+        background var(--ctrl-transition),
+        color var(--ctrl-transition);
+    user-select: none;
+    gap: 8px;
+    white-space: nowrap;
+}
+.ctrl-menu__item:hover {
+    background: var(--ctrl-bg-secondary);
+}
+.ctrl-menu--horizontal .ctrl-menu__item {
+    padding: 12px 20px;
+    border-bottom: 2px solid transparent;
+}
+.ctrl-menu--horizontal .ctrl-menu__item:hover {
+    background: transparent;
+    border-bottom-color: var(--ctrl-border-hover);
+}
+
+/* 激活 */
+.ctrl-menu__item--active {
+    color: var(--ctrl-primary);
+    font-weight: 600;
+}
+.ctrl-menu--horizontal .ctrl-menu__item--active {
+    border-bottom-color: var(--ctrl-primary);
+}
+
+/* 禁用 */
+.ctrl-menu__item--disabled {
+    color: var(--ctrl-text-disabled);
+    cursor: not-allowed;
+}
+
+/* 图标 */
+.ctrl-menu__icon {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--ctrl-font-size-lg);
+    flex-shrink: 0;
+}
+
+/* 子菜单标题 */
+.ctrl-menu__submenu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 子菜单 */
+.ctrl-menu__submenu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.25s ease;
+    background: var(--ctrl-bg-secondary);
+    padding-left: 0;
+}
+.ctrl-menu__submenu--open {
+    max-height: 500px;
+}
+.ctrl-menu__submenu .ctrl-menu__item {
+    padding-left: 40px;
+}

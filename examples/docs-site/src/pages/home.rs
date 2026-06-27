@@ -51,7 +51,7 @@ pub fn HomePage() -> Element {
             h1 { style: "font-size: 2.5rem; font-weight: 800; color: var(--ctrl-text); margin-bottom: 12px;", "Ctrl UI" }
             p { style: "font-size: 1.125rem; color: var(--ctrl-text-secondary); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;", "开箱即用的 Dioxus Web 组件库。轻松定制主题，快速构建应用。" }
             div { style: "display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;",
-                Button { variant: Variant::Primary, size: Size::Lg, onclick: move |_| { let _ = navigator.push(Route::ComponentsPage {}); }, "开始使用" }
+                Button { variant: Variant::Primary, size: Size::Lg, onclick: move |_| { let _ = navigator.push(Route::ComponentsIndex {}); }, "开始使用" }
                 Button { variant: Variant::Outline, size: Size::Lg, "在 GitHub 上查看" }
             }
         }

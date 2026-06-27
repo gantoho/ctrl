@@ -29,6 +29,16 @@
     transform: scale(1.15);
 }
 
+/* 自定义图片图标 */
+.ctrl-rate__star-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    vertical-align: middle;
+    pointer-events: none;
+    user-select: none;
+}
+
 .ctrl-rate__star--active {
     color: var(--ctrl-warning);
 }

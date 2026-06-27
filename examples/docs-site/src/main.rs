@@ -6,7 +6,7 @@ mod pages;
 
 use components::layout::DocsLayout;
 use pages::home::HomePage;
-use pages::components::ComponentsPage;
+use pages::components::{ComponentPage, ComponentsIndex};
 use pages::theme::ThemePage;
 
 /// 所有组件 CSS 样式已由各自组件内嵌（include_str!），
@@ -15,14 +15,16 @@ fn main() {
     dioxus::launch(App);
 }
 
-/// 路由 —— 只有 3 个页面，所有组件放在同一个 Components 页面
+/// 路由 —— 组件独立路由 /components/xxx
 #[derive(Routable, Clone, PartialEq)]
 enum Route {
     #[layout(DocsLayout)]
     #[route("/")]
     HomePage {},
     #[route("/components")]
-    ComponentsPage {},
+    ComponentsIndex {},
+    #[route("/components/:name")]
+    ComponentPage { name: String },
     #[route("/theme")]
     ThemePage {},
 }
@@ -31,10 +33,35 @@ enum Route {
 #[derive(Clone, Copy)]
 pub struct ActiveSection(pub Signal<Option<String>>);
 
+/// 从 localStorage 读取主题偏好
+fn read_theme_preference() -> bool {
+    #[cfg(target_arch = "wasm32")]
+    {
+        let val = js_sys::eval("localStorage.getItem('ctrl-theme')")
+            .ok()
+            .and_then(|v| v.as_string());
+        return val.map(|s| s == "dark").unwrap_or(false);
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    false
+}
+
+/// 将主题偏好写入 localStorage
+fn save_theme_preference(is_dark: bool) {
+    #[cfg(target_arch = "wasm32")]
+    {
+        let theme = if is_dark { "dark" } else { "light" };
+        let _ = js_sys::eval(&format!("localStorage.setItem('ctrl-theme', '{theme}')"));
+    }
+}
+
 #[allow(non_snake_case)]
 fn App() -> Element {
-    let is_dark = use_signal(|| false);
+    let is_dark = use_signal(read_theme_preference);
     use_context_provider(|| is_dark);
+
+    // 持久化主题偏好
+    use_effect(move || save_theme_preference(is_dark()));
 
     // 初始化活动章节信号
     let active = Signal::new(None::<String>);
@@ -71,9 +98,11 @@ fn App() -> Element {
 
         ThemeProvider {
             theme: theme,
-            NotificationProvider {
-                placement: NotificationPlacement::TopRight,
-                Router::<Route> {}
+            ImagePreviewProvider {
+                NotificationProvider {
+                    placement: NotificationPlacement::TopRight,
+                    Router::<Route> {}
+                }
             }
         }
     }

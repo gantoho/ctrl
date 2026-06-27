@@ -79,7 +79,7 @@ pub use steps::{Step, StepProps, Steps, StepsProps};
 pub use timeline::{Timeline, TimelineItem, TimelineItemProps, TimelineProps};
 pub use slider::{Slider, SliderProps};
 pub use rate::{Rate, RateProps};
-pub use image::{Image, ImageProps};
+pub use image::{Image, ImagePreviewAPI, ImagePreviewProvider, ImagePreviewProviderProps, ImageProps, use_image_preview};
 pub use space::{Space, SpaceProps};
 pub use segmented::{Segmented, SegmentedProps};
 pub use input_number::{InputNumber, InputNumberProps};

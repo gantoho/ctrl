@@ -37,38 +37,92 @@ pub struct RateProps {
 
     /// 值变化回调
     pub onchange: Option<EventHandler<f64>>,
+
+    /// 自定义全选图标 URL
+    #[props(default = None)]
+    pub icon_full: Option<String>,
+
+    /// 自定义半选图标 URL（仅 allow_half 为 true 时生效）
+    #[props(default = None)]
+    pub icon_half: Option<String>,
+
+    /// 自定义未选图标 URL
+    #[props(default = None)]
+    pub icon_empty: Option<String>,
 }
 
 /// 渲染单个星星
-fn render_star(index: i32, current: f64, allow_half: bool, interactive: bool) -> Element {
+fn render_star(
+    index: i32,
+    current: f64,
+    allow_half: bool,
+    interactive: bool,
+    icon_full: &Option<String>,
+    icon_half: &Option<String>,
+    icon_empty: &Option<String>,
+) -> Element {
     let star_index = (index + 1) as f64;
+    let has_custom_icons = icon_full.is_some() || icon_half.is_some() || icon_empty.is_some();
 
     if allow_half && current >= star_index - 0.5 && current < star_index {
-        // 半星：current 在 [star_index - 0.5, star_index) 区间
-        rsx! {
-            span {
-                class: "ctrl-rate__star ctrl-rate__star--half",
-                "★"
-                span { class: "ctrl-rate__star-half", "★" }
+        // 半星
+        if has_custom_icons {
+            let half_src = icon_half
+                .clone()
+                .or_else(|| icon_full.clone())
+                .unwrap_or_default();
+            rsx! {
+                span { class: "ctrl-rate__star",
+                    img { src: "{half_src}", class: "ctrl-rate__star-img" }
+                }
+            }
+        } else {
+            rsx! {
+                span {
+                    class: "ctrl-rate__star ctrl-rate__star--half",
+                    "★"
+                    span { class: "ctrl-rate__star-half", "★" }
+                }
             }
         }
     } else if current >= star_index {
         // 全星
-        rsx! {
-            span {
-                class: "ctrl-rate__star ctrl-rate__star--active",
-                "★"
+        if let Some(ref icon) = icon_full {
+            rsx! {
+                span { class: "ctrl-rate__star",
+                    img { src: "{icon}", class: "ctrl-rate__star-img" }
+                }
+            }
+        } else {
+            rsx! {
+                span {
+                    class: "ctrl-rate__star ctrl-rate__star--active",
+                    "★"
+                }
             }
         }
     } else {
         // 空星
-        let star_class = if interactive {
-            "ctrl-rate__star"
+        if let Some(ref icon) = icon_empty {
+            let star_class = if interactive {
+                "ctrl-rate__star"
+            } else {
+                "ctrl-rate__star ctrl-rate__star--readonly"
+            };
+            rsx! {
+                span { class: "{star_class}",
+                    img { src: "{icon}", class: "ctrl-rate__star-img" }
+                }
+            }
         } else {
-            "ctrl-rate__star ctrl-rate__star--readonly"
-        };
-        rsx! {
-            span { class: "{star_class}", "★" }
+            let star_class = if interactive {
+                "ctrl-rate__star"
+            } else {
+                "ctrl-rate__star ctrl-rate__star--readonly"
+            };
+            rsx! {
+                span { class: "{star_class}", "★" }
+            }
         }
     }
 }
@@ -117,7 +171,15 @@ pub fn Rate(props: RateProps) -> Element {
                 {
                     let idx = i;
                     let display_val = if hover_value() > 0.0 { hover_value() } else { value() };
-                    let star = render_star(idx, display_val, props.allow_half, is_interactive);
+                    let star = render_star(
+                        idx,
+                        display_val,
+                        props.allow_half,
+                        is_interactive,
+                        &props.icon_full,
+                        &props.icon_half,
+                        &props.icon_empty,
+                    );
 
                     if is_interactive && props.allow_half {
                         // 半星模式：将每颗星分为左右两个热区，精确选中 0.5 或 1.0

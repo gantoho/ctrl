@@ -316,6 +316,48 @@ Provider 内监听 Signal 变化 ──→ 渲染对应的 UI 层
 
 ---
 
+## 常见问题与排查
+
+### "Unable to retrieve the hook that was initialized at this index" panic
+
+**现象**：在 Dioxus 0.7 中，路由页面（如 `/components/select` ↔ `/components/image`）切换时触发 panic：
+```
+panicked at dioxus-core-0.7.9/src/scope_context.rs:387:9:
+Unable to retrieve the hook that was initialized at this index.
+```
+
+**关键原因**：Dioxus 0.7 的虚拟 DOM diff 算法在比较两次渲染的 VNode 时，依据 **Template（模板）** 是否相同来决定走哪条路径：
+- `old.template == new.template` → **scope diff**（复用组件 scope，假设 hooks 数量/顺序不变）
+- `old.template != new.template` → **full template replacement**（销毁旧 scope + 创建新 scope）
+
+当 `match` 语句的不同分支**直接调用**不同组件函数（如 `select::SelectPage()` / `image::ImagePage()`），Dioxus 的 `#[component]` 宏可能为这些调用生成**相同的 VNode Template**。这导致切换页面时 diff 走 scope diff 路径，框架尝试在旧 scope（Select 的 hooks：`use_signal` ×4 + `use_effect` ×2 + `use_drop` 等）中运行新页面（Image 的 hooks：`use_signal` ×2 + `use_context` 等），hook 索引和类型完全不匹配，触发 `push_hook_value` 中的 panic。
+
+**修复方案**：在每个 `match` 分支中使用独立的 `rsx! {}` 调用，确保每个分支产生**唯一的 VNode Template**，强制 Dioxus 走 full template replacement 路径：
+
+```rust
+// ❌ 错误写法 — 不同分支可能共享同一 Template
+match name.as_str() {
+    "select" => select::SelectPage(),
+    "image" => image::ImagePage(),
+}
+
+// ✅ 正确写法 — 每个分支独立 rsx! {} 产生唯一 Template
+match name.as_str() {
+    "select" => rsx! { select::SelectPage {} },
+    "image" => rsx! { image::ImagePage {} },
+}
+```
+
+**原理总结**：`rsx! {}` 每次调用编译时生成独立的匿名模板类型。不同 `rsx!` 块之间 `template` 必然不同（`old.template != new.template`），diff 一开始就会走 replace 路径，彻底避免 scope 复用。
+
+**排查步骤**（遇到类似 panic 时）：
+1. 确认是否是页面/组件切换场景，新旧页面 hooks 数量或类型不同
+2. 检查路由分发组件中是否使用了 `match` / `if-else` 直接返回组件调用（而不是 `rsx! {}` 包裹）
+3. 如果使用了 `key` 属性仍无效，改用每个分支独立 `rsx! {}` 的方案
+4. 可通过 `cargo expand` 查看 `#[component]` 展开后的 VNode Template 类型确认
+
+---
+
 ## 浏览器兼容性
 
 基于 Dioxus 0.7 + WebAssembly 构建，支持所有现代浏览器。

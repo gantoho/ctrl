@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Shape;
 
 /// Skeleton 骨架屏组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -11,9 +12,9 @@ pub struct SkeletonProps {
     #[props(default = 3)]
     pub rows: usize,
 
-    /// 形状：default(小圆角) / circle(圆形) / round(大圆角)
-    #[props(default = "default".to_string())]
-    pub shape: String,
+    /// 形状
+    #[props(default = Shape::Default)]
+    pub shape: Shape,
 
     /// 重复次数（列表场景），>0 时忽略 rows，每个 item 使用 variant 样式
     #[props(default = 0)]
@@ -48,7 +49,7 @@ pub struct SkeletonProps {
 }
 
 /// 构建 CSS 类名字符串
-fn build_class(variant: &str, shape: &str, animated: bool, class: &str) -> String {
+fn build_class(variant: &str, shape: Shape, animated: bool, class: &str) -> String {
     let mut parts = Vec::new();
     parts.push("ctrl-skeleton".to_string());
     parts.push(format!("ctrl-skeleton--{}", variant));
@@ -56,8 +57,8 @@ fn build_class(variant: &str, shape: &str, animated: bool, class: &str) -> Strin
         parts.push("ctrl-skeleton--static".to_string());
     }
     match shape {
-        "circle" => parts.push("ctrl-skeleton--circle".to_string()),
-        "round" => parts.push("ctrl-skeleton--round".to_string()),
+        Shape::Circle => parts.push("ctrl-skeleton--circle".to_string()),
+        Shape::Rounded => parts.push("ctrl-skeleton--round".to_string()),
         _ => {}
     }
     if !class.is_empty() {
@@ -99,11 +100,12 @@ pub fn Skeleton(props: SkeletonProps) -> Element {
             div {
                 class: "ctrl-skeleton__wrapper",
                 style: if gap_style.is_empty() { "" } else { "{gap_style}" },
-                for _ in 0..props.count {
+                for i in 0..props.count {
                     {
-                        let cls = build_class(&props.variant, &props.shape, props.animated, &props.class);
+                        let cls = build_class(&props.variant, props.shape, props.animated, &props.class);
                         rsx! {
                             div {
+                                key: "{i}",
                                 class: "{cls}",
                                 style: if style_str.is_empty() { "" } else { "{style_str}" },
                             }
@@ -116,7 +118,7 @@ pub fn Skeleton(props: SkeletonProps) -> Element {
         // rows 模式：仅在 variant == "text" 时多行
         else if props.variant == "text" && props.rows > 1 {
             {
-                let cls = build_class("text", &props.shape, props.animated, &props.class);
+                let cls = build_class("text", props.shape, props.animated, &props.class);
                 rsx! {
                     div { class: "ctrl-skeleton__wrapper",
                         for i in 0..props.rows {
@@ -140,7 +142,7 @@ pub fn Skeleton(props: SkeletonProps) -> Element {
         // 单一项
         else {
             {
-                let cls = build_class(&props.variant, &props.shape, props.animated, &props.class);
+                let cls = build_class(&props.variant, props.shape, props.animated, &props.class);
                 rsx! {
                     div {
                         class: "{cls}",
@@ -191,12 +193,12 @@ pub fn SkeletonCard(props: SkeletonCardProps) -> Element {
     }
 
     let wrapper_style = if props.width.is_empty() { String::new() } else { format!("width:{}", props.width) };
-    let cls = build_class("image", "round", props.animated, "");
-    let title_cls = build_class("title", "default", props.animated, "");
+    let cls = build_class("image", Shape::Rounded, props.animated, "");
+    let title_cls = build_class("title", Shape::Default, props.animated, "");
 
     rsx! {
         {
-            let text_cls = build_class("text", "default", props.animated, "");
+            let text_cls = build_class("text", Shape::Default, props.animated, "");
             rsx! {
                 div {
                     class: "ctrl-skeleton__card",
@@ -262,13 +264,13 @@ pub fn SkeletonList(props: SkeletonListProps) -> Element {
         return rsx! { {props.children} };
     }
 
-    let avatar_cls = build_class("avatar", "circle", props.animated, "");
-    let text_cls = build_class("text", "default", props.animated, "");
+    let avatar_cls = build_class("avatar", Shape::Circle, props.animated, "");
+    let text_cls = build_class("text", Shape::Default, props.animated, "");
 
     rsx! {
         div { class: "ctrl-skeleton__list",
-            for _ in 0..props.count {
-                div { class: "ctrl-skeleton__list-item",
+            for i in 0..props.count {
+                div { key: "{i}", class: "ctrl-skeleton__list-item",
                     if props.avatar {
                         div {
                             class: "{avatar_cls}",
@@ -324,8 +326,8 @@ pub fn SkeletonRow(props: SkeletonRowProps) -> Element {
         return rsx! { {props.children} };
     }
 
-    let avatar_cls = build_class("avatar", "circle", props.animated, "");
-    let text_cls = build_class("text", "default", props.animated, "");
+    let avatar_cls = build_class("avatar", Shape::Circle, props.animated, "");
+    let text_cls = build_class("text", Shape::Default, props.animated, "");
 
     rsx! {
         div {

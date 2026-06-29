@@ -15,7 +15,9 @@
 
 /* 菜单列表 */
 .ctrl-dropdown__menu {
-    position: fixed;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
     visibility: hidden;
     min-width: 160px;
     background: var(--ctrl-bg);

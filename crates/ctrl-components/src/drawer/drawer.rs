@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Placement;
 
 /// Drawer 抽屉组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -11,9 +12,9 @@ pub struct DrawerProps {
     #[props(default = "".to_string())]
     pub title: String,
 
-    /// 显示位置：left / right / top / bottom
-    #[props(default = "right".to_string())]
-    pub placement: String,
+    /// 显示位置
+    #[props(default = Placement::Right)]
+    pub placement: Placement,
 
     /// 宽度或高度（根据 placement）
     #[props(default = "380px".to_string())]
@@ -46,19 +47,20 @@ pub fn Drawer(props: DrawerProps) -> Element {
     }
 
     let onclose = props.onclose.clone();
-    let placement = props.placement.clone();
+    let placement = props.placement;
     let dim = props.size.clone();
 
-    let panel_style = match placement.as_str() {
-        "left" | "right" => format!("width:{}", dim),
-        "top" | "bottom" => format!("height:{}", dim),
+    let panel_style = match placement {
+        Placement::Left | Placement::Right => format!("width:{}", dim),
+        Placement::Top | Placement::Bottom => format!("height:{}", dim),
         _ => format!("width:{}", dim),
     };
 
+    let placement_str = placement.to_string();
     let panel_class = if props.class.is_empty() {
-        format!("ctrl-drawer ctrl-drawer--{} ctrl-drawer--open", placement)
+        format!("ctrl-drawer ctrl-drawer--{} ctrl-drawer--open", placement_str)
     } else {
-        format!("ctrl-drawer ctrl-drawer--{} ctrl-drawer--open {}", placement, props.class)
+        format!("ctrl-drawer ctrl-drawer--{} ctrl-drawer--open {}", placement_str, props.class)
     };
 
     rsx! {

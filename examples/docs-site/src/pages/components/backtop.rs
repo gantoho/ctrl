@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
 use ctrl::prelude::*;
+use ctrl::types::ScrollBehavior;
 
 use crate::components::demobox::DemoBox;
 use crate::pages::components::shared::PropsTable;
@@ -56,15 +57,15 @@ div { id: "backtop", style: "margin-top: 64px;",
                     }
                     // 各位置的真实 Backtop 实例
                     Backtop { class: "demo-bt-default".to_string() }
-                    Backtop { class: "demo-bt-expo".to_string(), easing: "easeOutExpo".to_string(), duration: 500, visibility_height: 300 }
-                    Backtop { class: "demo-bt-back".to_string(), easing: "easeOutBack".to_string(), duration: 500, visibility_height: 300 }
-                    Backtop { class: "demo-bt-elastic".to_string(), easing: "easeOutElastic".to_string(), duration: 600, visibility_height: 300 }
+                    Backtop { class: "demo-bt-expo".to_string(), easing: Easing::EaseOutExpo, duration: 500, visibility_height: 300 }
+                    Backtop { class: "demo-bt-back".to_string(), easing: Easing::EaseOutBack, duration: 500, visibility_height: 300 }
+                    Backtop { class: "demo-bt-elastic".to_string(), easing: Easing::EaseOutElastic, duration: 600, visibility_height: 300 }
                     Backtop { class: "demo-bt-damping".to_string(), damping: true, visibility_height: 300 }
-                    Backtop { class: "demo-bt-auto".to_string(), behavior: "auto".to_string(), visibility_height: 300 }
+                    Backtop { class: "demo-bt-auto".to_string(), behavior: ScrollBehavior::Auto, visibility_height: 300 }
                     Backtop { class: "demo-bt-fast".to_string(), duration: 200, visibility_height: 300 }
                     Backtop { class: "demo-bt-slow".to_string(), duration: 800, visibility_height: 300 }
                     Backtop { class: "demo-bt-red".to_string(), visibility_height: 300 }
-                    Backtop { class: "demo-bt-bottom".to_string(), target_position: "bottom".to_string(), visibility_height: 100 }
+                    Backtop { class: "demo-bt-bottom".to_string(), target_position: Placement::Bottom, visibility_height: 100 }
                 },
                 code: "Backtop {}                                              // 默认 easeOutCubic 400ms\nBacktop { easing: \"easeOutExpo\".to_string(), duration: 500 }     // 指数减速\nBacktop { easing: \"easeOutBack\".to_string(), duration: 500 }     // 回弹感\nBacktop { easing: \"easeOutElastic\".to_string(), duration: 600 }  // 弹性震荡\nBacktop { damping: true }                                         // 弹簧阻尼\nBacktop { behavior: \"auto\".to_string() }                          // 瞬间跳转\nBacktop { duration: 200 }                                          // 快速\nBacktop { duration: 800 }                                          // 舒缓\nBacktop { class: \"my-backtop\".to_string() }                       // 自定义样式\nBacktop { target_position: \"bottom\".to_string() }                 // 回到底部".to_string(),
             }

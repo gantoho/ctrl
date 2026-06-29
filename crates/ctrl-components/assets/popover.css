@@ -11,9 +11,11 @@
     cursor: pointer;
 }
 
-/* 气泡卡片 —— position:fixed 由 JS 动态设置，避免被祖先 overflow:hidden 裁切 */
+/* 气泡卡片 —— position:absolute 由 CSS 定位 */
 .ctrl-popover__card {
-    position: fixed;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
     z-index: 1001;
     min-width: 160px;
     max-width: 360px;
@@ -25,6 +27,7 @@
     font-size: var(--ctrl-font-size-md);
     color: var(--ctrl-text);
     line-height: 1.6;
+    visibility: hidden;
 }
 
 /* 标题 */

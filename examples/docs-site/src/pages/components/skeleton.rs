@@ -22,11 +22,11 @@ div { id: "skeleton", style: "margin-top: 64px;",
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "default" }
                         }
                         div { style: "display: flex; flex-direction: column; align-items: center; gap: 8px;",
-                            Skeleton { variant: "rect".to_string(), shape: "round".to_string(), width: "64px".to_string(), height: "64px".to_string() }
+                            Skeleton { variant: "rect".to_string(), shape: Shape::Rounded, width: "64px".to_string(), height: "64px".to_string() }
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "round" }
                         }
                         div { style: "display: flex; flex-direction: column; align-items: center; gap: 8px;",
-                            Skeleton { variant: "rect".to_string(), shape: "circle".to_string(), width: "64px".to_string(), height: "64px".to_string() }
+                            Skeleton { variant: "rect".to_string(), shape: Shape::Circle, width: "64px".to_string(), height: "64px".to_string() }
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "circle" }
                         }
                     }
@@ -55,7 +55,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             DemoBox { title: "圆形头像组".to_string(), description: None,
                 demo: rsx! {
                     div { style: "display: flex; gap: 12px;",
-                        Skeleton { variant: "avatar".to_string(), shape: "circle".to_string(), width: "40px".to_string(), height: "40px".to_string(), count: 3 }
+                        Skeleton { variant: "avatar".to_string(), shape: Shape::Circle, width: "40px".to_string(), height: "40px".to_string(), count: 3 }
                     }
                 },
                 code: "Skeleton { variant: \"avatar\", shape: \"circle\", width: \"40px\", height: \"40px\", count: 3 }".to_string(),

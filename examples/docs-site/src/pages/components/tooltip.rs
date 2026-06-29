@@ -21,16 +21,16 @@ div { id: "tooltip", style: "margin-top: 64px;",
                 description: Some("通过 placement 控制气泡弹出方向。".to_string()),
                 demo: rsx! {
                     div { style: "display: flex; gap: 16px; flex-wrap: wrap;",
-                        Tooltip { content: "这是一段提示文字".to_string(), placement: "top".to_string(),
+                        Tooltip { content: "这是一段提示文字".to_string(), placement: Placement::Top,
                             Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                         }
-                        Tooltip { content: "底部弹出的提示".to_string(), placement: "bottom".to_string(),
+                        Tooltip { content: "底部弹出的提示".to_string(), placement: Placement::Bottom,
                             Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
                         }
-                        Tooltip { content: "左侧提示".to_string(), placement: "left".to_string(),
+                        Tooltip { content: "左侧提示".to_string(), placement: Placement::Left,
                             Button { variant: Variant::Outline, size: Size::Sm, "Left" }
                         }
-                        Tooltip { content: "右侧提示".to_string(), placement: "right".to_string(),
+                        Tooltip { content: "右侧提示".to_string(), placement: Placement::Right,
                             Button { variant: Variant::Outline, size: Size::Sm, "Right" }
                         }
                     }

@@ -1,8 +1,8 @@
 use dioxus::prelude::*;
-use ctrl_core::types::Size;
+use ctrl_core::types::{Size, Shape};
 
 /// 构建 Avatar class 列表
-fn build_avatar_class(size: Size, shape: &str, class: &str) -> String {
+fn build_avatar_class(size: Size, shape: Shape, class: &str) -> String {
     let mut classes = vec!["ctrl-avatar".to_string()];
 
     match size {
@@ -12,7 +12,7 @@ fn build_avatar_class(size: Size, shape: &str, class: &str) -> String {
         _ => {}
     }
 
-    if shape == "square" {
+    if shape == Shape::Square {
         classes.push("ctrl-avatar--square".into());
     }
 
@@ -38,9 +38,9 @@ pub struct AvatarProps {
     #[props(default = Size::default())]
     pub size: Size,
 
-    /// 形状："circle"（默认）或 "square"
-    #[props(default = "circle".to_string())]
-    pub shape: String,
+    /// 头像形状
+    #[props(default = Shape::Circle)]
+    pub shape: Shape,
 
     /// 自定义类名
     #[props(default = "".to_string())]
@@ -58,7 +58,7 @@ pub struct AvatarProps {
 #[allow(non_snake_case)]
 pub fn Avatar(props: AvatarProps) -> Element {
     const CSS: &str = include_str!("../../assets/avatar.css");
-    let avatar_class = build_avatar_class(props.size, &props.shape, &props.class);
+    let avatar_class = build_avatar_class(props.size, props.shape, &props.class);
     let style = if props.style.is_empty() {
         String::new()
     } else {

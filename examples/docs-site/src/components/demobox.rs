@@ -16,7 +16,7 @@ pub fn DemoBox(
 
     rsx! {
         div {
-            style: "margin-bottom: 32px; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-lg); overflow: hidden;",
+            style: "margin-bottom: 32px; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-lg);",
 
             div { style: "padding: 16px 20px; border-bottom: 1px solid var(--ctrl-border);",
                 h3 { style: "font-size: 1rem; font-weight: 600; color: var(--ctrl-text); margin-bottom: 4px;", "{title}" }

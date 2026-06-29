@@ -29,7 +29,7 @@ div { id: "space", style: "margin-top: 64px;",
                 title: "垂直间距".to_string(),
                 description: Some("设置 direction 为 vertical。".to_string()),
                 demo: rsx! {
-                    Space { direction: "vertical".to_string(),
+                    Space { direction: Direction::Vertical,
                         Button { variant: Variant::Primary, block: true, "按钮 1" }
                         Button { variant: Variant::Outline, block: true, "按钮 2" }
                         Button { variant: Variant::Ghost, block: true, "按钮 3" }

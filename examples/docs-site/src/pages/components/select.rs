@@ -8,6 +8,10 @@ use super::_demos::*;
 #[component]
 #[allow(non_snake_case)]
 pub fn SelectPage() -> Element {
+    let sm_val = use_signal(|| String::new());
+    let md_val = use_signal(|| String::new());
+    let lg_val = use_signal(|| String::new());
+    let mut disabled_val = use_signal(|| String::new());
     rsx! {
 div { id: "select", style: "margin-top: 64px;",
             h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
@@ -29,12 +33,21 @@ div { id: "select", style: "margin-top: 64px;",
                 description: Some("Sm / Md / Lg".to_string()),
                 demo: rsx! {
                     div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 240px;",
-                        Select { size: Size::Sm, options: vec![("1".to_string(), "小".to_string(), false)], placeholder: "Small".to_string() }
-                        Select { size: Size::Md, options: vec![("1".to_string(), "中".to_string(), false)], placeholder: "Medium".to_string() }
-                        Select { size: Size::Lg, options: vec![("1".to_string(), "大".to_string(), false)], placeholder: "Large".to_string() }
+                        {
+                            let mut val = sm_val;
+                            rsx! { Select { size: Size::Sm, options: vec![("1".to_string(), "小".to_string(), false)], placeholder: "Small".to_string(), value: sm_val(), onchange: move |v| val.set(v) } }
+                        }
+                        {
+                            let mut val = md_val;
+                            rsx! { Select { size: Size::Md, options: vec![("1".to_string(), "中".to_string(), false)], placeholder: "Medium".to_string(), value: md_val(), onchange: move |v| val.set(v) } }
+                        }
+                        {
+                            let mut val = lg_val;
+                            rsx! { Select { size: Size::Lg, options: vec![("1".to_string(), "大".to_string(), false)], placeholder: "Large".to_string(), value: lg_val(), onchange: move |v| val.set(v) } }
+                        }
                     }
                 },
-                code: "Select { size: Size::Sm, options, placeholder: \"Small\" }\nSelect { size: Size::Md, options, placeholder: \"Medium\" }\nSelect { size: Size::Lg, options, placeholder: \"Large\" }".to_string(),
+                code: "Select { size: Size::Sm, options, placeholder: \"Small\", value: val(), onchange: move |v| val.set(v) }\nSelect { size: Size::Md, options, placeholder: \"Medium\", value: val(), onchange: move |v| val.set(v) }\nSelect { size: Size::Lg, options, placeholder: \"Large\", value: val(), onchange: move |v| val.set(v) }".to_string(),
             }
 
             DemoBox {
@@ -46,10 +59,12 @@ div { id: "select", style: "margin-top: 64px;",
                             disabled: true,
                             placeholder: "整个禁用".to_string(),
                             options: vec![("1".to_string(), "选项".to_string(), false)],
+                            value: disabled_val(),
+                            onchange: move |v| disabled_val.set(v),
                         }
                     }
                 },
-                code: "Select { disabled: true, options, placeholder: \"整个禁用\" }".to_string(),
+                code: "Select { disabled: true, options, placeholder: \"整个禁用\", value: val(), onchange: move |v| val.set(v) }".to_string(),
             }
 
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Select Props" }

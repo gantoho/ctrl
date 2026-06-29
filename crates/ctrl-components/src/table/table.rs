@@ -6,10 +6,8 @@ pub struct TableColumn {
     /// 列标题
     pub title: String,
     /// 列宽
-    #[allow(dead_code)]
     pub width: Option<String>,
     /// 对齐方式
-    #[allow(dead_code)]
     pub align: Option<String>,
 }
 
@@ -73,9 +71,20 @@ pub fn Table(props: TableProps) -> Element {
                     tr {
                         {
                             cols.iter().map(|col| {
+                                let col_style = {
+                                    let mut styles = Vec::new();
+                                    if let Some(ref w) = col.width {
+                                        styles.push(format!("width:{}", w));
+                                    }
+                                    if let Some(ref a) = col.align {
+                                        styles.push(format!("text-align:{}", a));
+                                    }
+                                    styles.join(";")
+                                };
                                 rsx! {
                                     th {
                                         class: "ctrl-table__th",
+                                        style: if col_style.is_empty() { "" } else { "{col_style}" },
                                         "{col.title}"
                                     }
                                 }
@@ -93,15 +102,27 @@ pub fn Table(props: TableProps) -> Element {
                             let tr_class = tr_classes.join(" ");
 
                             let row_data = row.iter().take(columns_count).cloned().collect::<Vec<_>>();
+                            let cols_for_cells = cols.clone();
                             rsx! {
                                 tr {
                                     key: "{row_idx}",
                                     class: "{tr_class}",
                                     {
-                                        row_data.into_iter().map(|cell| {
+                                        cols_for_cells.iter().zip(row_data.into_iter()).map(|(col, cell)| {
+                                            let cell_style = {
+                                                let mut styles = Vec::new();
+                                                if let Some(ref w) = col.width {
+                                                    styles.push(format!("width:{}", w));
+                                                }
+                                                if let Some(ref a) = col.align {
+                                                    styles.push(format!("text-align:{}", a));
+                                                }
+                                                styles.join(";")
+                                            };
                                             rsx! {
                                                 td {
                                                     class: "ctrl-table__td",
+                                                    style: if cell_style.is_empty() { "" } else { "{cell_style}" },
                                                     "{cell}"
                                                 }
                                             }

@@ -68,20 +68,18 @@
     transform: rotate(180deg);
 }
 
-/* 下拉面板 */
+/* 下拉面板 —— position:absolute 由 CSS 定位，仅 visibility 由 JS 控制 */
 .ctrl-select__dropdown {
     position: absolute;
     top: calc(100% + 4px);
     left: 0;
     right: 0;
-    z-index: 100;
+    visibility: hidden;
     background: var(--ctrl-bg, #fff);
     border: 1px solid var(--ctrl-border, #d9d9d9);
     border-radius: var(--ctrl-radius-md, 6px);
     box-shadow: var(--ctrl-shadow-md, 0 4px 12px rgba(0,0,0,0.1));
-    overflow: hidden;
-    max-height: 240px;
-    overflow-y: auto;
+    min-width: 160px;
 }
 
 /* 选项 */

@@ -39,13 +39,25 @@ pub fn NotificationDocs() -> Element {
 #[component]
 #[allow(non_snake_case)]
 pub fn DropdownDocs() -> Element {
+    let mut selected = use_signal(|| String::new());
     rsx! {
-        Dropdown {
-            trigger: rsx! { Button { variant: Variant::Primary, size: Size::Sm, "打开菜单" } },
-            DropdownItem { "选项一" }
-            DropdownItem { "选项二" }
-            DropdownDivider {}
-            DropdownItem { disabled: true, "禁用项" }
+        div {
+            Dropdown {
+                trigger: rsx! { Button { variant: Variant::Primary, size: Size::Sm, "打开菜单" } },
+                DropdownItem {
+                    onclick: move |_| selected.set("选项一".to_string()),
+                    "选项一"
+                }
+                DropdownItem {
+                    onclick: move |_| selected.set("选项二".to_string()),
+                    "选项二"
+                }
+                DropdownDivider {}
+                DropdownItem { disabled: true, "禁用项" }
+            }
+            if !selected().is_empty() {
+                p { style: "margin-top: 8px; font-size: 14px; color: var(--ctrl-text-secondary);", "已选：{selected}" }
+            }
         }
     }
 }
@@ -238,7 +250,7 @@ pub fn MessageTriggerDocsDemo() -> Element {
     type MsgItem = (u32, MessageType, String, bool); // id, type, content, closing
 
     let mut messages = use_signal(|| Vec::<MsgItem>::new());
-    let mut next_id = use_signal(|| 0u32);
+    let next_id = use_signal(|| 0u32);
 
     rsx! {
         MessageContainer {
@@ -409,16 +421,30 @@ pub fn FormValidationDemo() -> Element {
     let mut password = use_signal(|| String::new());
     let mut confirm = use_signal(|| String::new());
     let mut submitted = use_signal(|| false);
+    let mut errors = use_signal(|| Vec::new());
 
     rsx! {
         div { style: "max-width: 400px;",
             Form {
                 onsubmit: move |_data: Rc<FormData>| {
-                    submitted.set(true);
+                    // 手动校验
+                    let mut errs = Vec::new();
+                    if username().trim().is_empty() { errs.push("用户名不能为空".to_string()); }
+                    if email().trim().is_empty() { errs.push("邮箱不能为空".to_string()); }
+                    if password().trim().is_empty() { errs.push("密码不能为空".to_string()); }
+                    if password() != confirm() { errs.push("两次密码输入不一致".to_string()); }
+                    if errs.is_empty() {
+                        submitted.set(true);
+                        errors.set(Vec::new());
+                    } else {
+                        errors.set(errs);
+                    }
                 },
                 FormItem {
                     label: "用户名".to_string(),
                     required: true,
+                    name: "username".to_string(),
+                    value: username(),
                     Input {
                         placeholder: "请输入用户名",
                         value: username(),
@@ -428,6 +454,8 @@ pub fn FormValidationDemo() -> Element {
                 FormItem {
                     label: "邮箱".to_string(),
                     required: true,
+                    name: "email".to_string(),
+                    value: email(),
                     Input {
                         placeholder: "请输入邮箱",
                         value: email(),
@@ -437,6 +465,8 @@ pub fn FormValidationDemo() -> Element {
                 FormItem {
                     label: "密码".to_string(),
                     required: true,
+                    name: "password".to_string(),
+                    value: password(),
                     Input {
                         r#type: "password",
                         placeholder: "请输入密码",
@@ -447,11 +477,21 @@ pub fn FormValidationDemo() -> Element {
                 FormItem {
                     label: "确认密码".to_string(),
                     required: true,
+                    name: "confirm".to_string(),
+                    value: confirm(),
                     Input {
                         r#type: "password",
                         placeholder: "请再次输入密码",
                         value: confirm(),
                         oninput: move |v: String| { confirm.set(v); submitted.set(false); },
+                    }
+                }
+                if !errors().is_empty() {
+                    div {
+                        style: "margin-bottom: 12px; padding: 8px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 13px; color: #dc2626;",
+                        for err in errors() {
+                            div { key: "{err}", "{err}" }
+                        }
                     }
                 }
                 FormItem {
@@ -461,7 +501,7 @@ pub fn FormValidationDemo() -> Element {
             if submitted() {
                 div {
                     style: "margin-top: 16px; padding: 12px; background: var(--ctrl-primary-light, #e8f4fd); border-radius: 6px; font-size: 14px; color: var(--ctrl-primary, #1a73e8);",
-                    "提交成功！"
+                    "提交成功！用户名: {username()}，邮箱: {email()}"
                 }
             }
         }

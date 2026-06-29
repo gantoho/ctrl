@@ -3,11 +3,13 @@
    ═══════════════════════════════════════════════════ */
 
 .ctrl-tooltip {
+    position: relative;
     display: inline-flex;
 }
 
-/* 气泡本体（position 由 JS 动态计算为 fixed） */
+/* 气泡本体 */
 .ctrl-tooltip__popper {
+    position: absolute;
     z-index: 1000;
     padding: var(--ctrl-spacing-xs) var(--ctrl-spacing-sm);
     font-size: var(--ctrl-font-size-sm);
@@ -19,4 +21,36 @@
     pointer-events: none;
     line-height: 1.5;
     box-shadow: var(--ctrl-shadow-sm);
+}
+
+/* 位置：上 */
+.ctrl-tooltip__popper--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+}
+
+/* 位置：下 */
+.ctrl-tooltip__popper--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+}
+
+/* 位置：左 */
+.ctrl-tooltip__popper--left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
+}
+
+/* 位置：右 */
+.ctrl-tooltip__popper--right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
 }

@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Direction;
 
 /// Space 间距组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -7,9 +8,9 @@ pub struct SpaceProps {
     #[props(default = "md".to_string())]
     pub gap: String,
 
-    /// 排列方向：horizontal / vertical
-    #[props(default = "horizontal".to_string())]
-    pub direction: String,
+    /// 排列方向
+    #[props(default = Direction::Horizontal)]
+    pub direction: Direction,
 
     /// 对齐方式：start / center / end / baseline
     #[props(default = "center".to_string())]
@@ -65,7 +66,7 @@ pub fn Space(props: SpaceProps) -> Element {
         if props.block {
             c.push_str(" ctrl-space--block");
         }
-        if props.direction == "vertical" {
+        if props.direction == Direction::Vertical {
             c.push_str(" ctrl-space--vertical");
         } else {
             c.push_str(" ctrl-space--horizontal");

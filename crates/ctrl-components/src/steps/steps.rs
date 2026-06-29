@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Direction;
 
 /// Steps 步骤条组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -7,9 +8,9 @@ pub struct StepsProps {
     #[props(default = -1)]
     pub current: i32,
 
-    /// 排列方向：horizontal / vertical
-    #[props(default = "horizontal".to_string())]
-    pub direction: String,
+    /// 排列方向
+    #[props(default = Direction::Horizontal)]
+    pub direction: Direction,
 
     /// 自定义类名
     #[props(default = "".to_string())]
@@ -40,7 +41,7 @@ pub struct StepProps {
 pub fn Steps(props: StepsProps) -> Element {
     const CSS: &str = include_str!("../../assets/steps.css");
 
-    let dir_class = if props.direction == "vertical" {
+    let dir_class = if props.direction == Direction::Vertical {
         "ctrl-steps--vertical"
     } else {
         ""

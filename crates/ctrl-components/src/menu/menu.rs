@@ -1,11 +1,12 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Direction;
 
 /// Menu 导航菜单组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct MenuProps {
-    /// 菜单方向：vertical / horizontal
-    #[props(default = "vertical".to_string())]
-    pub direction: String,
+    /// 菜单方向
+    #[props(default = Direction::Vertical)]
+    pub direction: Direction,
 
     /// 当前激活项 key
     #[props(default = "".to_string())]
@@ -52,7 +53,7 @@ pub struct MenuItemProps {
 pub fn Menu(props: MenuProps) -> Element {
     const CSS: &str = include_str!("../../assets/menu.css");
 
-    let dir_class = if props.direction == "horizontal" {
+    let dir_class = if props.direction == Direction::Horizontal {
         "ctrl-menu--horizontal"
     } else {
         ""

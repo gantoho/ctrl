@@ -89,6 +89,7 @@ pub struct TabNavProps {
 /// TabNav 标签导航栏
 #[allow(non_snake_case)]
 pub fn TabNav(props: TabNavProps) -> Element {
+    const CSS: &str = include_str!("../../assets/tabs.css");
     let nav_class = if props.class.is_empty() {
         "ctrl-tabs__nav".to_string()
     } else {
@@ -100,6 +101,7 @@ pub fn TabNav(props: TabNavProps) -> Element {
     let onchange = props.onchange.clone();
 
     rsx! {
+        style { {CSS} }
         div {
             class: "{nav_class}",
             for (key, title, disabled) in items.iter() {
@@ -139,7 +141,9 @@ pub struct TabContentProps {
 
 #[allow(non_snake_case)]
 pub fn TabContent(props: TabContentProps) -> Element {
+    const CSS: &str = include_str!("../../assets/tabs.css");
     rsx! {
+        style { {CSS} }
         div {
             class: "ctrl-tabs__content",
             {props.children}

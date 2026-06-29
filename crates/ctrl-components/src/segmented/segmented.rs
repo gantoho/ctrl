@@ -69,6 +69,8 @@ pub fn Segmented(props: SegmentedProps) -> Element {
         c
     };
 
+    let onchange = props.onchange.clone();
+
     rsx! {
         style { {CSS} }
         div {
@@ -86,7 +88,7 @@ pub fn Segmented(props: SegmentedProps) -> Element {
                     } else {
                         "ctrl-segmented__item".to_string()
                     };
-                    let onchange = props.onchange.clone();
+                    let onchange = onchange.clone();
                     let disabled = props.disabled;
 
                     rsx! {

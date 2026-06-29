@@ -24,7 +24,7 @@ div { id: "form", style: "margin-top: 64px;",
                 title: "水平布局".to_string(),
                 description: Some("设置 layout 为 horizontal，标签在左侧。".to_string()),
                 demo: rsx! {
-                    Form { layout: "horizontal".to_string(),
+                    Form { layout: Layout::Horizontal,
                         FormItem { label: "姓名".to_string(), required: true, Input { placeholder: "请输入姓名" } }
                         FormItem { label: "邮箱".to_string(), required: true, Input { placeholder: "请输入邮箱" } }
                         FormItem { label: "备注".to_string(), Input { placeholder: "选填" } }

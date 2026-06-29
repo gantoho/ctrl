@@ -45,9 +45,9 @@ div { id: "divider", style: "margin-top: 64px;",
                 demo: rsx! {
                     div { style: "display: flex; align-items: center; gap: 8px;",
                         span { "链接" }
-                        Divider { direction: "vertical".to_string() }
+                        Divider { direction: Direction::Vertical }
                         span { "菜单" }
-                        Divider { direction: "vertical".to_string() }
+                        Divider { direction: Direction::Vertical }
                         span { "设置" }
                     }
                 },

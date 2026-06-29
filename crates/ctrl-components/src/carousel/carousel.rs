@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Effect;
 use std::cell::Cell;
 use std::rc::Rc;
 
@@ -13,6 +14,10 @@ pub struct CarouselProps {
     #[props(default = 3000)]
     pub interval: u64,
 
+    /// 是否循环播放
+    #[props(default = true)]
+    pub loop_play: bool,
+
     /// 是否显示箭头
     #[props(default = true)]
     pub arrows: bool,
@@ -21,13 +26,17 @@ pub struct CarouselProps {
     #[props(default = true)]
     pub dots: bool,
 
-    /// 过渡效果："slide" | "fade"
-    #[props(default = "slide".to_string())]
-    pub effect: String,
+    /// 过渡效果
+    #[props(default = Effect::default())]
+    pub effect: Effect,
 
     /// 容器高度（如 "300px"）
     #[props(default = "300px".to_string())]
     pub height: String,
+
+    /// 幻灯片总数
+    #[props(default = 1)]
+    pub total: usize,
 
     /// 自定义类名
     #[props(default = "".to_string())]
@@ -46,10 +55,12 @@ pub struct CarouselProps {
 pub fn Carousel(props: CarouselProps) -> Element {
     const CSS: &str = include_str!("../../assets/carousel.css");
     let active_index = use_signal(|| 0usize);
+    let total = props.total.max(1);
+    let loop_play = props.loop_play;
 
     let carousel_class = {
         let mut c = String::from("ctrl-carousel");
-        if props.effect == "fade" {
+        if props.effect == Effect::Fade {
             c.push_str(" ctrl-carousel--fade");
         }
         if !props.class.is_empty() {
@@ -61,33 +72,35 @@ pub fn Carousel(props: CarouselProps) -> Element {
 
     // 自动播放（带取消机制）
     if props.autoplay {
-        let index = active_index.clone();
+        let mut index = active_index.clone();
         let interval = props.interval;
+        let total = total;
+        let loop_play = loop_play;
         let cancelled = Rc::new(Cell::new(false));
         let cancelled_clone = cancelled.clone();
 
-        let _ = use_resource(move || {
-            let mut index = index.clone();
+        use_effect(move || {
             let cancelled = cancelled_clone.clone();
-            let interval = interval;
-            async move {
-                #[cfg(target_arch = "wasm32")]
-                {
+            #[cfg(target_arch = "wasm32")]
+            {
+                wasm_bindgen_futures::spawn_local(async move {
                     loop {
-                        if cancelled.get() {
-                            break;
-                        }
+                        if cancelled.get() { break; }
                         gloo_timers::future::TimeoutFuture::new(interval as u32).await;
-                        if cancelled.get() {
-                            break;
-                        }
-                        index.set(index() + 1);
+                        if cancelled.get() { break; }
+                        let current = index();
+                        let next = if current + 1 >= total {
+                            if loop_play { 0 } else { current }
+                        } else {
+                            current + 1
+                        };
+                        index.set(next);
                     }
-                }
-                #[cfg(not(target_arch = "wasm32"))]
-                {
-                    let _ = (index, interval, cancelled);
-                }
+                });
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            {
+                let _ = (index, interval, total, loop_play, cancelled);
             }
         });
 
@@ -99,16 +112,31 @@ pub fn Carousel(props: CarouselProps) -> Element {
 
     let prev = {
         let mut index = active_index.clone();
+        let total = total;
+        let loop_play = loop_play;
         move |_| {
-            let new = if index() == 0 { 0 } else { index() - 1 };
+            let current = index();
+            let new = if current == 0 {
+                if loop_play { total - 1 } else { 0 }
+            } else {
+                current - 1
+            };
             index.set(new);
         }
     };
 
     let next = {
         let mut index = active_index.clone();
+        let total = total;
+        let loop_play = loop_play;
         move |_| {
-            index.set(index() + 1);
+            let current = index();
+            let new = if current + 1 >= total {
+                if loop_play { 0 } else { current }
+            } else {
+                current + 1
+            };
+            index.set(new);
         }
     };
 
@@ -120,10 +148,10 @@ pub fn Carousel(props: CarouselProps) -> Element {
     };
 
     // 渲染指示器
-    let dots_ui = if props.dots {
+    let dots_ui = if props.dots && total > 1 {
         rsx! {
             div { class: "ctrl-carousel__dots",
-                for (i, _) in (0..3).enumerate() {
+                for i in 0..total {
                     {
                         let i = i;
                         let dot_class = if i == active_index() {

@@ -5,6 +5,9 @@ pub mod direction;
 pub mod effect;
 pub mod shape;
 pub mod fit;
+pub mod easing;
+pub mod layout;
+pub mod scroll_behavior;
 
 pub use size::Size;
 pub use variant::Variant;
@@ -13,3 +16,6 @@ pub use direction::Direction;
 pub use effect::Effect;
 pub use shape::Shape;
 pub use fit::Fit;
+pub use easing::Easing;
+pub use layout::Layout;
+pub use scroll_behavior::ScrollBehavior;

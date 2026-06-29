@@ -1,11 +1,12 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Direction;
 
 /// Divider 分割线组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct DividerProps {
-    /// 分割线方向：horizontal / vertical
-    #[props(default = "horizontal".to_string())]
-    pub direction: String,
+    /// 分割线方向
+    #[props(default = Direction::Horizontal)]
+    pub direction: Direction,
 
     /// 分割线中间的文字（空字符串则为纯分割线）
     #[props(default = "".to_string())]
@@ -25,7 +26,7 @@ pub struct DividerProps {
 pub fn Divider(props: DividerProps) -> Element {
     const CSS: &str = include_str!("../../assets/divider.css");
     let has_text = !props.content.is_empty();
-    let is_vertical = props.direction == "vertical";
+    let is_vertical = props.direction == Direction::Vertical;
 
     let mut classes = vec!["ctrl-divider".to_string()];
 

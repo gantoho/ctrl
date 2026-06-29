@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::Placement;
 
 /// Tooltip 气泡提示组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -7,9 +8,9 @@ pub struct TooltipProps {
     #[props(default = "".to_string())]
     pub content: String,
 
-    /// 弹出位置："top" / "bottom" / "left" / "right"
-    #[props(default = "top".to_string())]
-    pub placement: String,
+    /// 弹出位置
+    #[props(default = Placement::Top)]
+    pub placement: Placement,
 
     /// 自定义类名
     #[props(default = "".to_string())]

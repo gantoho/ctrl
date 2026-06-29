@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
 use ctrl::prelude::*;
+use ctrl::types::ScrollBehavior;
 
 /// 所有组件 CSS 样式已由各自组件内嵌（include_str!），
 /// 用户无需手动加载任何样式文件即可使用所有组件。
@@ -171,23 +172,7 @@ fn App() -> Element {
                             SelectBasicDemo {}
                         }
                         DemoCard { title: "尺寸 & 禁用".to_string(),
-                            div { style: "display: flex; flex-direction: column; gap: 8px;",
-                                Select {
-                                    size: Size::Sm,
-                                    placeholder: "Small".to_string(),
-                                    options: vec![("s1".to_string(), "小选项 A".to_string(), false)],
-                                }
-                                Select {
-                                    size: Size::Md,
-                                    placeholder: "Medium".to_string(),
-                                    options: vec![("m1".to_string(), "中选项".to_string(), false)],
-                                }
-                                Select {
-                                    disabled: true,
-                                    placeholder: "Disabled".to_string(),
-                                    options: vec![("d1".to_string(), "禁用项".to_string(), false)],
-                                }
-                            }
+                            SelectSizeDisabledDemo {}
                         }
                     }
                 }
@@ -337,7 +322,7 @@ fn App() -> Element {
                         DemoCard { title: "形状".to_string(),
                             div { style: "display: flex; gap: 12px; align-items: center;",
                                 Avatar { size: Size::Lg, "圆" }
-                                Avatar { size: Size::Lg, shape: "square".to_string(), "方" }
+                                Avatar { size: Size::Lg, shape: Shape::Square, "方" }
                             }
                         }
                     }
@@ -368,16 +353,16 @@ fn App() -> Element {
                     Row {
                         DemoCard { title: "位置方向".to_string(),
                             div { style: "display: flex; gap: 16px; align-items: center; flex-wrap: wrap;",
-                                Tooltip { content: "顶部提示".to_string(), placement: "top".to_string(),
+                                Tooltip { content: "顶部提示".to_string(), placement: Placement::Top,
                                     Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                                 }
-                                Tooltip { content: "底部提示".to_string(), placement: "bottom".to_string(),
+                                Tooltip { content: "底部提示".to_string(), placement: Placement::Bottom,
                                     Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
                                 }
-                                Tooltip { content: "左侧提示".to_string(), placement: "left".to_string(),
+                                Tooltip { content: "左侧提示".to_string(), placement: Placement::Left,
                                     Button { variant: Variant::Outline, size: Size::Sm, "Left" }
                                 }
-                                Tooltip { content: "右侧提示".to_string(), placement: "right".to_string(),
+                                Tooltip { content: "右侧提示".to_string(), placement: Placement::Right,
                                     Button { variant: Variant::Outline, size: Size::Sm, "Right" }
                                 }
                             }
@@ -508,9 +493,9 @@ fn App() -> Element {
                         DemoCard { title: "垂直".to_string(),
                             div { style: "display: flex; align-items: center; gap: 8px;",
                                 span { "链接" }
-                                Divider { direction: "vertical".to_string() }
+                                Divider { direction: Direction::Vertical }
                                 span { "菜单" }
-                                Divider { direction: "vertical".to_string() }
+                                Divider { direction: Direction::Vertical }
                                 span { "设置" }
                             }
                         }
@@ -561,8 +546,8 @@ fn App() -> Element {
                         DemoCard { title: "形状控制".to_string(),
                             div { style: "display: flex; gap: 16px; align-items: flex-end;",
                                 Skeleton { variant: "rect".to_string(), width: "48px".to_string(), height: "48px".to_string() }
-                                Skeleton { variant: "rect".to_string(), shape: "round".to_string(), width: "48px".to_string(), height: "48px".to_string() }
-                                Skeleton { variant: "rect".to_string(), shape: "circle".to_string(), width: "48px".to_string(), height: "48px".to_string() }
+                                Skeleton { variant: "rect".to_string(), shape: Shape::Rounded, width: "48px".to_string(), height: "48px".to_string() }
+                                Skeleton { variant: "rect".to_string(), shape: Shape::Circle, width: "48px".to_string(), height: "48px".to_string() }
                             }
                         }
                         DemoCard { title: "文本多行 & 静止态".to_string(),
@@ -578,7 +563,7 @@ fn App() -> Element {
                         }
                         DemoCard { title: "圆形头像组".to_string(),
                             div { style: "display: flex; gap: 8px;",
-                                Skeleton { variant: "avatar".to_string(), shape: "circle".to_string(), count: 3, width: "40px".to_string(), height: "40px".to_string() }
+                                Skeleton { variant: "avatar".to_string(), shape: Shape::Circle, count: 3, width: "40px".to_string(), height: "40px".to_string() }
                             }
                         }
                     }
@@ -604,15 +589,15 @@ fn App() -> Element {
                             Backtop {}
                         }
                         DemoCard { title: "easeOutExpo".to_string(),
-                            Backtop { easing: "easeOutExpo".to_string(), duration: 500 }
+                            Backtop { easing: Easing::EaseOutExpo, duration: 500 }
                         }
                     }
                     Row {
                         DemoCard { title: "easeOutBack（回弹感）".to_string(),
-                            Backtop { easing: "easeOutBack".to_string(), duration: 500 }
+                            Backtop { easing: Easing::EaseOutBack, duration: 500 }
                         }
                         DemoCard { title: "easeOutElastic（弹性）".to_string(),
-                            Backtop { easing: "easeOutElastic".to_string(), duration: 600 }
+                            Backtop { easing: Easing::EaseOutElastic, duration: 600 }
                         }
                     }
                     Row {
@@ -620,12 +605,12 @@ fn App() -> Element {
                             Backtop { damping: true }
                         }
                         DemoCard { title: "瞬间（behavior: auto）".to_string(),
-                            Backtop { behavior: "auto".to_string() }
+                            Backtop { behavior: ScrollBehavior::Auto }
                         }
                     }
                     Row {
                         DemoCard { title: "回到底部".to_string(),
-                            Backtop { target_position: "bottom".to_string() }
+                            Backtop { target_position: Placement::Bottom }
                         }
                         {}
                     }
@@ -842,13 +827,25 @@ fn NotificationDemo() -> Element {
 // ── Dropdown 演示 ──
 #[component]
 fn DropdownDemo() -> Element {
+    let mut selected = use_signal(|| String::new());
     rsx! {
-        Dropdown {
-            trigger: rsx! { Button { variant: Variant::Primary, size: Size::Sm, "打开菜单" } },
-            DropdownItem { "选项一" }
-            DropdownItem { "选项二" }
-            DropdownDivider {}
-            DropdownItem { disabled: true, "禁用项" }
+        div {
+            Dropdown {
+                trigger: rsx! { Button { variant: Variant::Primary, size: Size::Sm, "打开菜单" } },
+                DropdownItem {
+                    onclick: move |_| selected.set("选项一".to_string()),
+                    "选项一"
+                }
+                DropdownItem {
+                    onclick: move |_| selected.set("选项二".to_string()),
+                    "选项二"
+                }
+                DropdownDivider {}
+                DropdownItem { disabled: true, "禁用项" }
+            }
+            if !selected().is_empty() {
+                p { style: "margin-top: 8px; font-size: 14px; color: var(--ctrl-text-secondary);", "已选：{selected}" }
+            }
         }
     }
 }
@@ -1072,6 +1069,38 @@ fn SelectBasicDemo() -> Element {
 }
 
 #[component]
+fn SelectSizeDisabledDemo() -> Element {
+    let mut sm_val = use_signal(|| String::new());
+    let mut md_val = use_signal(|| String::new());
+    let mut disabled_val = use_signal(|| String::new());
+    rsx! {
+        div { style: "display: flex; flex-direction: column; gap: 8px;",
+            Select {
+                size: Size::Sm,
+                placeholder: "Small".to_string(),
+                options: vec![("s1".to_string(), "小选项 A".to_string(), false)],
+                value: sm_val(),
+                onchange: move |v| sm_val.set(v),
+            }
+            Select {
+                size: Size::Md,
+                placeholder: "Medium".to_string(),
+                options: vec![("m1".to_string(), "中选项".to_string(), false)],
+                value: md_val(),
+                onchange: move |v| md_val.set(v),
+            }
+            Select {
+                disabled: true,
+                placeholder: "Disabled".to_string(),
+                options: vec![("d1".to_string(), "禁用项".to_string(), false)],
+                value: disabled_val(),
+                onchange: move |v| disabled_val.set(v),
+            }
+        }
+    }
+}
+
+#[component]
 fn DialogBasicDemo() -> Element {
     let mut visible = use_signal(|| false);
     rsx! {
@@ -1256,7 +1285,7 @@ fn MessageTriggerDemo() -> Element {
     type MsgItem = (u32, MessageType, String, bool); // id, type, content, closing
 
     let mut messages = use_signal(|| Vec::<MsgItem>::new());
-    let mut next_id = use_signal(|| 0u32);
+    let next_id = use_signal(|| 0u32);
 
     rsx! {
         MessageContainer {

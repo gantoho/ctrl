@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use ctrl_core::types::{Fit, Shape};
 
 // ═══════════════════════════════════════════════════════════
 // ImagePreviewAPI —— 全局图片预览触发器
@@ -163,13 +164,13 @@ pub struct ImageProps {
     #[props(default = "auto".to_string())]
     pub height: String,
 
-    /// 图片填充模式：cover / contain / fill / none
-    #[props(default = "cover".to_string())]
-    pub fit: String,
+    /// 图片填充模式
+    #[props(default = Fit::Cover)]
+    pub fit: Fit,
 
-    /// 形状：default / rounded / circle
-    #[props(default = "default".to_string())]
-    pub shape: String,
+    /// 形状
+    #[props(default = Shape::Default)]
+    pub shape: Shape,
 
     /// 是否可预览
     #[props(default = false)]
@@ -210,9 +211,9 @@ pub fn Image(props: ImageProps) -> Element {
 
     let image_class = {
         let mut c = String::from("ctrl-image");
-        match props.shape.as_str() {
-            "rounded" => c.push_str(" ctrl-image--rounded"),
-            "circle" => c.push_str(" ctrl-image--circle"),
+        match props.shape {
+            Shape::Rounded => c.push_str(" ctrl-image--rounded"),
+            Shape::Circle => c.push_str(" ctrl-image--circle"),
             _ => {}
         }
         if !props.class.is_empty() {
@@ -222,10 +223,10 @@ pub fn Image(props: ImageProps) -> Element {
         c
     };
 
-    let img_class = match props.fit.as_str() {
-        "contain" => "ctrl-image__img ctrl-image__img--contain",
-        "fill" => "ctrl-image__img ctrl-image__img--fill",
-        "none" => "ctrl-image__img ctrl-image__img--none",
+    let img_class = match props.fit {
+        Fit::Contain => "ctrl-image__img ctrl-image__img--contain",
+        Fit::Fill => "ctrl-image__img ctrl-image__img--fill",
+        Fit::None => "ctrl-image__img ctrl-image__img--none",
         _ => "ctrl-image__img",
     };
 

@@ -1,5 +1,7 @@
 .ctrl-date-picker {
+  position: relative;
   display: inline-block;
+  width: 240px;
 }
 
 .ctrl-date-picker__input {
@@ -13,7 +15,8 @@
   cursor: pointer;
   background: var(--ctrl-bg, #fff);
   transition: border-color 0.2s;
-  min-width: 200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ctrl-date-picker__input:hover {
@@ -37,7 +40,8 @@
 }
 
 .ctrl-date-picker__placeholder {
-  color: var(--ctrl-text-disabled, #bfbfbf);
+    flex: 1;
+    color: var(--ctrl-text-disabled, #bfbfbf);
 }
 
 .ctrl-date-picker__clear {
@@ -56,8 +60,11 @@
   font-size: var(--ctrl-font-size-md, 14px);
 }
 
-/* 面板 - 位置由 JS 动态计算（position: fixed 避免被 overflow:hidden 截断） */
+/* 面板 - absolute 定位，不占用文档流，不影响输入框宽度 */
 .ctrl-date-picker__panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
   z-index: 1000;
   background: var(--ctrl-bg, #fff);
   border: 1px solid var(--ctrl-border, #d9d9d9);
@@ -65,6 +72,8 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 12px;
   min-width: 280px;
+  width: max-content;
+  visibility: hidden;
 }
 
 .ctrl-date-picker__header {

@@ -15,7 +15,7 @@ div { id: "dropdown", style: "margin-top: 64px;",
                 demo: rsx! {
                     DropdownDocs {}
                 },
-                code: "Dropdown {\n    trigger: rsx! { Button { \"操作\" } },\n    DropdownItem { \"选项一\" }\n    DropdownDivider {}\n    DropdownItem { disabled: true, \"禁用项\" }\n}".to_string(),
+                code: "let mut selected = use_signal(|| String::new());\ndiv {\n    Dropdown {\n        trigger: rsx! { Button { \"打开菜单\" } },\n        DropdownItem {\n            onclick: move |_| selected.set(\"选项一\".to_string()),\n            \"选项一\"\n        }\n        DropdownItem {\n            onclick: move |_| selected.set(\"选项二\".to_string()),\n            \"选项二\"\n        }\n        DropdownDivider {}\n        DropdownItem { disabled: true, \"禁用项\" }\n    }\n    if !selected().is_empty() {\n        p { \"已选：{selected}\" }\n    }\n}".to_string(),
             }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("placement", "String", "\"bottom\"", "弹出位置（bottom / bottom-start / bottom-end / top / top-start / top-end）"),

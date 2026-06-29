@@ -71,7 +71,12 @@ fn App() -> Element {
 
     rsx! {
         ThemeProvider {
-            Router::<Route> {}
+            NotificationProvider {
+                placement: ctrl::prelude::NotificationPlacement::TopRight,
+                ImagePreviewProvider {
+                    Router::<Route> {}
+                }
+            }
         }
     }
 }

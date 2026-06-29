@@ -76,6 +76,7 @@ fn build_vars_block(theme: &Theme, palette: &super::colors::ColorPalette) -> Str
             --ctrl-font-size-sm: {font_size_sm};
             --ctrl-font-size-md: {font_size_md};
             --ctrl-font-size-lg: {font_size_lg};
+            --ctrl-font-size-xxl: {font_size_xxl};
             --ctrl-spacing-xs: {spacing_xs};
             --ctrl-spacing-sm: {spacing_sm};
             --ctrl-spacing-md: {spacing_md};
@@ -112,6 +113,7 @@ fn build_vars_block(theme: &Theme, palette: &super::colors::ColorPalette) -> Str
         font_size_sm = theme.font_size_sm,
         font_size_md = theme.font_size_md,
         font_size_lg = theme.font_size_lg,
+        font_size_xxl = theme.font_size_xxl,
         spacing_xs = theme.spacing_xs,
         spacing_sm = theme.spacing_sm,
         spacing_md = theme.spacing_md,

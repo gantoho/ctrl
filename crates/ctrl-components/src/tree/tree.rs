@@ -89,6 +89,7 @@ pub fn Tree(props: TreeProps) -> Element {
             style: "{props.style}",
             for node in &props.data {
                 TreeNodeView {
+                    key: "{node.node_key}",
                     node: node.clone(),
                     level: 0,
                     selected_key: props.selected_key.clone(),
@@ -235,6 +236,7 @@ fn TreeNodeView(props: TreeNodeViewProps) -> Element {
             div { class: "{child_nodes_class}",
                 for child in &props.node.child_nodes {
                     TreeNodeView {
+                        key: "{child.node_key}",
                         node: child.clone(),
                         level: props.level + 1,
                         selected_key: props.selected_key.clone(),

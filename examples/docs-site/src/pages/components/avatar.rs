@@ -35,7 +35,7 @@ div { id: "avatar", style: "margin-top: 64px;",
                 demo: rsx! {
                     div { style: "display: flex; gap: 16px; align-items: center;",
                         Avatar { size: Size::Lg, "圆" }
-                        Avatar { size: Size::Lg, shape: "square".to_string(), "方" }
+                        Avatar { size: Size::Lg, shape: Shape::Square, "方" }
                     }
                 },
                 code: "Avatar { size: Size::Lg, \"圆\" }\nAvatar { size: Size::Lg, shape: \"square\", \"方\" }".to_string(),
@@ -47,7 +47,7 @@ div { id: "avatar", style: "margin-top: 64px;",
                 demo: rsx! {
                     div { style: "display: flex; gap: 16px; align-items: center;",
                         Avatar { size: Size::Lg, src: "https://i.pravatar.cc/96?img=1".to_string(), alt: "用户头像".to_string(), "" }
-                        Avatar { size: Size::Lg, shape: "square".to_string(), src: "https://i.pravatar.cc/96?img=2".to_string(), alt: "方形头像".to_string(), "" }
+                        Avatar { size: Size::Lg, shape: Shape::Square, src: "https://i.pravatar.cc/96?img=2".to_string(), alt: "方形头像".to_string(), "" }
                     }
                 },
                 code: "Avatar { size: Size::Lg, src: \"https://...\", alt: \"用户头像\" }".to_string(),

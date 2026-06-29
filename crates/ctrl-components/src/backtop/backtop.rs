@@ -3,6 +3,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::window;
+use ctrl_core::types::{Placement, ScrollBehavior, Easing};
 
 /// Backtop 回到顶部 / 回到底部组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -15,27 +16,25 @@ pub struct BacktopProps {
     #[props(default = 200)]
     pub visibility_height: u32,
 
-    /// 滚动行为：smooth（平滑）或 auto（瞬间）
-    #[props(default = "smooth".to_string())]
-    pub behavior: String,
+    /// 滚动行为
+    #[props(default = ScrollBehavior::Smooth)]
+    pub behavior: ScrollBehavior,
 
     /// 滚动动画时长（ms），behavior=auto 时无效
     #[props(default = 400)]
     pub duration: u32,
 
-    /// 缓动函数：
-    ///   easeOutQuad / easeOutCubic / easeOutQuart / easeOutQuint
-    ///   easeOutExpo / easeOutBack / easeOutElastic
-    #[props(default = "easeOutCubic".to_string())]
-    pub easing: String,
+    /// 缓动函数
+    #[props(default = Easing::EaseOutCubic)]
+    pub easing: Easing,
 
     /// 是否启用弹簧阻尼效果（启用后忽略 duration 和 easing，使用物理弹簧模型）
     #[props(default = false)]
     pub damping: bool,
 
-    /// 目标位置：top（顶部）或 bottom（底部）
-    #[props(default = "top".to_string())]
-    pub target_position: String,
+    /// 目标位置
+    #[props(default = Placement::Top)]
+    pub target_position: Placement,
 
     /// 点击事件
     pub onclick: Option<EventHandler<()>>,
@@ -52,8 +51,8 @@ fn get_max_scroll() -> &'static str {
 /// 构建自定义滚动 JS 代码
 fn build_scroll_js(props: &BacktopProps) -> String {
     let duration = props.duration;
-    let behavior = &props.behavior;
-    let is_bottom = props.target_position == "bottom";
+    let behavior = props.behavior;
+    let is_bottom = props.target_position == Placement::Bottom;
 
     // 弹簧阻尼模式
     if props.damping {
@@ -81,7 +80,7 @@ fn build_scroll_js(props: &BacktopProps) -> String {
     }
 
     // 标准 behavior="auto"，不做动画
-    if behavior == "auto" {
+    if behavior == ScrollBehavior::Auto {
         if is_bottom {
             return format!(
                 r#"window.scrollTo({{top:{},behavior:'auto'}})"#,
@@ -92,14 +91,14 @@ fn build_scroll_js(props: &BacktopProps) -> String {
     }
 
     // 自定义缓动动画
-    let easing_fn = match props.easing.as_str() {
-        "easeOutQuad" => "function(t){return t*(2-t)}",
-        "easeOutCubic" => "function(t){return 1-Math.pow(1-t,3)}",
-        "easeOutQuart" => "function(t){return 1-Math.pow(1-t,4)}",
-        "easeOutQuint" => "function(t){return 1-Math.pow(1-t,5)}",
-        "easeOutExpo" => "function(t){return t===1?1:1-Math.pow(2,-10*t)}",
-        "easeOutBack" => "function(t){var c=1.70158;return 1+c*Math.pow(t-1,3)+c*Math.pow(t-1,2)}",
-        "easeOutElastic" => "function(t){if(t===0||t===1)return t;return Math.pow(2,-10*t)*Math.sin((t*10-0.75)*2*Math.PI/3)+1}",
+    let easing_fn = match props.easing {
+        Easing::EaseOutQuad => "function(t){return t*(2-t)}",
+        Easing::EaseOutCubic => "function(t){return 1-Math.pow(1-t,3)}",
+        Easing::EaseOutQuart => "function(t){return 1-Math.pow(1-t,4)}",
+        Easing::EaseOutQuint => "function(t){return 1-Math.pow(1-t,5)}",
+        Easing::EaseOutExpo => "function(t){return t===1?1:1-Math.pow(2,-10*t)}",
+        Easing::EaseOutBack => "function(t){var c=1.70158;return 1+c*Math.pow(t-1,3)+c*Math.pow(t-1,2)}",
+        Easing::EaseOutElastic => "function(t){if(t===0||t===1)return t;return Math.pow(2,-10*t)*Math.sin((t*10-0.75)*2*Math.PI/3)+1}",
         _ => "function(t){return 1-Math.pow(1-t,3)}",
     };
 
@@ -143,7 +142,7 @@ fn build_scroll_js(props: &BacktopProps) -> String {
 pub fn Backtop(props: BacktopProps) -> Element {
     const CSS: &str = include_str!("../../assets/backtop.css");
     let visible = use_signal(|| false);
-    let is_bottom = props.target_position == "bottom";
+    let is_bottom = props.target_position == Placement::Bottom;
 
     // 存储 scroll 监听器闭包，组件卸载时通过 use_drop 清理
     let scroll_listener: Signal<Rc<RefCell<Option<Closure<dyn FnMut()>>>>> =

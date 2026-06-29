@@ -68,6 +68,18 @@
     line-height: 1.6;
 }
 
+/* 无边框模式 - 容器级 */
+.ctrl-collapse--borderless {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* 无边框模式 - 单条目级 */
+.ctrl-collapse__item--borderless {
+    border-bottom: none;
+}
+
 /* 无动画模式：直接控制显隐 */
 .ctrl-collapse__body--no-animation .ctrl-collapse__content {
     transition: none;

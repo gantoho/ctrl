@@ -55,6 +55,7 @@ pub fn Select(props: SelectProps) -> Element {
             Size::Sm => "sm",
             Size::Md => "md",
             Size::Lg => "lg",
+            _ => "md",
         }),
     ];
     if props.disabled {

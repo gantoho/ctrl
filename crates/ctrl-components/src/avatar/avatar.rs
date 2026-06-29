@@ -9,6 +9,7 @@ fn build_avatar_class(size: Size, shape: &str, class: &str) -> String {
         Size::Sm => classes.push("ctrl-avatar--sm".into()),
         Size::Md => classes.push("ctrl-avatar--md".into()),
         Size::Lg => classes.push("ctrl-avatar--lg".into()),
+        _ => {}
     }
 
     if shape == "square" {

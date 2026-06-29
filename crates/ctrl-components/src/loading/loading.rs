@@ -36,6 +36,7 @@ pub fn Loading(props: LoadingProps) -> Element {
         Size::Sm => "ctrl-loading--sm",
         Size::Md => "ctrl-loading--md",
         Size::Lg => "ctrl-loading--lg",
+        _ => "ctrl-loading--md",
     };
 
     let mut classes = vec!["ctrl-loading".to_string(), size_class.to_string()];

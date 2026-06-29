@@ -34,9 +34,16 @@
 /* 表行 */
 .ctrl-table__tr {
     border-bottom: 1px solid var(--ctrl-border);
+    transition: background var(--ctrl-transition, 0.15s);
+}
+.ctrl-table__tr:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
 }
 .ctrl-table__tr--striped {
     background: var(--ctrl-bg-secondary);
+}
+.ctrl-table__tr--striped:hover {
+    background: var(--ctrl-bg-secondary, #f0f0f0);
 }
 
 /* 表格单元格 */
@@ -45,4 +52,40 @@
 }
 .ctrl-table--bordered .ctrl-table__td {
     border: 1px solid var(--ctrl-border);
+}
+
+/* 列对齐 */
+.ctrl-table__th--left,
+.ctrl-table__td--left {
+    text-align: left;
+}
+.ctrl-table__th--center,
+.ctrl-table__td--center {
+    text-align: center;
+}
+.ctrl-table__th--right,
+.ctrl-table__td--right {
+    text-align: right;
+}
+
+/* 可排序列 */
+.ctrl-table__th--sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--ctrl-transition, 0.15s);
+}
+.ctrl-table__th--sortable:hover {
+    color: var(--ctrl-primary, #4a90d9);
+}
+
+.ctrl-table__sort-label {
+    margin-right: 4px;
+}
+
+.ctrl-table__sort-icon {
+    font-size: var(--ctrl-font-size-xs, 10px);
+    color: var(--ctrl-text-secondary, #999);
+}
+.ctrl-table__th--sortable:hover .ctrl-table__sort-icon {
+    color: var(--ctrl-primary, #4a90d9);
 }

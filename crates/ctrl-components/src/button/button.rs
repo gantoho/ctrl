@@ -10,12 +10,14 @@ fn build_button_class(variant: Variant, size: Size, disabled: bool, block: bool)
         Variant::Secondary => classes.push("ctrl-button--secondary".into()),
         Variant::Outline => classes.push("ctrl-button--outline".into()),
         Variant::Ghost => classes.push("ctrl-button--ghost".into()),
+        _ => {}
     }
 
     match size {
         Size::Sm => classes.push("ctrl-button--sm".into()),
         Size::Md => classes.push("ctrl-button--md".into()),
         Size::Lg => classes.push("ctrl-button--lg".into()),
+        _ => {}
     }
 
     if disabled {

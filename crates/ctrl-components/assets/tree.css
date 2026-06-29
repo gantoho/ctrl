@@ -1,6 +1,10 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Tree 树形控件
+   ═══════════════════════════════════════════════════ */
+
 .ctrl-tree {
-  font-size: 14px;
-  color: var(--ctrl-text-primary, #333);
+  font-size: var(--ctrl-font-size-md, 14px);
+  color: var(--ctrl-text, #333);
 }
 
 .ctrl-tree__node {
@@ -11,19 +15,19 @@
 .ctrl-tree__node-content {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
+  gap: var(--ctrl-spacing-sm, 6px);
+  padding: var(--ctrl-spacing-xs, 4px) var(--ctrl-spacing-sm, 8px);
+  border-radius: var(--ctrl-radius-sm, 4px);
+  transition: background var(--ctrl-transition, 0.2s);
 }
 
 .ctrl-tree__node-content:hover {
-  background: var(--ctrl-bg-hover, #f0f0f0);
+  background: var(--ctrl-bg-secondary, #f0f0f0);
 }
 
 .ctrl-tree__node--selected > .ctrl-tree__node-content {
-  background: var(--ctrl-color-primary-light, #e8f0fe);
-  color: var(--ctrl-color-primary, #4a90d9);
+  background: var(--ctrl-primary-light, #e8f0fe);
+  color: var(--ctrl-primary, #4a90d9);
 }
 
 .ctrl-tree__node--disabled > .ctrl-tree__node-content {
@@ -37,9 +41,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: var(--ctrl-font-size-xs, 10px);
   color: var(--ctrl-text-secondary, #999);
-  transition: transform 0.2s;
+  transition: transform var(--ctrl-transition, 0.2s);
   flex-shrink: 0;
 }
 
@@ -63,7 +67,7 @@
 }
 
 .ctrl-tree__child_nodes {
-  padding-left: 20px;
+  padding-left: var(--ctrl-spacing-lg, 20px);
 }
 
 .ctrl-tree__child_nodes--hidden {

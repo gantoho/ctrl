@@ -100,10 +100,10 @@ pub fn Drawer(props: DrawerProps) -> Element {
                 {props.children}
             }
             // 底部
-            if props.footer.is_some() {
+            if let Some(footer) = props.footer.clone() {
                 div {
                     class: "ctrl-drawer__footer",
-                    {props.footer.unwrap()}
+                    {footer}
                 }
             }
         }

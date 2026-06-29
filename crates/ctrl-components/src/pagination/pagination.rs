@@ -67,22 +67,26 @@ pub fn Pagination(props: PaginationProps) -> Element {
             }
 
             // 页码
-            for page in 1..=page_count {
-                {
-                    let is_active = page == current;
-                    let mut page_class = "ctrl-pagination__btn".to_string();
-                    if is_active { page_class.push_str(" ctrl-pagination__btn--active"); }
-                    let onchange = props.onchange.clone();
-                    rsx! {
-                        button {
-                            class: "{page_class}",
-                            onclick: move |_| {
-                                if let Some(ref handler) = onchange {
-                                    handler.call(page);
-                                }
-                            },
-                            "{page}"
-                        }
+            {
+                let onchange = props.onchange.clone();
+                for page in 1..=page_count {
+                    {
+                        let is_active = page == current;
+                        let mut page_class = "ctrl-pagination__btn".to_string();
+                        if is_active { page_class.push_str(" ctrl-pagination__btn--active"); }
+                        let onchange = onchange.clone();
+                        let _ = rsx! {
+                            button {
+                                key: "{page}",
+                                class: "{page_class}",
+                                onclick: move |_| {
+                                    if let Some(ref handler) = onchange {
+                                        handler.call(page);
+                                    }
+                                },
+                                "{page}"
+                            }
+                        };
                     }
                 }
             }

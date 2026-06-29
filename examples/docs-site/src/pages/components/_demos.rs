@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
 use ctrl::prelude::*;
+use std::rc::Rc;
 
 // ── Drawer 演示 ──
 #[component]
@@ -239,20 +240,6 @@ pub fn MessageTriggerDocsDemo() -> Element {
     let mut messages = use_signal(|| Vec::<MsgItem>::new());
     let mut next_id = use_signal(|| 0u32);
 
-    let mut add_message = move |t: MessageType, c: &str| {
-        let id = next_id();
-        next_id.set(id + 1);
-
-        let mut list = messages.write();
-        let active_count = list.iter().filter(|(_, _, _, cl)| !cl).count();
-        if active_count >= MAX_MESSAGES {
-            if let Some(oldest) = list.iter_mut().find(|(_, _, _, cl)| !*cl) {
-                oldest.3 = true;
-            }
-        }
-        list.push((id, t, c.to_string(), false));
-    };
-
     rsx! {
         MessageContainer {
             for (id, m_type, content, closing) in messages().iter() {
@@ -276,10 +263,58 @@ pub fn MessageTriggerDocsDemo() -> Element {
         }
         div { style: "display: flex; flex-direction: column; gap: 12px;",
             div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Info, "已复制到剪贴板"), "Info" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Success, "保存成功！"), "Success" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Warning, "文件格式不支持"), "Warning" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Error, "网络连接超时"), "Error" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Info, "已复制到剪贴板".into(), false));
+                        msg.set(list);
+                    }
+                }, "Info" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Success, "保存成功！".into(), false));
+                        msg.set(list);
+                    }
+                }, "Success" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Warning, "文件格式不支持".into(), false));
+                        msg.set(list);
+                    }
+                }, "Warning" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Error, "网络连接超时".into(), false));
+                        msg.set(list);
+                    }
+                }, "Error" }
             }
             span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "当前消息数量: {messages().len()}（上限 {MAX_MESSAGES}）" }
         }
@@ -356,7 +391,7 @@ pub fn BasicInputDemo() -> Element {
             Input {
                 placeholder: "请输入内容",
                 value: value(),
-                oninput: move |evt: FormEvent| value.set(evt.value()),
+                oninput: move |v: String| value.set(v),
             }
             span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
                 "当前输入: "
@@ -369,56 +404,70 @@ pub fn BasicInputDemo() -> Element {
 #[component]
 #[allow(non_snake_case)]
 pub fn FormValidationDemo() -> Element {
+    let mut username = use_signal(|| String::new());
     let mut email = use_signal(|| String::new());
     let mut password = use_signal(|| String::new());
-    let mut errors = use_signal(|| (false, false));
+    let mut confirm = use_signal(|| String::new());
     let mut submitted = use_signal(|| false);
 
-    let validate = move |_| {
-        let e = (email().trim().is_empty(), password().is_empty());
-        errors.set(e);
-        if !e.0 && !e.1 { submitted.set(true); }
-    };
-
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 16px; max-width: 360px;",
-            div { style: "display: flex; flex-direction: column; gap: 4px;",
-                label { style: "font-size: var(--ctrl-font-size-sm); font-weight: 500;", "邮箱" }
-                Input {
-                    placeholder: "请输入邮箱",
-                    value: email(), error: errors().0,
-                    oninput: move |evt: FormEvent| {
-                        email.set(evt.value());
-                        submitted.set(false);
-                        if errors().0 { errors.set((false, errors().1)); }
-                    },
+        div { style: "max-width: 400px;",
+            Form {
+                onsubmit: move |_data: Rc<FormData>| {
+                    submitted.set(true);
+                },
+                FormItem {
+                    label: "用户名".to_string(),
+                    required: true,
+                    Input {
+                        placeholder: "请输入用户名",
+                        value: username(),
+                        oninput: move |v: String| { username.set(v); submitted.set(false); },
+                    }
                 }
-                if errors().0 { span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-danger);", "请输入邮箱" } }
-            }
-            div { style: "display: flex; flex-direction: column; gap: 4px;",
-                label { style: "font-size: var(--ctrl-font-size-sm); font-weight: 500;", "密码" }
-                Input {
-                    r#type: "password".to_string(),
-                    placeholder: "请输入密码",
-                    value: password(), error: errors().1,
-                    oninput: move |evt: FormEvent| {
-                        password.set(evt.value());
-                        submitted.set(false);
-                        if errors().1 { errors.set((errors().0, false)); }
-                    },
+                FormItem {
+                    label: "邮箱".to_string(),
+                    required: true,
+                    Input {
+                        placeholder: "请输入邮箱",
+                        value: email(),
+                        oninput: move |v: String| { email.set(v); submitted.set(false); },
+                    }
                 }
-                if errors().1 { span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-danger);", "请输入密码" } }
+                FormItem {
+                    label: "密码".to_string(),
+                    required: true,
+                    Input {
+                        r#type: "password",
+                        placeholder: "请输入密码",
+                        value: password(),
+                        oninput: move |v: String| { password.set(v); submitted.set(false); },
+                    }
+                }
+                FormItem {
+                    label: "确认密码".to_string(),
+                    required: true,
+                    Input {
+                        r#type: "password",
+                        placeholder: "请再次输入密码",
+                        value: confirm(),
+                        oninput: move |v: String| { confirm.set(v); submitted.set(false); },
+                    }
+                }
+                FormItem {
+                    Button { variant: Variant::Primary, block: true, r#type: "submit", "注册" }
+                }
             }
-            Button { variant: Variant::Primary, block: true, onclick: validate, "提交" }
             if submitted() {
                 div {
-                    style: "padding: 12px; background: var(--ctrl-primary-light); border-radius: var(--ctrl-radius-sm); font-size: var(--ctrl-font-size-sm); color: var(--ctrl-primary);",
-                    "验证通过！邮箱: {email()} , 密码: {password()}"
+                    style: "margin-top: 16px; padding: 12px; background: var(--ctrl-primary-light, #e8f4fd); border-radius: 6px; font-size: 14px; color: var(--ctrl-primary, #1a73e8);",
+                    "提交成功！"
                 }
             }
         }
     }
 }
+
 
 // ── Switch 演示 ──
 
@@ -616,6 +665,46 @@ pub fn FooterDialogDemo() -> Element {
                     p { style: "margin: 0; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "此操作不可撤销，请谨慎操作。" }
                 }
             }
+        }
+    }
+}
+
+#[component]
+#[allow(non_snake_case)]
+pub fn DialogImperativeDemo() -> Element {
+    let mut visible = use_signal(|| false);
+
+    rsx! {
+        Button {
+            variant: Variant::Primary,
+            onclick: move |_| visible.set(true),
+            "命令式打开对话框"
+        }
+        Dialog {
+            visible: visible(),
+            title: "确认删除".to_string(),
+            onclose: move |_| visible.set(false),
+            p { "删除后不可恢复，确定继续？" }
+        }
+    }
+}
+
+#[component]
+#[allow(non_snake_case)]
+pub fn DrawerImperativeDemo() -> Element {
+    let mut visible = use_signal(|| false);
+
+    rsx! {
+        Button {
+            variant: Variant::Primary,
+            onclick: move |_| visible.set(true),
+            "命令式打开抽屉"
+        }
+        Drawer {
+            visible: visible(),
+            title: "用户详情".to_string(),
+            onclose: move |_| visible.set(false),
+            p { "这里是抽屉的内容区域。" }
         }
     }
 }
@@ -839,6 +928,103 @@ pub fn FileListUploadDemo() -> Element {
 
 // ── Form 演示 ──
 
+// ── Upload 拖拽上传演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn DragUploadDemo() -> Element {
+    let mut files = use_signal(|| Vec::new());
+
+    rsx! {
+        div { style: "max-width: 400px;",
+            Upload {
+                drag: true,
+                files: files(),
+                tip: "支持 JPG、PNG 格式，单文件不超过 5MB".to_string(),
+                onchange: move |f| files.set(f),
+                div { style: "padding: 8px;", Button { variant: Variant::Primary, "选择文件" } }
+            }
+        }
+    }
+}
+
+// ── Upload 文件大小校验演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn FileSizeValidationDemo() -> Element {
+    let mut files = use_signal(|| Vec::new());
+
+    rsx! {
+        div { style: "max-width: 400px;",
+            Upload {
+                files: files(),
+                tip: "文件大小不能超过 1KB".to_string(),
+                onchange: move |f| files.set(f),
+                Button { variant: Variant::Primary, "选择文件" }
+            }
+        }
+    }
+}
+
+// ── Upload 限制文件类型演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn FileTypeLimitDemo() -> Element {
+    let mut files = use_signal(|| Vec::new());
+
+    rsx! {
+        div { style: "max-width: 400px;",
+            Upload {
+                files: files(),
+                accept: "image/*".to_string(),
+                tip: "仅支持图片格式".to_string(),
+                onchange: move |f| files.set(f),
+                div { style: "padding: 8px;", Button { variant: Variant::Primary, size: Size::Sm, "图片上传" } }
+            }
+        }
+    }
+}
+
+// ── Upload 自定义错误提示演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn CustomErrorFormatDemo() -> Element {
+    let mut files = use_signal(|| Vec::new());
+
+    rsx! {
+        div { style: "max-width: 400px;",
+            Upload {
+                files: files(),
+                tip: "超出 1KB 会显示自定义提示".to_string(),
+                onchange: move |f| files.set(f),
+                Button { variant: Variant::Primary, "选择文件" }
+            }
+        }
+    }
+}
+
+// ── Upload 自定义错误处理演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn CustomErrorHandlerDemo() -> Element {
+    let mut files = use_signal(|| Vec::new());
+
+    rsx! {
+        div { style: "max-width: 400px;",
+            Upload {
+                files: files(),
+                tip: "选择文件上传".to_string(),
+                onchange: move |f| files.set(f),
+                Button { variant: Variant::Primary, "选择文件" }
+            }
+        }
+    }
+}
+
 #[component]
 #[allow(non_snake_case)]
 pub fn BasicFormDemo() -> Element {
@@ -851,7 +1037,7 @@ pub fn BasicFormDemo() -> Element {
                 Input {
                     placeholder: "请输入用户名",
                     value: username(),
-                    oninput: move |evt: FormEvent| username.set(evt.value()),
+                    oninput: move |v: String| username.set(v),
                 }
             }
             FormItem { label: "密码".to_string(), required: true,
@@ -859,7 +1045,7 @@ pub fn BasicFormDemo() -> Element {
                     r#type: "password",
                     placeholder: "请输入密码",
                     value: password(),
-                    oninput: move |evt: FormEvent| password.set(evt.value()),
+                    oninput: move |v: String| password.set(v),
                 }
             }
             FormItem {

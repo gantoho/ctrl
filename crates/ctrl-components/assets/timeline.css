@@ -80,3 +80,15 @@
     background: var(--ctrl-danger);
     box-shadow: 0 0 0 2px var(--ctrl-danger);
 }
+
+/* 反向排列：最新在上 */
+.ctrl-timeline--reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.ctrl-timeline--reverse .ctrl-timeline__item::before {
+    display: none;
+}
+.ctrl-timeline--reverse .ctrl-timeline__item:not(:last-child)::before {
+    display: block;
+}

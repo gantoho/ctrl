@@ -208,8 +208,9 @@ pub fn SkeletonCard(props: SkeletonCardProps) -> Element {
                     div {
                         class: "{title_cls}",
                     }
-                    for _ in 0..props.rows {
+                    for i in 0..props.rows {
                         div {
+                            key: "{i}",
                             class: "{text_cls}",
                         }
                     }
@@ -275,8 +276,8 @@ pub fn SkeletonList(props: SkeletonListProps) -> Element {
                         }
                     }
                     div { class: "ctrl-skeleton__lines",
-                        for _ in 0..props.rows {
-                            div { class: "{text_cls}" }
+                        for j in 0..props.rows {
+                            div { key: "{j}", class: "{text_cls}" }
                         }
                     }
                 }
@@ -336,8 +337,8 @@ pub fn SkeletonRow(props: SkeletonRowProps) -> Element {
                 }
             }
             div { class: "ctrl-skeleton__lines",
-                for _ in 0..props.rows {
-                    div { class: "{text_cls}" }
+                for i in 0..props.rows {
+                    div { key: "{i}", class: "{text_cls}" }
                 }
             }
         }

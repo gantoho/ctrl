@@ -40,6 +40,19 @@
     cursor: not-allowed;
 }
 .ctrl-radio__circle--disabled.ctrl-radio__circle--checked {
-    border-color: var(--ctrl-border-hover);
-    background: var(--ctrl-bg);
+    border-color: var(--ctrl-border-hover, #d0d0d0);
+    background: var(--ctrl-bg, #fff);
+}
+
+/* 单选组 */
+.ctrl-radio-group {
+    display: flex;
+    gap: var(--ctrl-spacing-sm, 8px);
+}
+.ctrl-radio-group--vertical {
+    flex-direction: column;
+}
+.ctrl-radio-group--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
 }

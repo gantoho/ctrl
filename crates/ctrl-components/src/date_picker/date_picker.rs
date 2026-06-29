@@ -69,13 +69,28 @@ fn first_day_of_week(year: i32, month: u32) -> u32 {
     (h + 5) as u32 % 7
 }
 
+/// 从 value 字符串解析年月，无效时回退到今天
+fn parse_date_value(value: &str) -> (i32, u32) {
+    let parts: Vec<&str> = value.split('-').collect();
+    if parts.len() == 3 {
+        if let (Ok(y), Ok(m)) = (parts[0].parse::<i32>(), parts[1].parse::<u32>()) {
+            if m >= 1 && m <= 12 {
+                return (y, m);
+            }
+        }
+    }
+    let today = get_today();
+    (today.0, today.1)
+}
+
 /// DatePicker 日期选择器组件
 #[allow(non_snake_case)]
 pub fn DatePicker(props: DatePickerProps) -> Element {
     const CSS: &str = include_str!("../../assets/date-picker.css");
     let panel_visible = use_signal(|| false);
-    let mut current_year = use_signal(|| 2024i32);
-    let mut current_month = use_signal(|| 1u32);
+    let parsed = parse_date_value(&props.value);
+    let mut current_year = use_signal(|| parsed.0);
+    let mut current_month = use_signal(|| parsed.1);
 
     let picker_class = {
         let mut c = String::from("ctrl-date-picker");

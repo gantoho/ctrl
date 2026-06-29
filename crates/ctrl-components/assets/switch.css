@@ -6,7 +6,7 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    border-radius: 999px;
+    border-radius: var(--ctrl-radius-round, 999px);
     transition: all var(--ctrl-transition);
     outline: none;
     border: none;

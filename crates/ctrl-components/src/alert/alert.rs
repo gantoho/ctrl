@@ -58,7 +58,7 @@ pub fn AlertBannerContainer(props: AlertBannerContainerProps) -> Element {
     rsx! {
         style { {CSS} }
         div {
-            class: "ctrl-alert-banner-container",
+            class: "ctrl-alert-banner__container",
             for child in children.into_iter().skip(skip) {
                 {child}
             }

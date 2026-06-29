@@ -9,34 +9,39 @@
 
 /* 导航栏 */
 .ctrl-tabs__nav {
+    position: relative;
     display: flex;
-    border-bottom: 1px solid var(--ctrl-border);
     gap: 0;
+    border-bottom: 1px solid var(--ctrl-border);
 }
 
 /* 单个标签 */
 .ctrl-tabs__tab {
-    padding: var(--ctrl-spacing-sm) var(--ctrl-spacing-lg);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: var(--ctrl-spacing-sm) var(--ctrl-spacing-md);
     font-size: var(--ctrl-font-size-md);
+    font-weight: 500;
     color: var(--ctrl-text-secondary);
     cursor: pointer;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
-    transition: color var(--ctrl-transition), border-color var(--ctrl-transition);
+    transition: color var(--ctrl-transition), border-color var(--ctrl-transition), background var(--ctrl-transition);
     white-space: nowrap;
     user-select: none;
+    box-sizing: border-box;
 }
 
 /* 悬停 */
-.ctrl-tabs__tab:hover:not(.ctrl-tabs__tab--disabled):not(.ctrl-tabs__tab--active) {
+.ctrl-tabs__tab:hover:not(.ctrl-tabs__tab--disabled) {
     color: var(--ctrl-primary);
 }
 
-/* 激活 */
+/* 激活 —— 仅改变颜色和边框，不改变 font-weight 避免布局抖动 */
 .ctrl-tabs__tab--active {
     color: var(--ctrl-primary);
     border-bottom-color: var(--ctrl-primary);
-    font-weight: 500;
 }
 
 /* 禁用 */
@@ -48,4 +53,9 @@
 /* 内容区 */
 .ctrl-tabs__content {
     padding: var(--ctrl-spacing-lg) 0;
+}
+
+/* 隐藏面板 */
+.ctrl-tabs__pane--hidden {
+    display: none;
 }

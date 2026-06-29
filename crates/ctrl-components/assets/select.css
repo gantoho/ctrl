@@ -13,34 +13,40 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid var(--ctrl-border);
-    border-radius: var(--ctrl-radius-md);
-    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-md, 6px);
+    background: var(--ctrl-bg, #fff);
     cursor: pointer;
-    font-family: var(--ctrl-font-family);
-    font-size: var(--ctrl-font-size-md);
-    color: var(--ctrl-text);
+    font-family: var(--ctrl-font-family, inherit);
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text, #333);
     user-select: none;
-    transition: border-color var(--ctrl-transition);
-    appearance: none;
-    -webkit-appearance: none;
+    transition: border-color var(--ctrl-transition, 0.2s);
     outline: none;
-    background-image: none;
 }
 .ctrl-select__trigger:hover {
-    border-color: var(--ctrl-primary);
+    border-color: var(--ctrl-primary, #4a90d9);
 }
 .ctrl-select__trigger--disabled {
-    background: var(--ctrl-bg-disabled);
-    color: var(--ctrl-text-disabled);
+    background: var(--ctrl-bg-disabled, #f5f5f5);
+    color: var(--ctrl-text-disabled, #bfbfbf);
     cursor: not-allowed;
     pointer-events: none;
 }
 
+/* 多选模式下的触发器 */
+.ctrl-select__trigger--multiple {
+    height: auto;
+    min-height: 36px;
+    padding: 2px 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
 /* 尺寸 */
-.ctrl-select__trigger--sm { height: 32px; padding: 0 10px; font-size: var(--ctrl-font-size-sm); }
-.ctrl-select__trigger--md { height: 36px; padding: 0 12px; font-size: var(--ctrl-font-size-md); }
-.ctrl-select__trigger--lg { height: 44px; padding: 0 16px; font-size: var(--ctrl-font-size-lg); }
+.ctrl-select__trigger--sm { height: 32px; padding: 0 10px; font-size: var(--ctrl-font-size-sm, 12px); }
+.ctrl-select__trigger--md { height: 36px; padding: 0 12px; font-size: var(--ctrl-font-size-md, 14px); }
+.ctrl-select__trigger--lg { height: 44px; padding: 0 16px; font-size: var(--ctrl-font-size-lg, 16px); }
 
 /* 选中文本 */
 .ctrl-select__text {
@@ -49,7 +55,7 @@
     white-space: nowrap;
 }
 .ctrl-select__placeholder {
-    color: var(--ctrl-text-disabled);
+    color: var(--ctrl-text-disabled, #bfbfbf);
 }
 
 /* 箭头 */
@@ -69,10 +75,10 @@
     left: 0;
     right: 0;
     z-index: 100;
-    background: var(--ctrl-bg);
-    border: 1px solid var(--ctrl-border);
-    border-radius: var(--ctrl-radius-md);
-    box-shadow: var(--ctrl-shadow-md);
+    background: var(--ctrl-bg, #fff);
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-md, 6px);
+    box-shadow: var(--ctrl-shadow-md, 0 4px 12px rgba(0,0,0,0.1));
     overflow: hidden;
     max-height: 240px;
     overflow-y: auto;
@@ -80,22 +86,104 @@
 
 /* 选项 */
 .ctrl-select__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 8px 12px;
     cursor: pointer;
-    font-size: var(--ctrl-font-size-md);
-    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text, #333);
     transition: background 0.15s ease;
 }
 .ctrl-select__option:hover {
-    background: var(--ctrl-bg-secondary);
+    background: var(--ctrl-bg-secondary, #f0f0f0);
 }
 .ctrl-select__option--selected {
-    color: var(--ctrl-primary);
-    background: var(--ctrl-primary-light);
+    color: var(--ctrl-primary, #4a90d9);
+    background: var(--ctrl-primary-light, #e8f0fe);
     font-weight: 600;
 }
 .ctrl-select__option--disabled {
     opacity: 0.5;
     pointer-events: none;
     cursor: not-allowed;
+}
+.ctrl-select__option--empty {
+    color: var(--ctrl-text-disabled, #bfbfbf);
+    justify-content: center;
+    cursor: default;
+}
+
+/* 多选勾选标记 */
+.ctrl-select__checkmark {
+    width: 16px;
+    font-size: 12px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* 搜索输入 */
+.ctrl-select__search-wrap {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--ctrl-border, #eee);
+    position: sticky;
+    top: 0;
+    background: var(--ctrl-bg, #fff);
+    z-index: 1;
+}
+.ctrl-select__search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-sm, 4px);
+    font-size: var(--ctrl-font-size-md, 14px);
+    font-family: var(--ctrl-font-family, inherit);
+    color: var(--ctrl-text, #333);
+    background: var(--ctrl-bg, #fff);
+    outline: none;
+}
+.ctrl-select__search-input:focus {
+    border-color: var(--ctrl-primary, #4a90d9);
+}
+
+/* 多选标签区 */
+.ctrl-select__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+/* 标签 */
+.ctrl-select__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 8px;
+    background: var(--ctrl-bg-secondary, #f0f0f0);
+    border-radius: var(--ctrl-radius-sm, 4px);
+    font-size: var(--ctrl-font-size-xs, 12px);
+    color: var(--ctrl-text, #333);
+    line-height: 22px;
+    white-space: nowrap;
+}
+
+.ctrl-select__tag-close {
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--ctrl-text-secondary, #999);
+    margin-left: 2px;
+}
+.ctrl-select__tag-close:hover {
+    color: var(--ctrl-text, #333);
+}
+
+.ctrl-select__tag--overflow {
+    background: transparent;
+    color: var(--ctrl-text-secondary, #999);
+    border: 1px dashed var(--ctrl-border, #d9d9d9);
 }

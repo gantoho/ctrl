@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 use std::sync::atomic::{AtomicU16, Ordering};
+use std::rc::Rc;
+use std::cell::RefCell;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
@@ -212,93 +214,97 @@ pub fn Dropdown(props: DropdownProps) -> Element {
         }));
     }
 
-    // ── 窗口 resize 时重新计算位置 ──
+    // ── 事件监听器（resize/scroll 定位 + 外部点击关闭），组件卸载时自动清理 ──
     {
-        let trigger_id = trigger_id.clone();
-        let menu_id = menu_id.clone();
-        let placement = props.placement.clone();
-        let open_for_resize = open.clone();
-        use_effect(move || {
-            let trigger_id = trigger_id.clone();
-            let menu_id = menu_id.clone();
-            let placement = placement.clone();
+        struct DropdownListeners {
+            resize: Closure<dyn FnMut()>,
+            scroll: Closure<dyn FnMut()>,
+            click: Closure<dyn FnMut(web_sys::MouseEvent)>,
+        }
 
-            let callback = Closure::wrap(Box::new(move || {
-                if open_for_resize.try_read().is_ok_and(|r| *r) {
-                    position_menu(&trigger_id, &menu_id, &placement);
-                }
-            }) as Box<dyn FnMut()>);
+        let listeners: Signal<Rc<RefCell<Option<DropdownListeners>>>> = use_signal(|| Rc::new(RefCell::new(None)));
 
-            if let Some(window) = web_sys::window() {
-                let _ = window
-                    .add_event_listener_with_callback("resize", callback.as_ref().unchecked_ref());
-            }
+        // 注册监听器（只执行一次）
+        {
+            let closures = listeners.clone();
+            let tid = trigger_id.clone();
+            let mid = menu_id.clone();
+            let placement = props.placement.clone();
+            let open_rx = open.clone();
+            let mut open_for_click = open.clone();
 
-            callback.forget();
-        });
-    }
+            let mut done = use_signal(|| false);
+            use_effect(move || {
+                if done() { return; }
+                done.set(true);
 
-    // ── 点击外部关闭 ──
-    {
-        let trigger_id = trigger_id.clone();
-        let menu_id = menu_id.clone();
-        let mut open_close = open.clone();
-        use_effect(use_reactive((&open,), move |(open,)| {
-            if !open() {
-                return;
-            }
-            let trigger_id = trigger_id.clone();
-            let menu_id = menu_id.clone();
-            let doc = web_sys::window()
-                .and_then(|w| w.document())
-                .expect("document");
-
-            let callback = Closure::wrap(Box::new(move |event: web_sys::MouseEvent| {
-                let Some(target) = event.target() else {
-                    return;
-                };
-                let Some(el) = target.dyn_ref::<web_sys::Element>() else {
-                    return;
-                };
-                if let (Some(trigger), Some(menu)) = (
-                    doc.get_element_by_id(&trigger_id),
-                    doc.get_element_by_id(&menu_id),
-                ) {
-                    if !trigger.contains(Some(el)) && !menu.contains(Some(el)) {
-                        if let Ok(mut w) = open_close.try_write() { *w = false; }
+                // resize → 重新定位
+                let resize_cb = Closure::wrap(Box::new({
+                    let tid = tid.clone();
+                    let mid = mid.clone();
+                    let placement = placement.clone();
+                    let o = open_rx.clone();
+                    move || {
+                        if o.try_read().is_ok_and(|r| *r) {
+                            position_menu(&tid, &mid, &placement);
+                        }
                     }
+                }) as Box<dyn FnMut()>);
+
+                // scroll → 关闭
+                let scroll_cb = Closure::wrap(Box::new({
+                    let mut o = open_rx.clone();
+                    move || {
+                        if let Ok(mut w) = o.try_write() { *w = false; }
+                    }
+                }) as Box<dyn FnMut()>);
+
+                // click → 外部关闭
+                let click_cb = Closure::wrap(Box::new({
+                    let tid = tid.clone();
+                    let mid = mid.clone();
+                    move |event: web_sys::MouseEvent| {
+                        let Some(target) = event.target() else { return };
+                        let Some(el) = target.dyn_ref::<web_sys::Element>() else { return };
+                        let doc = match web_sys::window().and_then(|w| w.document()) {
+                            Some(d) => d,
+                            None => return,
+                        };
+                        if let (Some(trigger), Some(menu)) = (
+                            doc.get_element_by_id(&tid),
+                            doc.get_element_by_id(&mid),
+                        ) {
+                            if !trigger.contains(Some(el)) && !menu.contains(Some(el)) {
+                                if let Ok(mut w) = open_for_click.try_write() { *w = false; }
+                            }
+                        }
+                    }
+                }) as Box<dyn FnMut(_)>);
+
+                if let Some(window) = web_sys::window() {
+                    let _ = window.add_event_listener_with_callback("resize", resize_cb.as_ref().unchecked_ref());
+                    let _ = window.add_event_listener_with_callback("scroll", scroll_cb.as_ref().unchecked_ref());
                 }
-            }) as Box<dyn FnMut(_)>);
+                if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                    let _ = doc.add_event_listener_with_callback("click", click_cb.as_ref().unchecked_ref());
+                }
 
-            let _ = web_sys::window()
-                .and_then(|w| w.document())
-                .map(|d| d.add_event_listener_with_callback("click", callback.as_ref().unchecked_ref()));
+                *closures().borrow_mut() = Some(DropdownListeners { resize: resize_cb, scroll: scroll_cb, click: click_cb });
+            });
+        }
 
-            callback.forget();
-        }));
-    }
-
-    // ── 滚动时关闭 ──
-    {
-        let mut open_scroll = open.clone();
-        use_effect(use_reactive((&open,), move |(open,)| {
-            if !open() {
-                return;
+        // 组件卸载时清理
+        use_drop(move || {
+            if let Some(b) = listeners().borrow_mut().take() {
+                if let Some(window) = web_sys::window() {
+                    let _ = window.remove_event_listener_with_callback("resize", b.resize.as_ref().unchecked_ref());
+                    let _ = window.remove_event_listener_with_callback("scroll", b.scroll.as_ref().unchecked_ref());
+                }
+                if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                    let _ = doc.remove_event_listener_with_callback("click", b.click.as_ref().unchecked_ref());
+                }
             }
-            let callback = Closure::wrap(Box::new(move || {
-                if let Ok(mut w) = open_scroll.try_write() { *w = false; }
-            }) as Box<dyn FnMut()>);
-
-            if let Some(window) = web_sys::window() {
-                let _ = window.add_event_listener_with_callback_and_bool(
-                    "scroll",
-                    callback.as_ref().unchecked_ref(),
-                    true,
-                );
-            }
-
-            callback.forget();
-        }));
+        });
     }
 
     rsx! {

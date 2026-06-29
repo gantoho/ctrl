@@ -58,8 +58,8 @@ pub fn Card(props: CardProps) -> Element {
             if !props.title.is_empty() || props.header.is_some() {
                 div {
                     class: "ctrl-card__header",
-                    if props.header.is_some() {
-                        {props.header.unwrap()}
+                    if let Some(header) = props.header.clone() {
+                        {header}
                     } else {
                         "{props.title}"
                     }

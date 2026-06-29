@@ -4,39 +4,54 @@ use super::theme::Theme;
 /// 主题提供者组件
 ///
 /// 包裹在应用最外层，自动注入 CSS 变量并通过 Context 向下传递主题配置。
+/// 同时注入浅色 (`:root`) 和深色 (`[data-theme="dark"]`) 两套变量。
+///
+/// 用户通过设置 `<html data-theme="dark">` 来切换深色模式。
 ///
 /// # 示例
 ///
 /// ```rust
 /// use ctrl_core::theme::{ThemeProvider, Theme};
 ///
-/// // 使用默认主题
-/// rsx! { ThemeProvider { "你的应用" } }
+/// // 使用默认主题（自动生成深色色板）
+/// rsx! { ThemeProvider { /* 你的应用 */ } }
 ///
-/// // 自定义主题色
+/// // 自定义双主题色
 /// let my_theme = Theme {
 ///     colors: ColorPalette {
-///         primary: "#FF6B35",
+///         primary: "#059669",
 ///         ..Default::default()
 ///     },
+///     dark_colors: Some(ColorPalette {
+///         primary: "#34D399",
+///         bg: "#0F172A",
+///         text: "#F1F5F9",
+///         ..Default::default()  // 其它颜色从 Default 继承
+///     }),
 ///     ..Default::default()
 /// };
-/// rsx! { ThemeProvider { theme: my_theme, "你的应用" } }
+/// rsx! { ThemeProvider { theme: my_theme, /* 你的应用 */ } }
+///
+/// // 仅浅色模式
+/// let only_light = Theme {
+///     dark_colors: None,  // 不启用深色
+///     ..Default::default()
+/// };
+/// rsx! { ThemeProvider { theme: only_light, /* 你的应用 */ } }
 /// ```
 #[derive(Props, PartialEq, Clone)]
 pub struct ThemeProviderProps {
-    /// 自定义主题（不传则使用默认主题）
+    /// 自定义主题（不传则使用默认主题，含自动深色色板）
     pub theme: Option<Theme>,
     /// 子元素
     pub children: Element,
 }
 
-/// 生成 CSS 变量字符串
-fn build_css_vars(theme: &Theme) -> String {
-    let c = &theme.colors;
+/// 生成单个色板的 CSS 变量块（不含外层选择器）
+fn build_vars_block(theme: &Theme, palette: &super::colors::ColorPalette) -> String {
+    let c = palette;
     format!(
-        ":root {{
-            --ctrl-primary: {primary};
+        "--ctrl-primary: {primary};
             --ctrl-primary-hover: {primary_hover};
             --ctrl-primary-active: {primary_active};
             --ctrl-primary-light: {primary_light};
@@ -71,8 +86,7 @@ fn build_css_vars(theme: &Theme) -> String {
             --ctrl-radius-lg: {radius_lg};
             --ctrl-shadow-sm: {shadow_sm};
             --ctrl-shadow-md: {shadow_md};
-            --ctrl-transition: {transition};
-        }}",
+            --ctrl-transition: {transition};",
         primary = c.primary,
         primary_hover = c.primary_hover,
         primary_active = c.primary_active,
@@ -110,6 +124,20 @@ fn build_css_vars(theme: &Theme) -> String {
         shadow_md = theme.shadow_md,
         transition = theme.transition,
     )
+}
+
+/// 构建完整 CSS 变量样式
+fn build_css_vars(theme: &Theme) -> String {
+    let light_block = build_vars_block(theme, &theme.colors);
+
+    if let Some(ref dark) = theme.dark_colors {
+        let dark_block = build_vars_block(theme, dark);
+        format!(
+            ":root {{{light_block}}}\n\n[data-theme=\"dark\"] {{{dark_block}}}"
+        )
+    } else {
+        format!(":root {{{light_block}}}")
+    }
 }
 
 /// 全局重置样式

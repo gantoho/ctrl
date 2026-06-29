@@ -1,5 +1,15 @@
 pub mod size;
 pub mod variant;
+pub mod placement;
+pub mod direction;
+pub mod effect;
+pub mod shape;
+pub mod fit;
 
 pub use size::Size;
 pub use variant::Variant;
+pub use placement::Placement;
+pub use direction::Direction;
+pub use effect::Effect;
+pub use shape::Shape;
+pub use fit::Fit;

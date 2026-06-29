@@ -2,6 +2,7 @@ use std::fmt;
 
 /// 组件语义变体
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[non_exhaustive]
 pub enum Variant {
     #[default]
     Primary,

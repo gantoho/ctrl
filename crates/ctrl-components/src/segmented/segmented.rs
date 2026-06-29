@@ -87,12 +87,13 @@ pub fn Segmented(props: SegmentedProps) -> Element {
                         "ctrl-segmented__item".to_string()
                     };
                     let onchange = props.onchange.clone();
+                    let disabled = props.disabled;
 
                     rsx! {
                         button {
                             key: "{val}",
                             class: "{item_class}",
-                            disabled: props.disabled,
+                            disabled: disabled,
                             onclick: move |_| {
                                 selected.set(val.clone());
                                 if let Some(ref cb) = onchange {

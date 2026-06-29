@@ -72,23 +72,58 @@
 }
 
 /* 子菜单标题 */
-.ctrl-menu__submenu-title {
+.ctrl-menu__submenu-trigger {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--ctrl-text, #333);
+    font-size: var(--ctrl-font-size-md, 14px);
+    transition: background var(--ctrl-transition, 0.2s), color var(--ctrl-transition, 0.2s);
+    gap: var(--ctrl-spacing-sm, 8px);
+    user-select: none;
+}
+.ctrl-menu__submenu-trigger:hover {
+    background: var(--ctrl-bg-secondary, #f0f0f0);
 }
 
-/* 子菜单 */
-.ctrl-menu__submenu {
+.ctrl-menu__submenu-title {
+    flex: 1;
+}
+
+/* 子菜单箭头 */
+.ctrl-menu__submenu-arrow {
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text-secondary, #999);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+.ctrl-menu__submenu-arrow--open {
+    transform: rotate(90deg);
+}
+
+/* 子菜单叠层 */
+.ctrl-menu__submenu-items {
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.25s ease;
-    background: var(--ctrl-bg-secondary);
-    padding-left: 0;
+    background: var(--ctrl-bg-secondary, #f0f0f0);
 }
-.ctrl-menu__submenu--open {
+.ctrl-menu__submenu-items--open {
     max-height: 500px;
 }
-.ctrl-menu__submenu .ctrl-menu__item {
+.ctrl-menu__submenu-items .ctrl-menu__item {
     padding-left: 40px;
+}
+
+/* 子菜单激活 */
+.ctrl-menu__submenu--active > .ctrl-menu__submenu-trigger {
+    color: var(--ctrl-primary, #4a90d9);
+    font-weight: 600;
+}
+
+.ctrl-menu__submenu--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }

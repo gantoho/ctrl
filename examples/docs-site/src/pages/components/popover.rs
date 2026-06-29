@@ -14,10 +14,10 @@ div { id: "popover", style: "margin-top: 64px;",
             DemoBox { title: "基本用法".to_string(), description: None,
                 demo: rsx! {
                     div { style: "display: flex; gap: 12px;",
-                        Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "向上弹出" } },
+                        Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "向上弹出" } },
                             Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                         }
-                        Popover { placement: "bottom".to_string(), title: "通知".to_string(), content: rsx! { span { "向下弹出" } },
+                        Popover { placement: Placement::Bottom, title: "通知".to_string(), content: rsx! { span { "向下弹出" } },
                             Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
                         }
                     }
@@ -28,7 +28,7 @@ div { id: "popover", style: "margin-top: 64px;",
                 demo: rsx! {
                     div {
                         style: "overflow: hidden; border: 2px dashed var(--ctrl-border); border-radius: var(--ctrl-radius-md); padding: 20px; width: 200px; height: 80px; display: flex; align-items: center; justify-content: center;",
-                        Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "不会被 overflow:hidden 裁切" } },
+                        Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "不会被 overflow:hidden 裁切" } },
                             Button { variant: Variant::Primary, size: Size::Sm, "点击弹出" }
                         }
                     }

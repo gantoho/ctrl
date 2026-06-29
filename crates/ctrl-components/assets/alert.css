@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════ */
 
 /* ── Banner 容器：fixed 定位 + flexbox 堆叠 ── */
-.ctrl-alert-banner-container {
+.ctrl-alert-banner__container {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,7 +14,7 @@
     pointer-events: none;
 }
 
-.ctrl-alert-banner-container > * {
+.ctrl-alert-banner__container > * {
     pointer-events: auto;
 }
 

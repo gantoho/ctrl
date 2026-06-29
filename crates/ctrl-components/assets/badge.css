@@ -22,7 +22,7 @@
     min-width: 20px;
     height: 20px;
     padding: 0 var(--ctrl-spacing-xs);
-    border-radius: 10px;
+    border-radius: var(--ctrl-radius-lg, 10px);
     border: 2px solid var(--ctrl-bg);
     font-size: var(--ctrl-font-size-xs);
     font-weight: 600;

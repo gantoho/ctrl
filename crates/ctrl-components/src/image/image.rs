@@ -67,7 +67,6 @@ pub fn ImagePreviewProvider(props: ImagePreviewProviderProps) -> Element {
                 let total = preview_urls.len();
                 let mut idx = index;
                 let mut vis = visible;
-                let mut urls_signal = urls.clone();
 
                 let mut close = move || { vis.set(false); };
 

@@ -3,7 +3,12 @@ use super::colors::ColorPalette;
 /// 主题配置 —— 用户可自由定制
 #[derive(Debug, Clone, PartialEq)]
 pub struct Theme {
+    /// 浅色模式色板（必填）
     pub colors: ColorPalette,
+    /// 深色模式色板（可选，不传则自动从 colors 推算）
+    /// 传 `None` 表示不启用深色模式
+    pub dark_colors: Option<ColorPalette>,
+    /// 字体族
     pub font_family: &'static str,
     pub font_size_xs: &'static str,
     pub font_size_sm: &'static str,
@@ -26,6 +31,7 @@ impl Default for Theme {
     fn default() -> Self {
         Self {
             colors: ColorPalette::default(),
+            dark_colors: Some(ColorPalette::default().dark()),
             font_family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             font_size_xs: "0.6875rem",
             font_size_sm: "0.75rem",

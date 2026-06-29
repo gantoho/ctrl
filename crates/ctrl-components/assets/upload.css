@@ -1,3 +1,7 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Upload 上传
+   ═══════════════════════════════════════════════════ */
+
 .ctrl-upload {
   display: inline-flex;
   flex-direction: column;
@@ -14,10 +18,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  position: relative;
 }
 
 .ctrl-upload__input {
-  display: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .ctrl-upload__list {
@@ -31,9 +40,9 @@
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: var(--ctrl-bg-container, #f5f5f5);
-  border-radius: 4px;
-  font-size: 13px;
+  background: var(--ctrl-bg-secondary, #f5f5f5);
+  border-radius: var(--ctrl-radius-sm, 4px);
+  font-size: var(--ctrl-font-size-sm, 13px);
 }
 
 .ctrl-upload__file-name {
@@ -41,19 +50,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--ctrl-text-primary, #333);
+  color: var(--ctrl-text, #333);
 }
 
 .ctrl-upload__file-size {
   color: var(--ctrl-text-secondary, #999);
-  font-size: 12px;
+  font-size: var(--ctrl-font-size-xs, 12px);
   flex-shrink: 0;
 }
 
 .ctrl-upload__file-remove {
   cursor: pointer;
   color: var(--ctrl-text-secondary, #999);
-  font-size: 14px;
+  font-size: var(--ctrl-font-size-md, 14px);
   padding: 2px;
   border: none;
   background: none;
@@ -62,65 +71,92 @@
 }
 
 .ctrl-upload__file-remove:hover {
-  color: var(--ctrl-color-danger, #e74c3c);
+  color: var(--ctrl-danger, #e74c3c);
 }
 
 .ctrl-upload__file-status {
-  font-size: 12px;
+  font-size: var(--ctrl-font-size-xs, 12px);
   flex-shrink: 0;
 }
 
 .ctrl-upload__file-status--success {
-  color: var(--ctrl-color-success, #27ae60);
+  color: var(--ctrl-success, #27ae60);
 }
 
 .ctrl-upload__file-status--error {
-  color: var(--ctrl-color-danger, #e74c3c);
+  color: var(--ctrl-danger, #e74c3c);
 }
 
 .ctrl-upload__file-status--uploading {
-  color: var(--ctrl-color-primary, #4a90d9);
-}
-
-.ctrl-upload__tip {
-  font-size: 12px;
-  color: var(--ctrl-text-secondary, #999);
+  color: var(--ctrl-primary, #4a90d9);
 }
 
 /* 拖拽区域 */
 .ctrl-upload--drag {
-  border: 2px dashed var(--ctrl-border-color, #d9d9d9);
-  border-radius: 6px;
-  padding: 24px;
+  border: 2px dashed var(--ctrl-border, #d9d9d9);
+  border-radius: var(--ctrl-radius-md, 6px);
+  padding: var(--ctrl-spacing-xl, 24px);
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: border-color var(--ctrl-transition, 0.2s);
 }
 
 .ctrl-upload--drag:hover {
-  border-color: var(--ctrl-color-primary, #4a90d9);
+  border-color: var(--ctrl-primary, #4a90d9);
 }
 
 .ctrl-upload--drag-active {
-  border-color: var(--ctrl-color-primary, #4a90d9);
+  border-color: var(--ctrl-primary, #4a90d9);
   background: rgba(74, 144, 217, 0.04);
 }
 
 .ctrl-upload__drag-icon {
-  font-size: 32px;
+  font-size: var(--ctrl-font-size-xxl, 32px);
   color: var(--ctrl-text-secondary, #999);
   margin-bottom: 8px;
 }
 
 .ctrl-upload__drag-text {
-  font-size: 14px;
-  color: var(--ctrl-text-primary, #333);
+  font-size: var(--ctrl-font-size-md, 14px);
+  color: var(--ctrl-text, #333);
 }
 
 .ctrl-upload__drag-hint {
-  font-size: 12px;
+  font-size: var(--ctrl-font-size-xs, 12px);
   color: var(--ctrl-text-secondary, #999);
   margin-top: 4px;
+}
+
+/* 错误提示 */
+.ctrl-upload__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px 12px;
+  margin-top: 4px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid var(--ctrl-danger, #EF4444);
+  border-radius: var(--ctrl-radius-sm, 4px);
+  font-size: var(--ctrl-font-size-sm, 13px);
+  color: var(--ctrl-danger, #EF4444);
+  white-space: pre-line;
+  line-height: 1.4;
+}
+
+.ctrl-upload__error-icon {
+  flex-shrink: 0;
+  font-size: var(--ctrl-font-size-md, 14px);
+}
+
+.ctrl-upload__error-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.ctrl-upload__tip {
+  font-size: var(--ctrl-font-size-xs, 12px);
+  color: var(--ctrl-text-secondary, #999);
 }
 
 /* 图片预览 */
@@ -134,9 +170,9 @@
   position: relative;
   width: 80px;
   height: 80px;
-  border-radius: 4px;
+  border-radius: var(--ctrl-radius-sm, 4px);
   overflow: hidden;
-  border: 1px solid var(--ctrl-border-color, #d9d9d9);
+  border: 1px solid var(--ctrl-border, #d9d9d9);
 }
 
 .ctrl-upload__preview-item img {
@@ -154,7 +190,7 @@
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
-  font-size: 10px;
+  font-size: var(--ctrl-font-size-xs, 10px);
   line-height: 16px;
   text-align: center;
   cursor: pointer;

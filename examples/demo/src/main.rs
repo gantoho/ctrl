@@ -175,17 +175,17 @@ fn App() -> Element {
                                 Select {
                                     size: Size::Sm,
                                     placeholder: "Small".to_string(),
-                                    options: vec![("s1".into(), "小选项 A".into(), false)],
+                                    options: vec![("s1".to_string(), "小选项 A".to_string(), false)],
                                 }
                                 Select {
                                     size: Size::Md,
                                     placeholder: "Medium".to_string(),
-                                    options: vec![("m1".into(), "中选项".into(), false)],
+                                    options: vec![("m1".to_string(), "中选项".to_string(), false)],
                                 }
                                 Select {
                                     disabled: true,
                                     placeholder: "Disabled".to_string(),
-                                    options: vec![("d1".into(), "禁用项".into(), false)],
+                                    options: vec![("d1".to_string(), "禁用项".to_string(), false)],
                                 }
                             }
                         }
@@ -655,10 +655,10 @@ fn App() -> Element {
                     Row {
                         DemoCard { title: "基本用法".to_string(),
                             div { style: "display: flex; gap: 12px; flex-wrap: wrap;",
-                                Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "这是一段内容" } },
+                                Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "这是一段内容" } },
                                     Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                                 }
-                                Popover { placement: "bottom".to_string(), title: "通知".to_string(), content: rsx! { span { "底部气泡" } },
+                                Popover { placement: Placement::Bottom, title: "通知".to_string(), content: rsx! { span { "底部气泡" } },
                                     Button { variant: Variant::Outline, size: Size::Sm, "Bottom" }
                                 }
                             }
@@ -666,7 +666,7 @@ fn App() -> Element {
                         DemoCard { title: "overflow:hidden 容器".to_string(),
                             div {
                                 style: "overflow: hidden; border: 2px dashed var(--ctrl-border); border-radius: var(--ctrl-radius-md); padding: 20px; width: 180px; height: 60px; display: flex; align-items: center; justify-content: center;",
-                                Popover { placement: "top".to_string(), title: "提示".to_string(), content: rsx! { span { "不会被裁切" } },
+                                Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "不会被裁切" } },
                                     Button { variant: Variant::Primary, size: Size::Sm, "点击弹出" }
                                 }
                             }
@@ -938,7 +938,7 @@ fn InputBasicDemo() -> Element {
     let mut value = use_signal(|| String::new());
     rsx! {
         div { style: "display: flex; flex-direction: column; gap: 8px;",
-            Input { placeholder: "请输入内容", value: value(), oninput: move |evt: FormEvent| value.set(evt.value()) }
+            Input { placeholder: "请输入内容", value: value(), oninput: move |v: String| value.set(v) }
             span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "输入: {value()}" }
         }
     }
@@ -959,8 +959,8 @@ fn FormDemo() -> Element {
 
     rsx! {
         div { style: "display: flex; flex-direction: column; gap: 8px;",
-            Input { placeholder: "姓名", value: name(), error: errors().0, oninput: move |evt: FormEvent| name.set(evt.value()) }
-            Input { placeholder: "邮箱", value: email(), error: errors().1, oninput: move |evt: FormEvent| email.set(evt.value()) }
+            Input { placeholder: "姓名", value: name(), error: errors().0, oninput: move |v: String| name.set(v) }
+            Input { placeholder: "邮箱", value: email(), error: errors().1, oninput: move |v: String| email.set(v) }
             Button { variant: Variant::Primary, onclick: validate, "验证" }
             if submitted() {
                 span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-success);", "✓ 验证通过" }
@@ -1258,20 +1258,6 @@ fn MessageTriggerDemo() -> Element {
     let mut messages = use_signal(|| Vec::<MsgItem>::new());
     let mut next_id = use_signal(|| 0u32);
 
-    let mut add_message = move |t: MessageType, c: &str| {
-        let id = next_id();
-        next_id.set(id + 1);
-
-        let mut list = messages.write();
-        let active_count = list.iter().filter(|(_, _, _, cl)| !cl).count();
-        if active_count >= MAX_MESSAGES {
-            if let Some(oldest) = list.iter_mut().find(|(_, _, _, cl)| !*cl) {
-                oldest.3 = true;
-            }
-        }
-        list.push((id, t, c.to_string(), false));
-    };
-
     rsx! {
         MessageContainer {
             for (id, m_type, content, closing) in messages().iter() {
@@ -1296,10 +1282,58 @@ fn MessageTriggerDemo() -> Element {
         div { style: "display: flex; flex-direction: column; gap: 12px;",
             p { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary); margin: 0 0 4px;", "多次点击累加显示，最多 5 条，超出时从最旧的开始依次退出。" }
             div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Info, "这是一条信息提示"), "Info" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Success, "操作成功完成！"), "Success" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Warning, "请注意数据安全"), "Warning" }
-                Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| add_message(MessageType::Error, "操作失败，请重试"), "Error" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Info, "这是一条信息提示".into(), false));
+                        msg.set(list);
+                    }
+                }, "Info" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Success, "操作成功完成！".into(), false));
+                        msg.set(list);
+                    }
+                }, "Success" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Warning, "请注意数据安全".into(), false));
+                        msg.set(list);
+                    }
+                }, "Warning" }
+                Button { variant: Variant::Outline, size: Size::Sm, onclick: {
+                    let mut nid = next_id; let mut msg = messages;
+                    move |_| {
+                        let id = nid();
+                        nid.set(id + 1);
+                        let mut list = msg.cloned();
+                        if list.iter().filter(|(_,_,_,cl)| !cl).count() >= MAX_MESSAGES {
+                            if let Some(o) = list.iter_mut().find(|(_,_,_,cl)| !*cl) { o.3 = true; }
+                        }
+                        list.push((id, MessageType::Error, "操作失败，请重试".into(), false));
+                        msg.set(list);
+                    }
+                }, "Error" }
             }
             span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
                 "当前消息数量: {messages().len()}（上限 {MAX_MESSAGES}）"

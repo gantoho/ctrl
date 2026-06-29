@@ -145,7 +145,7 @@
     background: var(--ctrl-primary);
     color: #fff;
     font-size: var(--ctrl-font-size-xs);
-    border-radius: 4px;
+    border-radius: var(--ctrl-radius-sm, 4px);
     white-space: nowrap;
     pointer-events: none;
     user-select: none;

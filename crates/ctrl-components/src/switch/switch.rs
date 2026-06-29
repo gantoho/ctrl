@@ -9,6 +9,7 @@ fn build_switch_class(size: Size, checked: bool, disabled: bool) -> String {
         Size::Sm => classes.push("ctrl-switch--sm".into()),
         Size::Md => classes.push("ctrl-switch--md".into()),
         Size::Lg => classes.push("ctrl-switch--lg".into()),
+        _ => {}
     }
 
     if checked {

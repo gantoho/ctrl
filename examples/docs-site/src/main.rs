@@ -46,12 +46,14 @@ fn read_theme_preference() -> bool {
     false
 }
 
-/// 将主题偏好写入 localStorage
-fn save_theme_preference(is_dark: bool) {
+/// 持久化主题偏好并设置 data-theme 属性
+pub fn apply_theme(is_dark: bool) {
     #[cfg(target_arch = "wasm32")]
     {
         let theme = if is_dark { "dark" } else { "light" };
         let _ = js_sys::eval(&format!("localStorage.setItem('ctrl-theme', '{theme}')"));
+        let attr = if is_dark { "dark" } else { "" };
+        let _ = js_sys::eval(&format!("document.documentElement.setAttribute('data-theme', '{attr}')"));
     }
 }
 
@@ -60,50 +62,16 @@ fn App() -> Element {
     let is_dark = use_signal(read_theme_preference);
     use_context_provider(|| is_dark);
 
-    // 持久化主题偏好
-    use_effect(move || save_theme_preference(is_dark()));
+    // 初始化 data-theme
+    use_effect(move || apply_theme(is_dark()));
 
     // 初始化活动章节信号
     let active = Signal::new(None::<String>);
     use_context_provider(|| ActiveSection(active));
 
-    let theme = {
-        let dark = is_dark();
-        if dark {
-            ctrl::theme::Theme {
-                colors: ctrl::theme::ColorPalette {
-                    primary: "#818CF8",
-                    primary_hover: "#6366F1",
-                    primary_active: "#4F46E5",
-                    primary_light: "#1E1B4B",
-                    bg: "#0F172A",
-                    bg_secondary: "#1E293B",
-                    text: "#F1F5F9",
-                    text_secondary: "#94A3B8",
-                    text_disabled: "#475569",
-                    border: "#334155",
-                    border_hover: "#475569",
-                    ..Default::default()
-                },
-                ..Default::default()
-            }
-        } else {
-            ctrl::theme::Theme::default()
-        }
-    };
-
     rsx! {
-        // 所有组件 CSS 已由组件内部 include_str! 嵌入，用户无需手动加载
-        // reset.css 已由 ThemeProvider 自动注入
-
         ThemeProvider {
-            theme: theme,
-            ImagePreviewProvider {
-                NotificationProvider {
-                    placement: NotificationPlacement::TopRight,
-                    Router::<Route> {}
-                }
-            }
+            Router::<Route> {}
         }
     }
 }

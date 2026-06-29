@@ -64,7 +64,7 @@ pub fn Dialog(props: DialogProps) -> Element {
         style { {CSS} }
         // 遮罩层
         div {
-            class: "ctrl-dialog-overlay",
+            class: "ctrl-dialog__overlay",
             // 半透明背景
             div {
                 class: "ctrl-dialog__mask",
@@ -107,10 +107,10 @@ pub fn Dialog(props: DialogProps) -> Element {
                 }
 
                 // 底部
-                if props.footer.is_some() {
+                if let Some(footer) = props.footer.clone() {
                     div {
                         class: "ctrl-dialog__footer",
-                        {props.footer.unwrap()}
+                        {footer}
                     }
                 }
             }

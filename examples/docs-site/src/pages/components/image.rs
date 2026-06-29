@@ -4,9 +4,27 @@ use ctrl::prelude::*;
 use crate::components::demobox::DemoBox;
 use crate::pages::components::shared::PropsTable;
 
+fn api_preview_button(mut api: ImagePreviewAPI) -> Element {
+    rsx! {
+        Button {
+            variant: Variant::Primary,
+            size: Size::Sm,
+            onclick: move |_| {
+                api.open(vec![
+                    "https://picsum.photos/id/50/800/600".to_string(),
+                    "https://picsum.photos/id/60/800/600".to_string(),
+                    "https://picsum.photos/id/70/800/600".to_string(),
+                ], 0);
+            },
+            "打开图片预览"
+        }
+    }
+}
+
 #[component]
 #[allow(non_snake_case)]
 pub fn ImagePage() -> Element {
+    let api = use_image_preview();
     rsx! {
 div { id: "image", style: "margin-top: 64px;",
             h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Image 图片" }
@@ -74,25 +92,7 @@ div { id: "image", style: "margin-top: 64px;",
             DemoBox {
                 title: "API 触发预览".to_string(),
                 description: Some("通过 use_image_preview() 获取 API，无需 Image 组件即可呼出预览。".to_string()),
-                demo: rsx! {
-                    { {
-                        let mut api = use_image_preview();
-                        rsx! {
-                            Button {
-                                variant: Variant::Primary,
-                                size: Size::Sm,
-                                onclick: move |_| {
-                                    api.open(vec![
-                                        "https://picsum.photos/id/50/800/600".to_string(),
-                                        "https://picsum.photos/id/60/800/600".to_string(),
-                                        "https://picsum.photos/id/70/800/600".to_string(),
-                                    ], 0);
-                                },
-                                "打开图片预览"
-                            }
-                        }
-                    } }
-                },
+                demo: api_preview_button(api),
                 code: r#"let mut api = use_image_preview();
 api.open(vec![
     "img1.jpg".into(),
@@ -101,7 +101,29 @@ api.open(vec![
 ], 0);"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Image Props" }
+            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "ImagePreviewProvider —— 命令式容器" }
+            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+                "使用 API 触发预览前，需在应用根节点包裹 ImagePreviewProvider："
+            }
+            DemoBox {
+                title: String::new(),
+                description: None,
+                demo: rsx! { span { style: "font-family: monospace; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text);", "ImagePreviewProvider {{ /* 你的应用 */ }}" } },
+                code: r#"rsx! {
+    ImagePreviewProvider {
+        // 你的应用路由或页面
+        Router::<Route> {}
+    }
+}"#.to_string(),
+            }
+
+            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_image_preview() API" }
+            PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
+                ("api.open(urls, index)", "Vec<String>, usize", "打开图片预览，urls 为预览图片列表，index 为初始索引", ""),
+                ("api.close()", "—", "关闭预览", ""),
+            ]}
+
+            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Image Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("src", "String", "\"\"", "图片地址"),
                 ("alt", "String", "\"\"", "替代文本"),

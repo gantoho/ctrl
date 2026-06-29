@@ -1,4 +1,6 @@
 use dioxus::prelude::*;
+use std::cell::RefCell;
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::window;
 
@@ -143,58 +145,65 @@ pub fn Backtop(props: BacktopProps) -> Element {
     let visible = use_signal(|| false);
     let is_bottom = props.target_position == "bottom";
 
-    // use_signal 守卫确保 spawn 只执行一次（首次渲染）
-    let mut started = use_signal(|| false);
-    if !started() {
-        started.set(true);
+    // 存储 scroll 监听器闭包，组件卸载时通过 use_drop 清理
+    let scroll_listener: Signal<Rc<RefCell<Option<Closure<dyn FnMut()>>>>> =
+        use_signal(|| Rc::new(RefCell::new(None)));
 
-        let mut v = visible.clone();
-        let threshold = props.visibility_height;
-        spawn(async move {
-            let win = match window() {
-                Some(w) => w,
-                None => return,
-            };
+    let threshold = props.visibility_height;
+    let mut v = visible.clone();
+    let sl = scroll_listener.clone();
 
-            if is_bottom {
-                // bottom 模式：滚动距离底部超过 threshold 时显示
-                let doc = win.document().unwrap();
-                let scroll_y = win.scroll_y().unwrap_or(0.0);
-                let inner_h = win.inner_height().ok().and_then(|v| v.as_f64()).unwrap_or(0.0);
-                let doc_h = doc.document_element().map(|d| d.scroll_height() as f64).unwrap_or(0.0);
-                let dist_from_bottom = doc_h - scroll_y - inner_h;
-                if let Ok(mut w) = v.try_write() { *w = dist_from_bottom > threshold as f64; }
+    use_effect(move || {
+        let win = match window() {
+            Some(w) => w,
+            None => return,
+        };
 
-                let win2 = win.clone();
-                let closure = Closure::<dyn FnMut()>::new(move || {
-                    let sy = win2.scroll_y().unwrap_or(0.0);
-                    let ih = win2.inner_height().ok().and_then(|v| v.as_f64()).unwrap_or(0.0);
-                    let dh = win2.document().and_then(|d| d.document_element()).map(|d| d.scroll_height() as f64).unwrap_or(0.0);
-                    if let Ok(mut w) = v.try_write() { *w = dh - sy - ih > threshold as f64; }
-                });
-                if let Err(e) = win.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref()) {
-                    if let Ok(mut w) = v.try_write() { *w = true; }
-                    _ = e;
-                }
-                closure.forget();
-            } else {
-                // top 模式：滚动超过 threshold 时显示
-                let scroll_y = win.scroll_y().unwrap_or(0.0);
-                if let Ok(mut w) = v.try_write() { *w = scroll_y > threshold as f64; }
+        if is_bottom {
+            let Some(doc) = win.document() else { return; };
+            let scroll_y = win.scroll_y().unwrap_or(0.0);
+            let inner_h = win.inner_height().ok().and_then(|v| v.as_f64()).unwrap_or(0.0);
+            let doc_h = doc.document_element().map(|d| d.scroll_height() as f64).unwrap_or(0.0);
+            let dist_from_bottom = doc_h - scroll_y - inner_h;
+            if let Ok(mut w) = v.try_write() { *w = dist_from_bottom > threshold as f64; }
 
-                let win2 = win.clone();
-                let closure = Closure::<dyn FnMut()>::new(move || {
-                    let sy = win2.scroll_y().unwrap_or(0.0);
-                    if let Ok(mut w) = v.try_write() { *w = sy > threshold as f64; }
-                });
-                if let Err(e) = win.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref()) {
-                    if let Ok(mut w) = v.try_write() { *w = true; }
-                    _ = e;
-                }
-                closure.forget();
+            let win2 = win.clone();
+            let closure = Closure::<dyn FnMut()>::new(move || {
+                let sy = win2.scroll_y().unwrap_or(0.0);
+                let ih = win2.inner_height().ok().and_then(|v| v.as_f64()).unwrap_or(0.0);
+                let dh = win2.document().and_then(|d| d.document_element()).map(|d| d.scroll_height() as f64).unwrap_or(0.0);
+                if let Ok(mut w) = v.try_write() { *w = dh - sy - ih > threshold as f64; }
+            });
+            if let Err(e) = win.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref()) {
+                if let Ok(mut w) = v.try_write() { *w = true; }
+                _ = e;
             }
-        });
-    }
+            *sl().borrow_mut() = Some(closure);
+        } else {
+            let scroll_y = win.scroll_y().unwrap_or(0.0);
+            if let Ok(mut w) = v.try_write() { *w = scroll_y > threshold as f64; }
+
+            let win2 = win.clone();
+            let closure = Closure::<dyn FnMut()>::new(move || {
+                let sy = win2.scroll_y().unwrap_or(0.0);
+                if let Ok(mut w) = v.try_write() { *w = sy > threshold as f64; }
+            });
+            if let Err(e) = win.add_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref()) {
+                if let Ok(mut w) = v.try_write() { *w = true; }
+                _ = e;
+            }
+            *sl().borrow_mut() = Some(closure);
+        }
+    });
+
+    // 组件卸载时移除 scroll 监听器
+    use_drop(move || {
+        if let Some(closure) = scroll_listener().borrow_mut().take() {
+            if let Some(win) = window() {
+                let _ = win.remove_event_listener_with_callback("scroll", closure.as_ref().unchecked_ref());
+            }
+        }
+    });
 
     let onclick = props.onclick.clone();
     let js_code = build_scroll_js(&props);

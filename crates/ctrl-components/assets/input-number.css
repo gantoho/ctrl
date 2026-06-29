@@ -5,6 +5,7 @@
 .ctrl-input-number {
     display: inline-flex;
     align-items: center;
+    width: fit-content;
     border: 1px solid var(--ctrl-border);
     border-radius: var(--ctrl-radius-md);
     background: var(--ctrl-bg);
@@ -49,7 +50,7 @@
     background: transparent;
     color: var(--ctrl-text-secondary);
     cursor: pointer;
-    font-size: 16px;
+    font-size: var(--ctrl-font-size-lg, 16px);
     transition: color 0.15s ease, background 0.15s ease;
     user-select: none;
     flex-shrink: 0;

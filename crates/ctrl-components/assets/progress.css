@@ -36,3 +36,36 @@
     text-align: right;
     flex-shrink: 0;
 }
+
+/* ════════════════════════════════════════════
+   圆形进度条
+   ════════════════════════════════════════════ */
+
+.ctrl-progress--circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.ctrl-progress__circle-track {
+    stroke: var(--ctrl-bg, #f0f0f0);
+}
+
+.ctrl-progress__circle-bar {
+    transition: stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+/* 圆形进度条中的百分比文字（居中覆盖在圆环上） */
+.ctrl-progress__text--circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text, #333);
+    min-width: 0;
+    text-align: center;
+}

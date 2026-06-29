@@ -41,7 +41,7 @@ pub struct InputProps {
     pub style: String,
 
     /// 输入事件
-    pub oninput: Option<EventHandler<FormEvent>>,
+    pub oninput: Option<EventHandler<String>>,
 
     /// 获得焦点事件
     pub onfocus: Option<EventHandler<FocusEvent>>,
@@ -58,6 +58,7 @@ fn build_input_class(size: Size, disabled: bool, error: bool, readonly: bool) ->
         Size::Sm => classes.push("ctrl-input--sm".into()),
         Size::Md => classes.push("ctrl-input--md".into()),
         Size::Lg => classes.push("ctrl-input--lg".into()),
+        _ => {}
     }
 
     if disabled {
@@ -114,9 +115,9 @@ pub fn Input(props: InputProps) -> Element {
                     handler.call(evt);
                 }
             },
-            oninput: move |evt| {
+            oninput: move |evt: FormEvent| {
                 if let Some(ref handler) = oninput {
-                    handler.call(evt);
+                    handler.call(evt.value());
                 }
             },
         }

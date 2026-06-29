@@ -1,14 +1,18 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Form 表单
+   ═══════════════════════════════════════════════════ */
+
 .ctrl-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--ctrl-spacing-lg, 16px);
 }
 
 .ctrl-form--inline {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--ctrl-spacing-lg, 16px);
 }
 
 .ctrl-form__item {
@@ -20,19 +24,19 @@
 .ctrl-form--inline .ctrl-form__item {
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: var(--ctrl-spacing-sm, 8px);
 }
 
 .ctrl-form__label {
-  font-size: 14px;
-  color: var(--ctrl-text-primary, #333);
+  font-size: var(--ctrl-font-size-md, 14px);
+  color: var(--ctrl-text, #333);
   font-weight: 500;
   flex-shrink: 0;
 }
 
 .ctrl-form__label--required::before {
   content: "*";
-  color: var(--ctrl-color-danger, #e74c3c);
+  color: var(--ctrl-danger, #e74c3c);
   margin-right: 4px;
 }
 
@@ -41,27 +45,27 @@
 }
 
 .ctrl-form__help {
-  font-size: 12px;
+  font-size: var(--ctrl-font-size-xs, 12px);
   color: var(--ctrl-text-secondary, #999);
 }
 
 .ctrl-form__error {
-  font-size: 12px;
-  color: var(--ctrl-color-danger, #e74c3c);
+  font-size: var(--ctrl-font-size-xs, 12px);
+  color: var(--ctrl-danger, #e74c3c);
 }
 
 .ctrl-form__actions {
   display: flex;
-  gap: 8px;
+  gap: var(--ctrl-spacing-sm, 8px);
   justify-content: flex-end;
-  padding-top: 8px;
+  padding-top: var(--ctrl-spacing-sm, 8px);
 }
 
 /* 水平布局 */
 .ctrl-form--horizontal .ctrl-form__item {
   flex-direction: row;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--ctrl-spacing-md, 12px);
 }
 
 .ctrl-form--horizontal .ctrl-form__label {

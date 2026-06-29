@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::Route;
+use crate::{Route, apply_theme};
 
 /// 文档页面通用布局 —— 固定侧边栏 + 顶栏 + 居中内容区
 #[component]
@@ -26,7 +26,11 @@ pub fn DocsLayout() -> Element {
                     style: "height: 56px; border-bottom: 1px solid var(--ctrl-border); display: flex; align-items: center; justify-content: flex-end; padding: 0 24px; flex-shrink: 0;",
                     button {
                         style: "display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: none; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-sm); cursor: pointer; font-size: 1rem; color: var(--ctrl-text); outline: none; appearance: none; -webkit-appearance: none;",
-                        onclick: move |_| is_dark.set(!is_dark()),
+                        onclick: move |_| {
+                            let next = !is_dark();
+                            is_dark.set(next);
+                            apply_theme(next);
+                        },
                         if is_dark() { "☀️" } else { "🌙" }
                     }
                 }

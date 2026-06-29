@@ -20,7 +20,7 @@
     width: 80px;
     height: 80px;
     margin-bottom: 16px;
-    font-size: 48px;
+    font-size: var(--ctrl-font-size-xxl, 48px);
     line-height: 1;
     opacity: 0.4;
 }

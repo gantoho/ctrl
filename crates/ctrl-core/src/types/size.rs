@@ -2,6 +2,7 @@ use std::fmt;
 
 /// 组件尺寸
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[non_exhaustive]
 pub enum Size {
     #[default]
     Md,

@@ -21,7 +21,7 @@ div { id: "select", style: "margin-top: 64px;",
                 title: "基本用法".to_string(),
                 description: Some("通过 options 属性传入选项列表，onchange 获取选中值。".to_string()),
                 demo: rsx! { BasicSelectDemo {} },
-                code: "let options = vec![\n    (\"a\".to_string(), \"选项 A\".to_string(), false),\n    (\"b\".to_string(), \"选项 B\".to_string(), false),\n    (\"c\".to_string(), \"选项 C\".to_string(), false),\n];\n\nSelect { options, placeholder: \"请选择\", value: value(), onchange: move |v| value.set(v) }".to_string(),
+                code: "let options = vec![\n    SelectOption::new(\"a\", \"选项 A\"),\n    SelectOption::new(\"b\", \"选项 B\"),\n    SelectOption::new(\"c\", \"选项 C\").disabled(),\n];\n\nSelect { options, placeholder: \"请选择\", value: value(), onchange: move |v| value.set(v) }".to_string(),
             }
 
             DemoBox {
@@ -29,9 +29,9 @@ div { id: "select", style: "margin-top: 64px;",
                 description: Some("Sm / Md / Lg".to_string()),
                 demo: rsx! {
                     div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 240px;",
-                        Select { size: Size::Sm, options: vec![("1".into(), "小".into(), false)], placeholder: "Small".to_string() }
-                        Select { size: Size::Md, options: vec![("1".into(), "中".into(), false)], placeholder: "Medium".to_string() }
-                        Select { size: Size::Lg, options: vec![("1".into(), "大".into(), false)], placeholder: "Large".to_string() }
+                        Select { size: Size::Sm, options: vec![("1".to_string(), "小".to_string(), false)], placeholder: "Small".to_string() }
+                        Select { size: Size::Md, options: vec![("1".to_string(), "中".to_string(), false)], placeholder: "Medium".to_string() }
+                        Select { size: Size::Lg, options: vec![("1".to_string(), "大".to_string(), false)], placeholder: "Large".to_string() }
                     }
                 },
                 code: "Select { size: Size::Sm, options, placeholder: \"Small\" }\nSelect { size: Size::Md, options, placeholder: \"Medium\" }\nSelect { size: Size::Lg, options, placeholder: \"Large\" }".to_string(),
@@ -45,7 +45,7 @@ div { id: "select", style: "margin-top: 64px;",
                         Select {
                             disabled: true,
                             placeholder: "整个禁用".to_string(),
-                            options: vec![("1".into(), "选项".into(), false)],
+                            options: vec![("1".to_string(), "选项".to_string(), false)],
                         }
                     }
                 },
@@ -54,7 +54,7 @@ div { id: "select", style: "margin-top: 64px;",
 
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Select Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
-                ("options", "Vec<(String,String,bool)>", "[]", "选项列表 (值,标签,禁用)"),
+                ("options", "Vec<SelectOption>", "[]", "选项列表"),
                 ("value", "String", "\"\"", "当前选中值"),
                 ("placeholder", "String", "\"请选择\"", "占位文本"),
                 ("size", "Size", "Md", "选择器尺寸"),

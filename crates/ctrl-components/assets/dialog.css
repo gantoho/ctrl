@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════ */
 
 /* 遮罩层 */
-.ctrl-dialog-overlay {
+.ctrl-dialog__overlay {
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -83,4 +83,34 @@
     justify-content: flex-end;
     gap: 8px;
     flex-shrink: 0;
+}
+
+/* Dialog 底部按钮 */
+.ctrl-dialog__btn {
+    padding: 6px 20px;
+    border-radius: var(--ctrl-radius-sm);
+    font-size: var(--ctrl-font-size-md);
+    cursor: pointer;
+    border: 1px solid var(--ctrl-border);
+    font-family: inherit;
+    transition: background 0.15s ease;
+}
+
+.ctrl-dialog__btn--cancel {
+    background: var(--ctrl-bg);
+    color: var(--ctrl-text);
+}
+
+.ctrl-dialog__btn--cancel:hover {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-dialog__btn--confirm {
+    background: var(--ctrl-primary);
+    color: #fff;
+    border-color: var(--ctrl-primary);
+}
+
+.ctrl-dialog__btn--confirm:hover {
+    background: var(--ctrl-primary-hover);
 }

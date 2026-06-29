@@ -82,8 +82,8 @@ fn update_dom_track(rail_id: &str, value: i32, min: i32, max: i32, vertical: boo
         return;
     }
     let pct = ((value - min) as f64 / range as f64 * 100.0).clamp(0.0, 100.0);
-    let window = web_sys::window().unwrap();
-    let doc = window.document().unwrap();
+    let Some(window) = web_sys::window() else { return; };
+    let Some(doc) = window.document() else { return; };
 
     if let Some(track) = doc.get_element_by_id(&format!("{}-track", rail_id)) {
         let style = if vertical {
@@ -130,8 +130,8 @@ fn begin_drag(
     client_x: f64,
     client_y: f64,
 ) {
-    let window = web_sys::window().unwrap();
-    let doc = window.document().unwrap();
+    let Some(window) = web_sys::window() else { return; };
+    let Some(doc) = window.document() else { return; };
     let rid = rail_id();
 
     if let Some(rail) = doc.get_element_by_id(&rid) {
@@ -160,7 +160,8 @@ fn begin_drag(
             Closure::wrap(Box::new(move |e: web_sys::MouseEvent| {
                 e.prevent_default();
                 let rid = rid();
-                let doc = web_sys::window().unwrap().document().unwrap();
+                let Some(win) = web_sys::window() else { return; };
+                let Some(doc) = win.document() else { return; };
                 if let Some(rail) = doc.get_element_by_id(&rid) {
                     let rect = rail.get_bounding_client_rect();
                     let new_val = if vertical {
@@ -184,8 +185,8 @@ fn begin_drag(
                 is_dragging.set(false);
                 // 清理监听器
                 if let Some(listeners) = drag_listeners().borrow_mut().take() {
-                    let window = web_sys::window().unwrap();
-                    let doc = window.document().unwrap();
+                    let Some(window) = web_sys::window() else { return; };
+                    let Some(doc) = window.document() else { return; };
                     let document: web_sys::EventTarget = doc.into();
                     let window_target: web_sys::EventTarget = window.into();
                     let _ = document.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());
@@ -208,7 +209,8 @@ fn begin_drag(
                 e.prevent_default();
                 let rid = rid();
                 if let Some(touch) = e.touches().get(0) {
-                    let doc = web_sys::window().unwrap().document().unwrap();
+                    let Some(win) = web_sys::window() else { return; };
+                let Some(doc) = win.document() else { return; };
                     if let Some(rail) = doc.get_element_by_id(&rid) {
                         let rect = rail.get_bounding_client_rect();
                         let new_val = if vertical {
@@ -232,8 +234,8 @@ fn begin_drag(
             Closure::wrap(Box::new(move |_e: web_sys::TouchEvent| {
                 is_dragging.set(false);
                 if let Some(listeners) = drag_listeners().borrow_mut().take() {
-                    let window = web_sys::window().unwrap();
-                    let doc = window.document().unwrap();
+                    let Some(window) = web_sys::window() else { return; };
+                    let Some(doc) = window.document() else { return; };
                     let document: web_sys::EventTarget = doc.into();
                     let window_target: web_sys::EventTarget = window.into();
                     let _ = document.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());

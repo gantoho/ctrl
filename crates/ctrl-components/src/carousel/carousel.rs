@@ -1,4 +1,6 @@
 use dioxus::prelude::*;
+use std::cell::Cell;
+use std::rc::Rc;
 
 /// Carousel 走马灯组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -57,31 +59,41 @@ pub fn Carousel(props: CarouselProps) -> Element {
         c
     };
 
-    // 自动播放
+    // 自动播放（带取消机制）
     if props.autoplay {
         let index = active_index.clone();
-        // 使用 use_effect 或 use_future 实现自动播放
-        // 这里使用一个简单的定时器思路
+        let interval = props.interval;
+        let cancelled = Rc::new(Cell::new(false));
+        let cancelled_clone = cancelled.clone();
+
         let _ = use_resource(move || {
-            let index = index.clone();
-            let interval = props.interval;
+            let mut index = index.clone();
+            let cancelled = cancelled_clone.clone();
+            let interval = interval;
             async move {
-                // 在 wasm 中可以使用 gloo_timers
                 #[cfg(target_arch = "wasm32")]
                 {
-                    let _idx = index;
                     loop {
+                        if cancelled.get() {
+                            break;
+                        }
                         gloo_timers::future::TimeoutFuture::new(interval as u32).await;
-                        // 更新索引（循环）
-                        // 注意：这里需要知道总页数，但无法直接获取
-                        // 使用一个简单的递增方式
+                        if cancelled.get() {
+                            break;
+                        }
+                        index.set(index() + 1);
                     }
                 }
                 #[cfg(not(target_arch = "wasm32"))]
                 {
-                    let _ = (index, interval);
+                    let _ = (index, interval, cancelled);
                 }
             }
+        });
+
+        // 组件卸载时取消循环
+        use_drop(move || {
+            cancelled.set(true);
         });
     }
 

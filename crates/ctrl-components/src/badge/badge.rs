@@ -65,8 +65,7 @@ pub fn Badge(props: BadgeProps) -> Element {
     rsx! {
         style { {CSS} }
         div {
-            class: "{badge_class}",
-            style: "position: relative; display: inline-flex;",
+            class: "ctrl-badge__wrapper {badge_class}",
             {props.children}
             if has_content {
                 if show_dot {

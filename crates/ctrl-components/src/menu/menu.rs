@@ -101,8 +101,8 @@ pub fn MenuItem(props: MenuItemProps) -> Element {
                     }
                 }
             },
-            if props.icon.is_some() {
-                span { class: "ctrl-menu__icon", {props.icon.clone().unwrap()} }
+            if let Some(icon) = props.icon.clone() {
+                span { class: "ctrl-menu__icon", {icon} }
             }
             {props.children}
         }

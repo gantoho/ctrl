@@ -1,0 +1,68 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Statistic 统计数值
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-statistic {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.ctrl-statistic--center {
+    text-align: center;
+    align-items: center;
+}
+
+/* — 标题 — */
+.ctrl-statistic__title {
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text-secondary, #999);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* — 数值行：前缀 + 数值 + 后缀 + 趋势 — */
+.ctrl-statistic__content {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    line-height: 1.2;
+}
+
+.ctrl-statistic__value {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ctrl-text, #333);
+    white-space: nowrap;
+}
+
+.ctrl-statistic__prefix,
+.ctrl-statistic__suffix {
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text-secondary, #999);
+}
+
+/* — 趋势箭头 — */
+.ctrl-statistic__trend {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--ctrl-font-size-lg, 16px);
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.ctrl-statistic__trend--up {
+    color: var(--ctrl-success, #10b981);
+}
+
+.ctrl-statistic__trend--down {
+    color: var(--ctrl-danger, #ef4444);
+}
+
+/* — 响应式 — */
+@media (max-width: 640px) {
+    .ctrl-statistic__value {
+        font-size: 24px;
+    }
+}

@@ -46,16 +46,22 @@ ctrl/                              # 仓库根目录
 │   │       │   ├── mod.rs
 │   │       │   └── button.rs      # Button 组件实现
 │   │       ├── input/
-│   │       │   ├── mod.rs
-│   │       │   └── input.rs       # Input 组件实现
-│   │       ├── switch/            # Switch 开关
-│   │       ├── checkbox/          # Checkbox 复选框
-│   │       ├── radio/             # Radio 单选框
-│   │       ├── select/            # Select 下拉选择
-│   │       ├── tag/               # Tag 标签
-│   │       ├── card/              # Card 卡片
-│   │       ├── dialog/            # Dialog 对话框
-│   │       └── table/             # Table 表格
+│       │   ├── mod.rs
+│       │   └── input.rs       # Input 组件实现
+│       ├── switch/            # Switch 开关
+│       ├── checkbox/          # Checkbox 复选框
+│       ├── radio/             # Radio 单选框
+│       ├── select/            # Select 下拉选择
+│       ├── tag/               # Tag 标签
+│       ├── card/              # Card 卡片
+│       ├── dialog/            # Dialog 对话框
+│       ├── table/             # Table 表格
+│       ├── textarea/          # Textarea 多行输入
+│       ├── result/            # Result 结果页
+│       ├── statistic/         # Statistic 统计数值
+│       ├── descriptions/      # Descriptions 描述列表
+│       ├── grid/              # Grid 栅格布局 (Row + Col)
+│       └── ... (共 48 个组件目录)
 │   │
 │   └── ctrl/                      # 聚合导出 crate（用户唯一依赖）
 │       ├── Cargo.toml
@@ -292,7 +298,7 @@ assets/
 ├── date-picker.css
 ├── segmented.css
 ├── skeleton.css
-├── ...  (共 43 个组件 CSS 文件)
+├── ...  (共 48 个组件 CSS 文件)
 └── theme.css            # ThemeProvider 注入的全局 CSS 变量
 ```
 
@@ -461,7 +467,7 @@ use_effect(use_reactive(&props.value, move |v| {
 ├──────────────────────────────────┤
 │  XxxConfig (配置结构体)          │
 │  ├── title, content, ...         │
-│  └── on_confirm, onclose 等回调  │
+│  └── onconfirm, onclose 等回调  │
 ├──────────────────────────────────┤
 │  XxxAPI (Context 类型)           │
 │  ├── open(config) → 打开并配置   │
@@ -480,7 +486,7 @@ DialogProvider {
     dialog.open(DialogConfig {
         title: "确认删除".into(),
         content: rsx! { p { "确定要删除吗？" } },
-        on_confirm: Some(EventHandler::new(|_| { /* 删除 */ })),
+        onconfirm: Some(EventHandler::new(|_| { /* 删除 */ })),
         ..Default::default()
     });
 }
@@ -983,7 +989,7 @@ pub use ctrl_components::{Avatar, AvatarProps};
 
 **代价：**
 1. 每个组件渲染时注入一个 `<style>` 标签 → 标签数量 = 渲染的组件数量，生产中可合并优化
-2. CSS 内容在编译后内联到 wasm binary → 增大 binary 体积，但 43 个 CSS 文件合计约 50KB（gzip 后更小）
+2. CSS 内容在编译后内联到 wasm binary → 增大 binary 体积，但 48 个 CSS 文件合计约 55KB（gzip 后更小）
 
 ### 9.2 为什么 ColorPalette 使用 `&'static str`
 

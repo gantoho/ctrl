@@ -155,9 +155,9 @@ fn TreeNodeView(props: TreeNodeViewProps) -> Element {
 
     let child_nodes_class = {
         if expanded() {
-            "ctrl-tree__child_nodes"
+            "ctrl-tree__child-nodes"
         } else {
-            "ctrl-tree__child_nodes ctrl-tree__child_nodes--hidden"
+            "ctrl-tree__child-nodes ctrl-tree__child-nodes--hidden"
         }
     };
 

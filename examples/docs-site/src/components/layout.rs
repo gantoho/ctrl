@@ -69,6 +69,11 @@ fn SidebarContent() -> Element {
             NavItem { label: "组件总览".to_string(), target: Route::ComponentsIndex {}, current: current_route.clone() }
             NavItem { label: "Button 按钮".to_string(), target: Route::ComponentPage { name: "button".to_string() }, current: current_route.clone() }
             NavItem { label: "Input 输入框".to_string(), target: Route::ComponentPage { name: "input".to_string() }, current: current_route.clone() }
+            NavItem { label: "Textarea 多行输入".to_string(), target: Route::ComponentPage { name: "textarea".to_string() }, current: current_route.clone() }
+            NavItem { label: "Result 结果页".to_string(), target: Route::ComponentPage { name: "result".to_string() }, current: current_route.clone() }
+            NavItem { label: "Statistic 统计数值".to_string(), target: Route::ComponentPage { name: "statistic".to_string() }, current: current_route.clone() }
+            NavItem { label: "Descriptions 描述列表".to_string(), target: Route::ComponentPage { name: "descriptions".to_string() }, current: current_route.clone() }
+            NavItem { label: "Grid 栅格布局".to_string(), target: Route::ComponentPage { name: "grid".to_string() }, current: current_route.clone() }
             NavItem { label: "Switch 开关".to_string(), target: Route::ComponentPage { name: "switch".to_string() }, current: current_route.clone() }
             NavItem { label: "Checkbox 复选框".to_string(), target: Route::ComponentPage { name: "checkbox".to_string() }, current: current_route.clone() }
             NavItem { label: "Radio 单选框".to_string(), target: Route::ComponentPage { name: "radio".to_string() }, current: current_route.clone() }

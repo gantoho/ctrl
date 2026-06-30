@@ -66,10 +66,10 @@
   white-space: nowrap;
 }
 
-.ctrl-tree__child_nodes {
+.ctrl-tree__child-nodes {
   padding-left: var(--ctrl-spacing-lg, 20px);
 }
 
-.ctrl-tree__child_nodes--hidden {
+.ctrl-tree__child-nodes--hidden {
   display: none;
 }

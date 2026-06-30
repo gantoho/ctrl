@@ -76,10 +76,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    animation: ctrlImageFadeIn 0.2s ease;
+    animation: ctrl-image-fade-in 0.2s ease;
 }
 
-@keyframes ctrlImageFadeIn {
+@keyframes ctrl-image-fade-in {
     from { opacity: 0; }
     to { opacity: 1; }
 }

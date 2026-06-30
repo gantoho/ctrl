@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Result 结果页
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 32px;
+    box-sizing: border-box;
+}
+
+/* — 图标 — */
+.ctrl-result__icon {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 24px;
+}
+
+/* 用户自定义图标 */
+.ctrl-result__icon > * {
+    display: inline-flex;
+}
+
+/* — 标题 — */
+.ctrl-result__title {
+    font-size: var(--ctrl-font-size-xl, 24px);
+    font-weight: 600;
+    color: var(--ctrl-text, #333);
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+/* — 副标题 — */
+.ctrl-result__subtitle {
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text-secondary, #999);
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+    max-width: 560px;
+}
+
+/* — 底部操作区 — */
+.ctrl-result__extra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--ctrl-spacing-sm, 8px);
+    flex-wrap: wrap;
+}
+
+/* — 状态颜色（图标） — */
+.ctrl-result--success .ctrl-result__icon { color: var(--ctrl-success, #10b981); }
+.ctrl-result--info    .ctrl-result__icon { color: var(--ctrl-info, #3b82f6); }
+.ctrl-result--warning .ctrl-result__icon { color: var(--ctrl-warning, #f59e0b); }
+.ctrl-result--error   .ctrl-result__icon { color: var(--ctrl-danger, #ef4444); }
+
+/* — 响应式 — */
+@media (max-width: 640px) {
+    .ctrl-result {
+        padding: 32px 16px;
+    }
+    .ctrl-result__icon {
+        font-size: 56px;
+    }
+    .ctrl-result__title {
+        font-size: 20px;
+    }
+}

@@ -37,9 +37,10 @@ div { id: "dialog", style: "margin-top: 64px;",
                 code: r#"let mut api = use_dialog();
 api.open(DialogConfig {
     title: "确认删除".into(),
-    content: "删除后不可恢复，确定继续？".into(),
+    content: rsx! { p { "删除后不可恢复，确定继续？" } },
     confirm_text: "确定".into(),
     cancel_text: "取消".into(),
+    onconfirm: Some(EventHandler::new(|_| { /* 删除逻辑 */ })),
     ..Default::default()
 });"#.to_string(),
             }
@@ -69,14 +70,14 @@ api.open(DialogConfig {
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DialogConfig 字段" }
             PropsTable { headers: vec!["字段".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "对话框标题"),
-                ("content", "String", "\"\"", "对话框内容"),
+                ("content", "Element", "rsx!{}", "对话框内容（Element）"),
                 ("confirm_text", "String", "\"确定\"", "确认按钮文字，空字符串则不显示"),
                 ("cancel_text", "String", "\"取消\"", "取消按钮文字，空字符串则不显示"),
                 ("width", "String", "\"480px\"", "对话框宽度"),
+                ("show_close", "bool", "true", "是否显示关闭按钮"),
                 ("mask_closable", "bool", "true", "点击遮罩是否关闭"),
                 ("onconfirm", "Option<EventHandler>", "None", "确认按钮回调"),
-                ("oncancel", "Option<EventHandler>", "None", "取消按钮回调"),
-                ("onclose", "Option<EventHandler>", "None", "关闭时回调（确认/取消/遮罩关闭均会触发）"),
+                ("onclose", "Option<EventHandler>", "None", "关闭时回调（确认/遮罩关闭均会触发）"),
             ]}
 
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Dialog Props（声明式）" }

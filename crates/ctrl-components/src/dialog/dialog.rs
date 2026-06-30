@@ -18,7 +18,7 @@ pub struct DialogConfig {
     /// 点击遮罩是否关闭
     pub mask_closable: bool,
     /// 确认回调
-    pub on_confirm: Option<EventHandler<()>>,
+    pub onconfirm: Option<EventHandler<()>>,
     /// 关闭回调
     pub onclose: Option<EventHandler<()>>,
     /// 确认按钮文字
@@ -35,7 +35,7 @@ impl Default for DialogConfig {
             width: "480px".to_string(),
             show_close: true,
             mask_closable: true,
-            on_confirm: None,
+            onconfirm: None,
             onclose: None,
             confirm_text: "确定".to_string(),
             cancel_text: "取消".to_string(),
@@ -92,7 +92,7 @@ pub struct DialogProviderProps {
 ///     content: rsx! { p { "确定要删除此项目吗？" } },
 ///     confirm_text: "确定".into(),
 ///     cancel_text: "取消".into(),
-///     on_confirm: Some(EventHandler::new(|_| { /* 删除逻辑 */ })),
+///     onconfirm: Some(EventHandler::new(|_| { /* 删除逻辑 */ })),
 ///     ..Default::default()
 /// });
 /// ```
@@ -111,7 +111,7 @@ pub fn DialogProvider(props: DialogProviderProps) -> Element {
     let cfg = config.read().clone();
 
     let footer = {
-        let confirm = cfg.on_confirm.clone();
+        let confirm = cfg.onconfirm.clone();
         let mut close_api = api.clone();
         rsx! {
             button {

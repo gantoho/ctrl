@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════ */
 
 /* 外层包装（有 affix 时使用） */
-.ctrl-input-wrapper {
+.ctrl-input__wrapper {
     display: inline-flex;
     align-items: center;
     width: 100%;
@@ -14,7 +14,7 @@
     box-sizing: border-box;
     overflow: hidden;
 }
-.ctrl-input-wrapper:focus-within {
+.ctrl-input__wrapper:focus-within {
     border-color: var(--ctrl-primary, #4a90d9);
     box-shadow: 0 0 0 1px var(--ctrl-primary, #4a90d9);
 }
@@ -43,14 +43,14 @@
 }
 
 /* wrapper 内的 input 去掉自带边框和圆角 */
-.ctrl-input-wrapper .ctrl-input {
+.ctrl-input__wrapper .ctrl-input {
     border: none;
     border-radius: 0;
     background: transparent;
     flex: 1;
     min-width: 0;
 }
-.ctrl-input-wrapper .ctrl-input:focus {
+.ctrl-input__wrapper .ctrl-input:focus {
     box-shadow: none;
 }
 

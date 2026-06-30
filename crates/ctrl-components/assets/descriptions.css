@@ -1,0 +1,84 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Descriptions 描述列表
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-descriptions {
+    width: 100%;
+}
+
+/* — 表格布局 — */
+.ctrl-descriptions__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* — 行 — */
+.ctrl-descriptions__row:not(:last-child) .ctrl-descriptions__label,
+.ctrl-descriptions__row:not(:last-child) .ctrl-descriptions__value {
+    border-bottom: 1px solid var(--ctrl-border, #e5e7eb);
+}
+
+/* — 标签 — */
+.ctrl-descriptions__label {
+    padding: 12px 16px;
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text-secondary, #999);
+    font-weight: 500;
+    line-height: 1.5;
+    vertical-align: top;
+    background: var(--ctrl-bg-secondary, #f9fafb);
+    width: 30%;
+    overflow-wrap: break-word;
+}
+
+/* — 值 — */
+.ctrl-descriptions__value {
+    padding: 12px 16px;
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text, #333);
+    line-height: 1.5;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+
+/* — 变体：无边框 — */
+.ctrl-descriptions--borderless .ctrl-descriptions__label,
+.ctrl-descriptions--borderless .ctrl-descriptions__value {
+    border-bottom: none;
+    padding: 8px 16px;
+}
+.ctrl-descriptions--borderless .ctrl-descriptions__label {
+    background: transparent;
+}
+
+/* — 尺寸 — */
+.ctrl-descriptions--sm .ctrl-descriptions__label,
+.ctrl-descriptions--sm .ctrl-descriptions__value {
+    padding: 6px 12px;
+    font-size: var(--ctrl-font-size-sm, 12px);
+}
+
+.ctrl-descriptions--lg .ctrl-descriptions__label,
+.ctrl-descriptions--lg .ctrl-descriptions__value {
+    padding: 16px 20px;
+    font-size: var(--ctrl-font-size-lg, 16px);
+}
+
+/* — 响应式 — */
+@media (max-width: 640px) {
+    .ctrl-descriptions__label,
+    .ctrl-descriptions__value {
+        display: block;
+        width: 100%;
+        padding: 8px 12px;
+    }
+    .ctrl-descriptions__label {
+        background: transparent;
+        border-bottom: none;
+        padding-bottom: 2px;
+    }
+    .ctrl-descriptions__value {
+        padding-top: 2px;
+    }
+}

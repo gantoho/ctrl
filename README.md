@@ -1,6 +1,6 @@
 # Ctrl UI
 
-开箱即用的 **Dioxus Web** 组件库，提供 40+ 个高质量 UI 组件，覆盖表单、数据展示、反馈、导航等场景。
+开箱即用的 **Dioxus Web** 组件库，提供 48 个高质量 UI 组件，覆盖表单、数据展示、反馈、导航等场景。
 
 [![Rust](https://img.shields.io/badge/Rust-1.75+-orange.svg)](https://www.rust-lang.org)
 [![Dioxus](https://img.shields.io/badge/Dioxus-0.7-blue.svg)](https://dioxuslabs.com)
@@ -9,7 +9,7 @@
 
 ## 特性
 
-- **40+ 组件** — 覆盖通用、布局、表单、数据展示、反馈、导航六大类别
+- **48 个组件** — 覆盖通用、布局、表单、数据展示、反馈、导航六大类别
 - **主题定制** — 通过 `ThemeProvider` 一键切换浅色/深色，或自定义完整色彩体系
 - **CSS 零依赖** — 所有样式通过 `include_str!` 内嵌，无需额外加载 CSS 文件
 - **双模式驱动** — 全部组件支持声明式（Declarative）用法；反馈类组件额外支持命令式（Imperative）用法，通过 `use_xxx()` Hook 在任意位置触发，无需在 rsx! 中声明组件
@@ -113,7 +113,7 @@ dialog.open(DialogConfig {
     content: "删除后不可恢复，确定继续？".into(),
     confirm_text: "确定".into(),
     cancel_text: "取消".into(),
-    on_confirm: Some(EventHandler::new(|_| { /* 删除逻辑 */ })),
+    onconfirm: Some(EventHandler::new(|_| { /* 删除逻辑 */ })),
     ..Default::default()
 });
 
@@ -145,20 +145,22 @@ preview.open(vec!["img1.jpg".into(), "img2.jpg".into()], 0);
 |------|------|-----------|
 | **Button** | 按钮，支持 4 种变体 + 3 种尺寸 | `variant`, `size`, `disabled`, `block`, `loading` |
 | **Tag** | 标签，用于标记和分类 | `color`, `closable`, `size` |
-| **Space** | 间距容器，统一子元素间距 | `gap`, `direction`, `wrap` |
-| **Divider** | 分割线 | `direction`, `content` |
 
 ### 布局组件
 
 | 组件 | 说明 | 关键 Props |
 |------|------|-----------|
 | **Card** | 卡片容器 | `title`, `shadow` |
+| **Grid** | 24 栅格布局系统（Row + Col） | `gutter`, `span`, `offset`, `justify`, `align`, `xs-xl` |
+| **Space** | 间距容器 | `gap`, `direction`, `wrap` |
+| **Divider** | 分割线 | `direction`, `content` |
 
 ### 表单组件
 
 | 组件 | 说明 | 关键 Props |
 |------|------|-----------|
 | **Input** | 输入框 | `placeholder`, `value`, `r#type`, `error`, `size` |
+| **Textarea** | 多行文本输入 | `value`, `rows`, `maxlength`, `show_count`, `auto_height`, `resize` |
 | **InputNumber** | 数字输入框 | `value`, `min`, `max`, `step` |
 | **Select** | 下拉选择器 | `value`, `options`, `placeholder` |
 | **Switch** | 开关 | `checked`, `disabled` |
@@ -186,6 +188,9 @@ preview.open(vec!["img1.jpg".into(), "img2.jpg".into()], 0);
 | **Empty** | 空状态 | `description`, `image` |
 | **Timeline** | 时间线 | items |
 | **Carousel** | 走马灯 | `autoplay`, `interval`, `effect` |
+| **Descriptions** | 描述列表 | `title`, `items`, `bordered`, `label_width`, `size` |
+| **Statistic** | 统计数值 | `title`, `value`, `trend`, `prefix`, `suffix`, `precision` |
+| **Result** | 结果页 | `status`, `title`, `subtitle`, `icon` |
 
 ### 反馈组件
 

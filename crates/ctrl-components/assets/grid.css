@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Grid 栅格
+   CSS Grid  24 列，1fr 弹性均分，无百分比
+   ═══════════════════════════════════════════════════ */
+
+/* — Row — */
+.ctrl-row {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    box-sizing: border-box;
+}
+
+.ctrl-row--top    { align-items: start; }
+.ctrl-row--middle { align-items: center; }
+.ctrl-row--bottom { align-items: end; }
+
+/* — Col — */
+.ctrl-col {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* span 类：占 N 个 1fr 列，纯弹性比例 */
+.ctrl-col--span-1  { grid-column: span 1; }
+.ctrl-col--span-2  { grid-column: span 2; }
+.ctrl-col--span-3  { grid-column: span 3; }
+.ctrl-col--span-4  { grid-column: span 4; }
+.ctrl-col--span-5  { grid-column: span 5; }
+.ctrl-col--span-6  { grid-column: span 6; }
+.ctrl-col--span-7  { grid-column: span 7; }
+.ctrl-col--span-8  { grid-column: span 8; }
+.ctrl-col--span-9  { grid-column: span 9; }
+.ctrl-col--span-10 { grid-column: span 10; }
+.ctrl-col--span-11 { grid-column: span 11; }
+.ctrl-col--span-12 { grid-column: span 12; }
+.ctrl-col--span-13 { grid-column: span 13; }
+.ctrl-col--span-14 { grid-column: span 14; }
+.ctrl-col--span-15 { grid-column: span 15; }
+.ctrl-col--span-16 { grid-column: span 16; }
+.ctrl-col--span-17 { grid-column: span 17; }
+.ctrl-col--span-18 { grid-column: span 18; }
+.ctrl-col--span-19 { grid-column: span 19; }
+.ctrl-col--span-20 { grid-column: span 20; }
+.ctrl-col--span-21 { grid-column: span 21; }
+.ctrl-col--span-22 { grid-column: span 22; }
+.ctrl-col--span-23 { grid-column: span 23; }
+.ctrl-col--span-24 { grid-column: span 24; }
+
+/* — 响应式断点 — */
+@media (max-width: 575px) {
+    .ctrl-col--xs-1  { grid-column: span 1; }
+    .ctrl-col--xs-2  { grid-column: span 2; }
+    .ctrl-col--xs-3  { grid-column: span 3; }
+    .ctrl-col--xs-4  { grid-column: span 4; }
+    .ctrl-col--xs-5  { grid-column: span 5; }
+    .ctrl-col--xs-6  { grid-column: span 6; }
+    .ctrl-col--xs-7  { grid-column: span 7; }
+    .ctrl-col--xs-8  { grid-column: span 8; }
+    .ctrl-col--xs-9  { grid-column: span 9; }
+    .ctrl-col--xs-10 { grid-column: span 10; }
+    .ctrl-col--xs-11 { grid-column: span 11; }
+    .ctrl-col--xs-12 { grid-column: span 12; }
+    .ctrl-col--xs-13 { grid-column: span 13; }
+    .ctrl-col--xs-14 { grid-column: span 14; }
+    .ctrl-col--xs-15 { grid-column: span 15; }
+    .ctrl-col--xs-16 { grid-column: span 16; }
+    .ctrl-col--xs-17 { grid-column: span 17; }
+    .ctrl-col--xs-18 { grid-column: span 18; }
+    .ctrl-col--xs-19 { grid-column: span 19; }
+    .ctrl-col--xs-20 { grid-column: span 20; }
+    .ctrl-col--xs-21 { grid-column: span 21; }
+    .ctrl-col--xs-22 { grid-column: span 22; }
+    .ctrl-col--xs-23 { grid-column: span 23; }
+    .ctrl-col--xs-24 { grid-column: span 24; }
+}
+
+@media (min-width: 576px) {
+    .ctrl-col--sm-1  { grid-column: span 1; }
+    .ctrl-col--sm-2  { grid-column: span 2; }
+    .ctrl-col--sm-3  { grid-column: span 3; }
+    .ctrl-col--sm-4  { grid-column: span 4; }
+    .ctrl-col--sm-5  { grid-column: span 5; }
+    .ctrl-col--sm-6  { grid-column: span 6; }
+    .ctrl-col--sm-7  { grid-column: span 7; }
+    .ctrl-col--sm-8  { grid-column: span 8; }
+    .ctrl-col--sm-9  { grid-column: span 9; }
+    .ctrl-col--sm-10 { grid-column: span 10; }
+    .ctrl-col--sm-11 { grid-column: span 11; }
+    .ctrl-col--sm-12 { grid-column: span 12; }
+    .ctrl-col--sm-13 { grid-column: span 13; }
+    .ctrl-col--sm-14 { grid-column: span 14; }
+    .ctrl-col--sm-15 { grid-column: span 15; }
+    .ctrl-col--sm-16 { grid-column: span 16; }
+    .ctrl-col--sm-17 { grid-column: span 17; }
+    .ctrl-col--sm-18 { grid-column: span 18; }
+    .ctrl-col--sm-19 { grid-column: span 19; }
+    .ctrl-col--sm-20 { grid-column: span 20; }
+    .ctrl-col--sm-21 { grid-column: span 21; }
+    .ctrl-col--sm-22 { grid-column: span 22; }
+    .ctrl-col--sm-23 { grid-column: span 23; }
+    .ctrl-col--sm-24 { grid-column: span 24; }
+}
+
+@media (min-width: 768px) {
+    .ctrl-col--md-1  { grid-column: span 1; }
+    .ctrl-col--md-2  { grid-column: span 2; }
+    .ctrl-col--md-3  { grid-column: span 3; }
+    .ctrl-col--md-4  { grid-column: span 4; }
+    .ctrl-col--md-5  { grid-column: span 5; }
+    .ctrl-col--md-6  { grid-column: span 6; }
+    .ctrl-col--md-7  { grid-column: span 7; }
+    .ctrl-col--md-8  { grid-column: span 8; }
+    .ctrl-col--md-9  { grid-column: span 9; }
+    .ctrl-col--md-10 { grid-column: span 10; }
+    .ctrl-col--md-11 { grid-column: span 11; }
+    .ctrl-col--md-12 { grid-column: span 12; }
+    .ctrl-col--md-13 { grid-column: span 13; }
+    .ctrl-col--md-14 { grid-column: span 14; }
+    .ctrl-col--md-15 { grid-column: span 15; }
+    .ctrl-col--md-16 { grid-column: span 16; }
+    .ctrl-col--md-17 { grid-column: span 17; }
+    .ctrl-col--md-18 { grid-column: span 18; }
+    .ctrl-col--md-19 { grid-column: span 19; }
+    .ctrl-col--md-20 { grid-column: span 20; }
+    .ctrl-col--md-21 { grid-column: span 21; }
+    .ctrl-col--md-22 { grid-column: span 22; }
+    .ctrl-col--md-23 { grid-column: span 23; }
+    .ctrl-col--md-24 { grid-column: span 24; }
+}
+
+@media (min-width: 992px) {
+    .ctrl-col--lg-1  { grid-column: span 1; }
+    .ctrl-col--lg-2  { grid-column: span 2; }
+    .ctrl-col--lg-3  { grid-column: span 3; }
+    .ctrl-col--lg-4  { grid-column: span 4; }
+    .ctrl-col--lg-5  { grid-column: span 5; }
+    .ctrl-col--lg-6  { grid-column: span 6; }
+    .ctrl-col--lg-7  { grid-column: span 7; }
+    .ctrl-col--lg-8  { grid-column: span 8; }
+    .ctrl-col--lg-9  { grid-column: span 9; }
+    .ctrl-col--lg-10 { grid-column: span 10; }
+    .ctrl-col--lg-11 { grid-column: span 11; }
+    .ctrl-col--lg-12 { grid-column: span 12; }
+    .ctrl-col--lg-13 { grid-column: span 13; }
+    .ctrl-col--lg-14 { grid-column: span 14; }
+    .ctrl-col--lg-15 { grid-column: span 15; }
+    .ctrl-col--lg-16 { grid-column: span 16; }
+    .ctrl-col--lg-17 { grid-column: span 17; }
+    .ctrl-col--lg-18 { grid-column: span 18; }
+    .ctrl-col--lg-19 { grid-column: span 19; }
+    .ctrl-col--lg-20 { grid-column: span 20; }
+    .ctrl-col--lg-21 { grid-column: span 21; }
+    .ctrl-col--lg-22 { grid-column: span 22; }
+    .ctrl-col--lg-23 { grid-column: span 23; }
+    .ctrl-col--lg-24 { grid-column: span 24; }
+}
+
+@media (min-width: 1200px) {
+    .ctrl-col--xl-1  { grid-column: span 1; }
+    .ctrl-col--xl-2  { grid-column: span 2; }
+    .ctrl-col--xl-3  { grid-column: span 3; }
+    .ctrl-col--xl-4  { grid-column: span 4; }
+    .ctrl-col--xl-5  { grid-column: span 5; }
+    .ctrl-col--xl-6  { grid-column: span 6; }
+    .ctrl-col--xl-7  { grid-column: span 7; }
+    .ctrl-col--xl-8  { grid-column: span 8; }
+    .ctrl-col--xl-9  { grid-column: span 9; }
+    .ctrl-col--xl-10 { grid-column: span 10; }
+    .ctrl-col--xl-11 { grid-column: span 11; }
+    .ctrl-col--xl-12 { grid-column: span 12; }
+    .ctrl-col--xl-13 { grid-column: span 13; }
+    .ctrl-col--xl-14 { grid-column: span 14; }
+    .ctrl-col--xl-15 { grid-column: span 15; }
+    .ctrl-col--xl-16 { grid-column: span 16; }
+    .ctrl-col--xl-17 { grid-column: span 17; }
+    .ctrl-col--xl-18 { grid-column: span 18; }
+    .ctrl-col--xl-19 { grid-column: span 19; }
+    .ctrl-col--xl-20 { grid-column: span 20; }
+    .ctrl-col--xl-21 { grid-column: span 21; }
+    .ctrl-col--xl-22 { grid-column: span 22; }
+    .ctrl-col--xl-23 { grid-column: span 23; }
+    .ctrl-col--xl-24 { grid-column: span 24; }
+}

@@ -2,6 +2,7 @@ pub mod shared;
 
 mod button;
 mod input;
+mod textarea;
 mod switch;
 mod checkbox;
 mod radio;
@@ -41,6 +42,10 @@ mod drawer;
 mod notification;
 mod dropdown;
 mod menu;
+mod result;
+mod statistic;
+mod descriptions;
+mod grid;
 mod steps;
 mod timeline;
 
@@ -56,6 +61,11 @@ pub fn ComponentsIndex() -> Element {
     let components = vec![
         ("button", "Button 按钮", "按钮用于触发操作"),
         ("input", "Input 输入框", "输入框用于文本输入"),
+        ("textarea", "Textarea 多行输入", "多行文本输入"),
+        ("result", "Result 结果页", "操作结果反馈"),
+        ("statistic", "Statistic 统计数值", "统计数据展示"),
+        ("descriptions", "Descriptions 描述列表", "标签-值信息展示"),
+        ("grid", "Grid 栅格", "24 栅格布局"),
         ("switch", "Switch 开关", "开关用于在两种状态间切换"),
         ("checkbox", "Checkbox 复选框", "复选框用于多选场景"),
         ("radio", "Radio 单选框", "单选框用于互斥选项中选择"),
@@ -105,7 +115,7 @@ pub fn ComponentsIndex() -> Element {
                 "组件总览"
             }
             p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;",
-                "Ctrl UI 提供了 43 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。"
+                "Ctrl UI 提供了 47 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。"
             }
 
             div { style: "display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;",
@@ -140,6 +150,11 @@ pub fn ComponentPage(name: String) -> Element {
     match name.as_str() {
         "button" => rsx! { button::ButtonPage {} },
         "input" => rsx! { input::InputPage {} },
+        "textarea" => rsx! { textarea::TextareaPage {} },
+        "result" => rsx! { result::ResultPage {} },
+        "statistic" => rsx! { statistic::StatisticPage {} },
+        "descriptions" => rsx! { descriptions::DescriptionsPage {} },
+        "grid" => rsx! { grid::GridPage {} },
         "switch" => rsx! { switch::SwitchPage {} },
         "checkbox" => rsx! { checkbox::CheckboxPage {} },
         "radio" => rsx! { radio::RadioPage {} },

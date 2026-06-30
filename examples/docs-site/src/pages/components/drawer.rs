@@ -26,8 +26,8 @@ div { id: "drawer", style: "margin-top: 64px;",
                 code: r#"let mut api = use_drawer();
 api.open(DrawerConfig {
     title: "用户详情".into(),
-    content: "这里是抽屉的内容区域。".into(),
-    placement: "right".into(),
+    content: rsx! { p { "这里是抽屉的内容区域" } },
+    placement: Placement::Right,
     ..Default::default()
 });"#.to_string(),
             }
@@ -57,9 +57,10 @@ api.open(DrawerConfig {
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DrawerConfig 字段" }
             PropsTable { headers: vec!["字段".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "抽屉标题"),
-                ("content", "String", "\"\"", "抽屉内容"),
-                ("placement", "String", "\"right\"", "位置：left / right / top / bottom"),
+                ("content", "Element", "rsx!{}", "抽屉内容（Element）"),
+                ("placement", "Placement", "Right", "位置：Left / Right / Top / Bottom"),
                 ("size", "String", "\"380px\"", "宽度或高度"),
+                ("show_close", "bool", "true", "是否显示关闭按钮"),
                 ("onclose", "Option<EventHandler>", "None", "关闭时回调"),
             ]}
 
@@ -67,12 +68,13 @@ api.open(DrawerConfig {
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("visible", "bool", "false", "是否打开"),
                 ("title", "String", "\"\"", "抽屉标题"),
-                ("placement", "String", "\"right\"", "位置（left / right / top / bottom）"),
+                ("placement", "Placement", "Right", "位置：Left / Right / Top / Bottom"),
                 ("size", "String", "\"380px\"", "宽度或高度"),
                 ("show_close", "bool", "true", "是否显示关闭按钮"),
                 ("onclose", "Option<EventHandler<()>>", "None", "关闭回调"),
                 ("footer", "Option<Element>", "None", "底部操作区"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),
+                ("style", "String", "\"\"", "自定义内联样式"),
                 ("children", "Element", "—", "抽屉内容"),
             ]}
         }

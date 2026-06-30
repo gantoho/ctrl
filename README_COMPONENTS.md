@@ -1,6 +1,6 @@
 # Ctrl UI 组件库 —— 全组件技术文档
 
-> 基于 Dioxus 0.7，共 **47 个组件**，覆盖基础、数据录入、数据展示、反馈、导航、布局六大类。
+> 基于 Dioxus 0.7，共 **48 个组件**，覆盖基础、数据录入、数据展示、反馈、导航、布局六大类。
 
 ---
 
@@ -122,6 +122,31 @@
 | `onblur` | `Option<EventHandler<FocusEvent>>` | `None` | 失去焦点 |
 
 **技术实现：** 受控组件模式，`build_input_class()` 根据 size/disabled/error/readonly 拼接类名。使用 `onfocusin`/`onfocusout` 事件。
+
+### Textarea
+
+**文件：** `ctrl-components/src/textarea/textarea.rs`（165 行）
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `value` | `String` | `""` | 当前值（受控） |
+| `placeholder` | `String` | `""` | 占位文本 |
+| `rows` | `u32` | `3` | 可见行数 |
+| `size` | `Size` | `Md` | 尺寸 |
+| `maxlength` | `usize` | `0` | 最大字符数（0=不限制） |
+| `show_count` | `bool` | `false` | 显示字数统计 |
+| `auto_height` | `bool` | `false` | 内容自适应高度 |
+| `disabled` | `bool` | `false` | 禁用 |
+| `readonly` | `bool` | `false` | 只读 |
+| `error` | `bool` | `false` | 错误状态 |
+| `resize` | `String` | `"vertical"` | 拖拽行为：none/both/horizontal/vertical |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+| `onchange` | `Option<EventHandler<String>>` | `None` | 值变化事件 |
+| `onfocus` | `Option<EventHandler<FocusEvent>>` | `None` | 获得焦点 |
+| `onblur` | `Option<EventHandler<FocusEvent>>` | `None` | 失去焦点 |
+
+**技术实现：** 受控组件模式，`build_class()` 根据 size/resize/disabled/error/readonly 拼接类名。字数统计在 `show_count && maxlength > 0` 时显示 `{len}/{maxlength}`。
 
 ### Switch
 
@@ -610,9 +635,9 @@
 | `cancel_text` | `String` | `"取消"` | 取消按钮文字 |
 | `width` | `String` | `"480px"` | 宽度 |
 | `mask_closable` | `bool` | `true` | 点击遮罩关闭 |
-| `on_confirm` | `Option<EventHandler<()>>` | `None` | 确认回调 |
-| `on_cancel` | `Option<EventHandler<()>>` | `None` | 取消回调 |
-| `on_close` | `Option<EventHandler<()>>` | `None` | 关闭回调 |
+| `onconfirm` | `Option<EventHandler<()>>` | `None` | 确认回调 |
+| `oncancel` | `Option<EventHandler<()>>` | `None` | 取消回调 |
+| `onclose` | `Option<EventHandler<()>>` | `None` | 关闭回调 |
 
 **技术实现：** DialogProvider 通过 `use_context_provider(|| api)` 提供 DialogAPI。DialogAPI 内部维护 `visible: Signal<bool>` 和 `config: Signal<DialogConfig>`。遮罩层使用 `ctrl-dialog-overlay`（fixed 定位）。
 
@@ -868,7 +893,90 @@
 | `style` | `String` | `""` | 自定义样式 |
 | `children` | `Element` | — | 轮播项 |
 
-**技术实现：** 使用 CSS `transform: translateX()` 实现 slide 效果。自动播放通过 `use_resource` + `gloo_timers` 实现。
+**技术实现：** 使用 CSS `transform: translateX()` 实现 slide 效果。自动播放通过 `use_resource` + `gloo_timers` 实现。`CarouselSlide` 子组件通过 `CarouselCtx` Context 自动获取索引和 active 状态。
+
+### Result
+
+**文件：** `ctrl-components/src/result/result.rs`（97 行）
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `status` | `ResultStatus` | `Info` | 结果状态：Success / Info / Warning / Error |
+| `title` | `String` | `""` | 标题 |
+| `subtitle` | `String` | `""` | 副标题 / 描述文字 |
+| `icon` | `Option<Element>` | `None` | 自定义图标（覆盖默认 emoji） |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+| `children` | `Element` | — | 底部操作区 |
+
+**技术实现：** `ResultStatus` 枚举驱动图标和颜色。默认图标通过 emoji 字符实现（✅ ℹ️ ⚠️ ❌），颜色通过 CSS modifier 类名绑定 `--ctrl-success` / `--ctrl-info` / `--ctrl-warning` / `--ctrl-danger`。
+
+### Statistic
+
+**文件：** `ctrl-components/src/statistic/statistic.rs`（120 行）
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `title` | `String` | `""` | 标题 |
+| `value` | `String` | `""` | 数值（字符串格式） |
+| `precision` | `usize` | `0` | 小数位数（>0 时自动格式化） |
+| `trend` | `StatisticTrend` | `None` | 趋势：Up / Down / None |
+| `center` | `bool` | `false` | 是否居中对齐 |
+| `prefix` | `Option<Element>` | `None` | 数值前缀 |
+| `suffix` | `Option<Element>` | `None` | 数值后缀 |
+| `value_style` | `String` | `""` | 数值自定义样式 |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+
+**技术实现：** `format_value()` 函数在 `precision > 0` 时尝试将 value 解析为 f64 并格式化。趋势箭头 ↑↓ 通过 CSS 类名绑定 success/danger 色。
+
+### Descriptions
+
+**文件：** `ctrl-components/src/descriptions/descriptions.rs`（130 行）
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `title` | `String` | `""` | 标题 |
+| `size` | `Size` | `Md` | 尺寸：Sm / Md / Lg |
+| `bordered` | `bool` | `true` | 是否显示边框 |
+| `label_width` | `u8` | `3` | 标签列宽度比例（1-10，如 3=30%） |
+| `items` | `Vec<DescriptionsItem>` | `[]` | 描述项列表 |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+
+**DescriptionsItem：** `label: String` + `value: Element`
+
+**技术实现：** 使用 `<table>` 语义化渲染。`label_width` 控制标签/值列的百分比宽度。无边框模式移除分隔线和背景色。响应式：640px 以下切换为上下堆叠布局。
+
+### Grid
+
+**文件：** `ctrl-components/src/grid/`（row.rs 85行 + col.rs 98行）
+
+**Row Props：**
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `justify` | `Justify` | `Start` | 水平对齐：Start / Center / End / SpaceBetween / SpaceAround |
+| `align` | `RowAlign` | `Top` | 垂直对齐：Top / Middle / Bottom |
+| `gutter` | `u32` | `0` | 列间距（px），通过负 margin + padding 实现 |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+| `children` | `Element` | — | 子元素（Col） |
+
+**Col Props：**
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `span` | `u8` | `24` | 列占位（1-24） |
+| `offset` | `u8` | `0` | 列偏移（0-23） |
+| `xs` ~ `xl` | `Option<u8>` | `None` | 5 级响应式断点 span |
+| `class` | `String` | `""` | 自定义类名 |
+| `style` | `String` | `""` | 自定义样式 |
+| `children` | `Element` | — | 子元素 |
+
+**响应式断点：** xs (<576px), sm (≥576px), md (≥768px), lg (≥992px), xl (≥1200px)。
+
+**技术实现：** `build_col_class()` 根据 span/offset/响应式断点拼接 CSS 类名。基础 24 栅格通过百分比 `width` 实现，控制精度到 6 位小数。
 
 ---
 
@@ -876,13 +984,13 @@
 
 | 分类 | 数量 | 组件 |
 |------|------|------|
-| 基础 | 7 | Button, Input, Switch, Checkbox, Radio, Select, Tag, Card |
+| 基础 | 8 | Button, Input, Textarea, Switch, Checkbox, Radio, Select, Tag, Card |
 | 数据录入 | 7 | Slider, Rate, InputNumber, Upload, DatePicker, Form/FormItem, Segmented |
-| 数据展示 | 11 | Table, Badge, Avatar, Progress, Tabs, Breadcrumb, Pagination, Skeleton, Empty, Steps, Timeline, Image |
+| 数据展示 | 14 | Table, Badge, Avatar, Progress, Tabs, Breadcrumb, Pagination, Skeleton, Empty, Steps, Timeline, Image, Result, Statistic, Descriptions |
 | 反馈 | 9 | Dialog, Drawer, Alert, Message, Notification, Loading, Tooltip, Popover |
 | 导航 | 3 | Menu, Dropdown, Backtop |
-| 布局 | 4 | Divider, Space, Collapse, Carousel |
-| **总计** | **47** | |
+| 布局 | 5 | Divider, Space, Collapse, Carousel, Grid |
+| **总计** | **48** | |
 
 ## 技术模式总结
 

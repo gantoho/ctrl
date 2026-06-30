@@ -1,0 +1,108 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Textarea 多行输入
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-textarea {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 文本域核心 */
+.ctrl-textarea__inner {
+    display: block;
+    width: 100%;
+    font-family: var(--ctrl-font-family, inherit);
+    font-size: var(--ctrl-font-size-md, 14px);
+    line-height: 1.5;
+    border-radius: var(--ctrl-radius-md, 6px);
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    background: var(--ctrl-bg, #fff);
+    color: var(--ctrl-text, #333);
+    outline: none;
+    transition: border-color var(--ctrl-transition, 0.2s), box-shadow var(--ctrl-transition, 0.2s);
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 32px;
+}
+
+.ctrl-textarea__inner:focus {
+    border-color: var(--ctrl-primary, #4a90d9);
+    box-shadow: 0 0 0 1px var(--ctrl-primary, #4a90d9);
+}
+
+.ctrl-textarea__inner::placeholder {
+    color: var(--ctrl-text-disabled, #bfbfbf);
+}
+
+/* — 尺寸 — */
+.ctrl-textarea--sm .ctrl-textarea__inner {
+    font-size: var(--ctrl-font-size-sm, 12px);
+    padding: 4px 10px;
+}
+.ctrl-textarea--md .ctrl-textarea__inner {
+    font-size: var(--ctrl-font-size-md, 14px);
+    padding: 6px 12px;
+}
+.ctrl-textarea--lg .ctrl-textarea__inner {
+    font-size: var(--ctrl-font-size-lg, 16px);
+    padding: 10px 14px;
+}
+
+/* — 禁用 / 只读 — */
+.ctrl-textarea--disabled .ctrl-textarea__inner {
+    background: var(--ctrl-bg-disabled, #f5f5f5);
+    color: var(--ctrl-text-disabled, #bfbfbf);
+    cursor: not-allowed;
+}
+.ctrl-textarea--disabled .ctrl-textarea__inner:focus {
+    border-color: var(--ctrl-border, #d9d9d9);
+    box-shadow: none;
+}
+
+.ctrl-textarea--readonly .ctrl-textarea__inner {
+    cursor: default;
+}
+.ctrl-textarea--readonly .ctrl-textarea__inner:focus {
+    border-color: var(--ctrl-border, #d9d9d9);
+    box-shadow: none;
+}
+
+/* — 错误 — */
+.ctrl-textarea--error .ctrl-textarea__inner {
+    border-color: var(--ctrl-danger, #e74c3c);
+    box-shadow: 0 0 0 1px var(--ctrl-danger, #e74c3c);
+}
+.ctrl-textarea--error .ctrl-textarea__inner:focus {
+    border-color: var(--ctrl-danger, #e74c3c);
+    box-shadow: 0 0 0 1px var(--ctrl-danger, #e74c3c);
+}
+
+/* — resize 控制 — */
+.ctrl-textarea--resize-none .ctrl-textarea__inner { resize: none; }
+.ctrl-textarea--resize-both .ctrl-textarea__inner { resize: both; }
+.ctrl-textarea--resize-horizontal .ctrl-textarea__inner { resize: horizontal; }
+.ctrl-textarea--resize-vertical .ctrl-textarea__inner { resize: vertical; }
+
+/* — 字数统计 — */
+.ctrl-textarea__count {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px 2px 0;
+    font-size: var(--ctrl-font-size-sm, 12px);
+    color: var(--ctrl-text-secondary, #999);
+    user-select: none;
+}
+
+.ctrl-textarea__count--over {
+    color: var(--ctrl-danger, #e74c3c);
+}
+
+/* — 响应式 — */
+@media (max-width: 640px) {
+    .ctrl-textarea--sm .ctrl-textarea__inner { padding: 2px 8px; }
+    .ctrl-textarea--md .ctrl-textarea__inner { padding: 4px 10px; }
+    .ctrl-textarea--lg .ctrl-textarea__inner { padding: 8px 12px; }
+}

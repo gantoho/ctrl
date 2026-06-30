@@ -51,7 +51,7 @@ pub use radio::{Radio, RadioProps};
 pub use select::{Select, SelectProps};
 pub use tag::{Tag, TagProps};
 pub use card::{Card, CardProps};
-pub use dialog::{Dialog, DialogProps};
+pub use dialog::{Dialog, DialogAPI, DialogConfig, DialogProps, DialogProvider, DialogProviderProps, use_dialog};
 pub use table::{Table, TableColumn, TableProps};
 pub use badge::{Badge, BadgeProps};
 pub use avatar::{Avatar, AvatarProps};
@@ -69,7 +69,7 @@ pub use skeleton::{Skeleton, SkeletonCard, SkeletonCardProps, SkeletonList, Skel
 pub use backtop::{Backtop, BacktopProps};
 pub use collapse::{Collapse, CollapseItem, CollapseItemProps, CollapseProps};
 pub use popover::{Popover, PopoverProps};
-pub use drawer::{Drawer, DrawerProps};
+pub use drawer::{Drawer, DrawerAPI, DrawerConfig, DrawerProps, DrawerProvider, DrawerProviderProps, use_drawer};
 pub use notification::{
     Notification, NotificationAPI, NotificationPlacement, NotificationProps,
     NotificationProvider, NotificationProviderProps, NotificationType, use_notification,

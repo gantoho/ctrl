@@ -74,9 +74,9 @@ api.open(DialogConfig {
                 ("cancel_text", "String", "\"取消\"", "取消按钮文字，空字符串则不显示"),
                 ("width", "String", "\"480px\"", "对话框宽度"),
                 ("mask_closable", "bool", "true", "点击遮罩是否关闭"),
-                ("on_confirm", "Option<EventHandler>", "None", "确认按钮回调"),
-                ("on_cancel", "Option<EventHandler>", "None", "取消按钮回调"),
-                ("on_close", "Option<EventHandler>", "None", "关闭时回调（确认/取消/遮罩关闭均会触发）"),
+                ("onconfirm", "Option<EventHandler>", "None", "确认按钮回调"),
+                ("oncancel", "Option<EventHandler>", "None", "取消按钮回调"),
+                ("onclose", "Option<EventHandler>", "None", "关闭时回调（确认/取消/遮罩关闭均会触发）"),
             ]}
 
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Dialog Props（声明式）" }

@@ -60,7 +60,7 @@ api.open(DrawerConfig {
                 ("content", "String", "\"\"", "抽屉内容"),
                 ("placement", "String", "\"right\"", "位置：left / right / top / bottom"),
                 ("size", "String", "\"380px\"", "宽度或高度"),
-                ("on_close", "Option<EventHandler>", "None", "关闭时回调"),
+                ("onclose", "Option<EventHandler>", "None", "关闭时回调"),
             ]}
 
             h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Drawer Props（声明式）" }

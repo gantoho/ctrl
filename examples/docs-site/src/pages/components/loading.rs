@@ -9,11 +9,11 @@ use crate::pages::components::shared::PropsTable;
 pub fn LoadingPage() -> Element {
     rsx! {
 div { id: "loading", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Loading 加载中" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "显示加载状态，支持三种尺寸和自定义文字。" }
+            h1 { "Loading 加载中" }
+            p { "显示加载状态，支持三种尺寸和自定义文字。" }
             DemoBox { title: "尺寸".to_string(), description: None,
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; align-items: center;",
+                    Space { gap: "md".to_string(),
                         Loading { size: Size::Sm }
                         Loading { size: Size::Md }
                         Loading { size: Size::Lg }
@@ -23,7 +23,7 @@ div { id: "loading", style: "margin-top: 64px;",
             }
             DemoBox { title: "带文字".to_string(), description: None,
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px;",
+                    Space { gap: "md".to_string(),
                         Loading { text: "加载中...".to_string(), size: Size::Md }
                     }
                 },

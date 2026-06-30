@@ -10,8 +10,8 @@ use super::_demos::*;
 pub fn SliderPage() -> Element {
     rsx! {
 div { id: "slider", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Slider 滑块" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "滑块用于在数值范围内进行选择。支持水平/垂直方向、步长、刻度标记和禁用状态。" }
+            h1 { "Slider 滑块" }
+            p { "滑块用于在数值范围内进行选择。支持水平/垂直方向、步长、刻度标记和禁用状态。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
@@ -31,7 +31,7 @@ div { id: "slider", style: "margin-top: 64px;",
                 title: "禁用状态".to_string(),
                 description: Some("设置 disabled 为 true 禁用滑块。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 24px; max-width: 400px;",
+                    Space { direction: Direction::Vertical, gap: "lg".to_string(),
                         Slider { value: 30, disabled: true }
                         Slider { value: 70, disabled: true }
                     }
@@ -48,7 +48,7 @@ div { id: "slider", style: "margin-top: 64px;",
                 code: "Slider { value: 60, show_label: true }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Slider Props" }
+            h2 { "Slider Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("value", "i32", "0", "当前值"),
                 ("min", "i32", "0", "最小值"),

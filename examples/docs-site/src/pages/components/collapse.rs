@@ -9,19 +9,19 @@ use crate::pages::components::shared::PropsTable;
 pub fn CollapsePage() -> Element {
     rsx! {
 div { id: "collapse", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Collapse 折叠面板" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "可以折叠/展开的内容区域，用于展示 FAQ、表单分组等。" }
+            h1 { "Collapse 折叠面板" }
+            p { "可以折叠/展开的内容区域，用于展示 FAQ、表单分组等。" }
             DemoBox { title: "基本用法".to_string(), description: Some("点击标题展开/收起内容，动画基于 CSS grid-template-rows 实现平滑高度过渡。".to_string()),
                 demo: rsx! {
                     Collapse {
                         CollapseItem { title: "标题一".to_string(), expanded: true,
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "标题一展开的内容。" }
+                            p { "标题一展开的内容。" }
                         }
                         CollapseItem { title: "标题二".to_string(),
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "标题二的内容。" }
+                            p { "标题二的内容。" }
                         }
                         CollapseItem { title: "禁用项".to_string(), disabled: true,
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这项已禁用。" }
+                            p { "这项已禁用。" }
                         }
                     }
                 },
@@ -31,10 +31,10 @@ div { id: "collapse", style: "margin-top: 64px;",
                 demo: rsx! {
                     Collapse {
                         CollapseItem { title: "无动画项".to_string(), animated: false,
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "展开和收起没有过渡效果，直接显示/隐藏。" }
+                            p { "展开和收起没有过渡效果，直接显示/隐藏。" }
                         }
                         CollapseItem { title: "另一个无动画项".to_string(), animated: false, expanded: true,
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这一项默认展开，切换时也是瞬间切换。" }
+                            p { "这一项默认展开，切换时也是瞬间切换。" }
                         }
                     }
                 },
@@ -45,13 +45,13 @@ div { id: "collapse", style: "margin-top: 64px;",
                     Collapse {
                         accordion: true,
                         CollapseItem { title: "面板一".to_string(), expanded: true,
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这是第一个面板的内容，默认展开。" }
+                            p { "这是第一个面板的内容，默认展开。" }
                         }
                         CollapseItem { title: "面板二".to_string(),
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这是第二个面板的内容。" }
+                            p { "这是第二个面板的内容。" }
                         }
                         CollapseItem { title: "面板三".to_string(),
-                            p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这是第三个面板的内容。" }
+                            p { "这是第三个面板的内容。" }
                         }
                     }
                 },
@@ -63,7 +63,7 @@ div { id: "collapse", style: "margin-top: 64px;",
                 ("class", "String", "\"\"", "自定义 CSS 类 — Collapse"),
                 ("children", "Element", "—", "子元素（CollapseItem）— Collapse"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "CollapseItem Props" }
+            h2 { "CollapseItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "标题"),
                 ("expanded", "bool", "false", "是否展开"),

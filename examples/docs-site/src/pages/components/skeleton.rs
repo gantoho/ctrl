@@ -9,23 +9,23 @@ use crate::pages::components::shared::PropsTable;
 pub fn SkeletonPage() -> Element {
     rsx! {
 div { id: "skeleton", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Skeleton 骨架屏" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "内容加载时的占位动画，支持文字、头像、图片、按钮等多种变体，以及列表、卡片等复合骨架。" }
+            h1 { "Skeleton 骨架屏" }
+            p { "内容加载时的占位动画，支持文字、头像、图片、按钮等多种变体，以及列表、卡片等复合骨架。" }
 
             // 基本变体
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin-bottom: 20px;", "Skeleton - 基础变体" }
+            h2 { "Skeleton - 基础变体" }
             DemoBox { title: "形状控制".to_string(), description: Some("通过 shape 属性控制骨架块的圆角样式。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; align-items: flex-end;",
-                        div { style: "display: flex; flex-direction: column; align-items: center; gap: 8px;",
+                    Space { gap: "md".to_string(), align: "end".to_string(),
+                        Space { direction: Direction::Vertical, align: "center".to_string(), gap: "xs".to_string(),
                             Skeleton { variant: "rect".to_string(), width: "64px".to_string(), height: "64px".to_string() }
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "default" }
                         }
-                        div { style: "display: flex; flex-direction: column; align-items: center; gap: 8px;",
+                        Space { direction: Direction::Vertical, align: "center".to_string(), gap: "xs".to_string(),
                             Skeleton { variant: "rect".to_string(), shape: Shape::Rounded, width: "64px".to_string(), height: "64px".to_string() }
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "round" }
                         }
-                        div { style: "display: flex; flex-direction: column; align-items: center; gap: 8px;",
+                        Space { direction: Direction::Vertical, align: "center".to_string(), gap: "xs".to_string(),
                             Skeleton { variant: "rect".to_string(), shape: Shape::Circle, width: "64px".to_string(), height: "64px".to_string() }
                             span { style: "font-size: var(--ctrl-font-size-xs); color: var(--ctrl-text-secondary);", "circle" }
                         }
@@ -35,7 +35,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             }
             DemoBox { title: "静止态 vs 动画".to_string(), description: Some("animated: false 时停止闪烁，仅显示灰色占位。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; align-items: center;",
+                    Space { gap: "md".to_string(),
                         Skeleton { variant: "text".to_string(), rows: 2, animated: true, width: "200px".to_string() }
                         Skeleton { variant: "text".to_string(), rows: 2, animated: false, width: "200px".to_string() }
                     }
@@ -54,7 +54,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             }
             DemoBox { title: "圆形头像组".to_string(), description: None,
                 demo: rsx! {
-                    div { style: "display: flex; gap: 12px;",
+                    Space { gap: "sm".to_string(),
                         Skeleton { variant: "avatar".to_string(), shape: Shape::Circle, width: "40px".to_string(), height: "40px".to_string(), count: 3 }
                     }
                 },
@@ -62,10 +62,10 @@ div { id: "skeleton", style: "margin-top: 64px;",
             }
 
             // 复合骨架
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonCard - 卡片骨架" }
+            h2 { "SkeletonCard - 卡片骨架" }
             DemoBox { title: "卡片骨架".to_string(), description: Some("图片 + 标题 + 文字行的复合卡片骨架。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px;",
+                    Space { gap: "md".to_string(),
                         SkeletonCard { width: "240px".to_string(), rows: 2 }
                         SkeletonCard { width: "240px".to_string(), rows: 1 }
                     }
@@ -73,7 +73,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
                 code: "SkeletonCard { width: \"240px\".to_string(), rows: 2 }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonList - 列表骨架" }
+            h2 { "SkeletonList - 列表骨架" }
             DemoBox { title: "列表骨架".to_string(), description: Some("头像 + 文字组合的列表骨架，适用于好友列表、通知列表等场景。".to_string()),
                 demo: rsx! {
                     SkeletonList { count: 3, rows: 2 }
@@ -81,10 +81,10 @@ div { id: "skeleton", style: "margin-top: 64px;",
                 code: "SkeletonList { count: 3, rows: 2 }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonRow - 行骨架" }
+            h2 { "SkeletonRow - 行骨架" }
             DemoBox { title: "头像 + 文字行".to_string(), description: Some("可配置头像尺寸和是否显示头像。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 16px;",
+                    Space { direction: Direction::Vertical, gap: "md".to_string(),
                         SkeletonRow { rows: 2 }
                         SkeletonRow { rows: 2, avatar: false }
                         SkeletonRow { rows: 1, avatar_size: "32px".to_string() }
@@ -94,7 +94,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             }
 
             // Skeleton Props
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Skeleton Props" }
+            h2 { "Skeleton Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("variant", "String", "\"text\"", "变体（text / title / avatar / image / button / rect）"),
                 ("rows", "usize", "3", "行数（仅 text 有效）"),
@@ -110,7 +110,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             ]}
 
             // SkeletonCard Props
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonCard Props" }
+            h2 { "SkeletonCard Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("rows", "usize", "2", "文字行数"),
                 ("image_height", "String", "\"180px\"", "图片区高度"),
@@ -122,7 +122,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             ]}
 
             // SkeletonList Props
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonList Props" }
+            h2 { "SkeletonList Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("count", "usize", "3", "列表条目数"),
                 ("avatar", "bool", "true", "是否显示头像"),
@@ -135,7 +135,7 @@ div { id: "skeleton", style: "margin-top: 64px;",
             ]}
 
             // SkeletonRow Props
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "SkeletonRow Props" }
+            h2 { "SkeletonRow Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("rows", "usize", "3", "文字行数"),
                 ("avatar", "bool", "true", "是否显示头像"),

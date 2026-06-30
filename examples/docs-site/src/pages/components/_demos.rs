@@ -14,7 +14,7 @@ pub fn DrawerDocs() -> Element {
                 visible: visible(),
                 title: "抽屉标题".to_string(),
                 onclose: move |_| visible.set(false),
-                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-md);", "抽屉内容区域，可以放表单、说明等任意内容。" }
+                p { "抽屉内容区域，可以放表单、说明等任意内容。" }
             }
         }
     }
@@ -26,7 +26,7 @@ pub fn DrawerDocs() -> Element {
 pub fn NotificationDocs() -> Element {
     let mut api = use_notification();
     rsx! {
-        div { style: "display: flex; gap: 12px; flex-wrap: wrap;",
+        Space { wrap: true, gap: "sm".to_string(),
             Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.info("信息通知".to_string(), "这是一条普通信息通知。".to_string()), "信息" }
             Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.success("操作成功".to_string(), "数据已成功保存。".to_string()), "成功" }
             Button { variant: Variant::Primary, size: Size::Sm, onclick: move |_| api.warning("警告".to_string(), "存储空间不足，请及时清理。".to_string()), "警告" }
@@ -56,7 +56,7 @@ pub fn DropdownDocs() -> Element {
                 DropdownItem { disabled: true, "禁用项" }
             }
             if !selected().is_empty() {
-                p { style: "margin-top: 8px; font-size: 14px; color: var(--ctrl-text-secondary);", "已选：{selected}" }
+                p { "已选：{selected}" }
             }
         }
     }
@@ -85,7 +85,7 @@ pub fn ButtonInteract() -> Element {
     let mut disabled = use_signal(|| false);
 
     rsx! {
-        div { style: "display: flex; gap: 12px; flex-wrap: wrap; align-items: center;",
+        Space { wrap: true, gap: "sm".to_string(),
             Button {
                 variant: Variant::Primary,
                 disabled: disabled(),
@@ -113,9 +113,9 @@ pub fn ButtonInteract() -> Element {
 pub fn ProgressDynamicDemo() -> Element {
     let mut percent = use_signal(|| 30.0);
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 400px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Progress { percent: percent(), color: "var(--ctrl-primary)".to_string(), show_text: true }
-            div { style: "display: flex; gap: 8px;",
+            Space { gap: "xs".to_string(),
                 Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| { let p = percent(); if p > 0.0 { percent.set((p - 10.0).max(0.0)); } }, "-10" }
                 Button { variant: Variant::Outline, size: Size::Sm, onclick: move |_| { let p = percent(); if p < 100.0 { percent.set((p + 10.0).min(100.0)); } }, "+10" }
             }
@@ -178,7 +178,7 @@ pub fn TabsDisabledDemo() -> Element {
 pub fn PaginationDocsDemo() -> Element {
     let mut page = use_signal(|| 1u32);
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Pagination { current: page(), total: 50, page_size: 10, onchange: move |v| page.set(v) }
             span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "当前第 {page()} 页" }
         }
@@ -273,8 +273,8 @@ pub fn MessageTriggerDocsDemo() -> Element {
                 }
             }
         }
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
-            div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            Space { wrap: true, gap: "xs".to_string(),
                 Button { variant: Variant::Outline, size: Size::Sm, onclick: {
                     let mut nid = next_id; let mut msg = messages;
                     move |_| {
@@ -378,8 +378,8 @@ pub fn MessagePositionDocsDemo() -> Element {
                 }
             }
         }
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
-            div { style: "display: flex; gap: 8px; flex-wrap: wrap; align-items: center;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            Space { wrap: true, gap: "xs".to_string(),
                 Button { variant: if pos_placement() == MessagePlacement::Top { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::Top), "Top" }
                 Button { variant: if pos_placement() == MessagePlacement::TopRight { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::TopRight), "TopRight" }
                 Button { variant: if pos_placement() == MessagePlacement::TopLeft { Variant::Primary } else { Variant::Ghost }, size: Size::Sm, onclick: move |_| pos_placement.set(MessagePlacement::TopLeft), "TopLeft" }
@@ -399,7 +399,7 @@ pub fn BasicInputDemo() -> Element {
     let mut value = use_signal(|| String::new());
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 360px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Input {
                 placeholder: "请输入内容",
                 value: value(),
@@ -517,7 +517,7 @@ pub fn BasicSwitchDemo() -> Element {
     let mut on = use_signal(|| false);
 
     rsx! {
-        div { style: "display: flex; gap: 16px; align-items: center;",
+        Space { gap: "md".to_string(),
             Switch {
                 checked: on(),
                 onchange: move |v| on.set(v),
@@ -537,7 +537,7 @@ pub fn BasicCheckboxDemo() -> Element {
     let mut checked = use_signal(|| false);
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Checkbox {
                 checked: checked(),
                 label: "同意使用协议".to_string(),
@@ -565,7 +565,7 @@ pub fn CheckAllDemo() -> Element {
     let indet = some && !all;
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Checkbox {
                 checked: all,
                 indeterminate: indet,
@@ -601,7 +601,7 @@ pub fn BasicRadioDemo() -> Element {
     let mut selected = use_signal(|| "a".to_string());
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Radio {
                 value: "a".to_string(),
                 label: "选项 A".to_string(),
@@ -643,7 +643,7 @@ pub fn BasicSelectDemo() -> Element {
     ];
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 240px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Select {
                 options: options,
                 placeholder: "请选择".to_string(),
@@ -674,7 +674,7 @@ pub fn BasicDialogDemo() -> Element {
                 visible: visible(),
                 title: "提示".to_string(),
                 onclose: move |_| visible.set(false),
-                p { style: "margin: 0; color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-md);", "这是一条提示信息。对话框通过 visible 控制显示/隐藏，点击遮罩或右上角关闭按钮均可关闭。" }
+                p { "这是一条提示信息。对话框通过 visible 控制显示/隐藏，点击遮罩或右上角关闭按钮均可关闭。" }
             }
         }
     }
@@ -700,9 +700,9 @@ pub fn FooterDialogDemo() -> Element {
                         "确定"
                     }
                 },
-                div { style: "display: flex; flex-direction: column; gap: 8px;",
-                    p { style: "margin: 0; font-size: var(--ctrl-font-size-md); color: var(--ctrl-text);", "确定要执行此操作吗？" }
-                    p { style: "margin: 0; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);", "此操作不可撤销，请谨慎操作。" }
+                Space { direction: Direction::Vertical, gap: "xs".to_string(),
+                    p { "确定要执行此操作吗？" }
+                    p { "此操作不可撤销，请谨慎操作。" }
                 }
             }
         }
@@ -773,7 +773,7 @@ pub fn CustomRangeSliderDemo() -> Element {
     let mut v2 = use_signal(|| 0);
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 24px; max-width: 400px;",
+        Space { direction: Direction::Vertical, gap: "lg".to_string(),
             Slider {
                 value: v1(),
                 min: 0,
@@ -802,7 +802,7 @@ pub fn BasicRateDemo() -> Element {
     let mut value = use_signal(|| 3.0);
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Rate {
                 value: value(),
                 onchange: move |v: f64| value.set(v),
@@ -820,7 +820,7 @@ pub fn HalfRateDemo() -> Element {
     let mut value = use_signal(|| 2.5);
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Rate {
                 value: value(),
                 allow_half: true,
@@ -843,7 +843,7 @@ pub fn CustomIconRateDemo() -> Element {
     let icon_empty = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7' fill='none' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E";
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Rate {
                 value: value(),
                 icon_full: icon_full.to_string(),
@@ -867,7 +867,7 @@ pub fn CustomIconHalfRateDemo() -> Element {
     let icon_empty = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7' fill='none' stroke='%23ccc' stroke-width='2'/%3E%3C/svg%3E";
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 8px;",
+        Space { direction: Direction::Vertical, gap: "xs".to_string(),
             Rate {
                 value: value(),
                 allow_half: true,
@@ -893,7 +893,7 @@ pub fn BasicSegmentedDemo() -> Element {
     let options = vec![("日".to_string(), "day".to_string()), ("周".to_string(), "week".to_string()), ("月".to_string(), "month".to_string()), ("年".to_string(), "year".to_string())];
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Segmented {
                 options: options,
                 value: value(),
@@ -917,7 +917,7 @@ pub fn BasicInputNumberDemo() -> Element {
     let mut value = use_signal(|| 0);
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 200px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             InputNumber {
                 value: value(),
                 onchange: move |v| value.set(v),
@@ -1159,7 +1159,7 @@ pub fn SelectableTreeDemo() -> Element {
     ];
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Tree {
                 data: tree_data,
                 selected_key: selected(),
@@ -1202,7 +1202,7 @@ pub fn CheckableTreeDemo() -> Element {
     ];
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             Tree {
                 data: tree_data,
                 checkable: true,
@@ -1228,7 +1228,7 @@ pub fn BasicDatePickerDemo() -> Element {
     let mut date = use_signal(|| String::new());
 
     rsx! {
-        div { style: "display: flex; flex-direction: column; gap: 12px;",
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
             DatePicker {
                 value: date(),
                 onchange: move |v| date.set(v),

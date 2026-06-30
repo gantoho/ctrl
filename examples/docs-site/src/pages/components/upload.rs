@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn UploadPage() -> Element {
     rsx! {
 div { id: "upload", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Upload 上传" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "上传组件用于文件上传，支持点击上传和拖拽上传两种模式，可展示文件列表。组件默认即开箱可用，也支持通过回调自定义行为。" }
+            h1 { "Upload 上传" }
+            p { "上传组件用于文件上传，支持点击上传和拖拽上传两种模式，可展示文件列表。组件默认即开箱可用，也支持通过回调自定义行为。" }
 
             DemoBox {
                 title: "点击上传".to_string(),
@@ -61,7 +61,7 @@ div { id: "upload", style: "margin-top: 64px;",
                 code: "Upload {\n    files: files(),\n    max_size: 1048576,\n    show_error: false,\n    onchange: move |f| files.set(f),\n    onerror: move |msg| {\n        let message = use_message();\n        message.info(format!(\"校验失败: {msg}\"));\n    },\n    Button { \"选择文件\" }\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Upload Props" }
+            h2 { "Upload Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("files", "Vec<UploadFile>", "[]", "文件列表"),
                 ("accept", "String", "\"\"", "接受的文件类型，如 \"image/*\"、\".pdf,.doc\""),
@@ -80,7 +80,7 @@ div { id: "upload", style: "margin-top: 64px;",
                 ("children", "Element", "—", "触发上传的元素，如 Button"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "UploadFile 结构" }
+            h2 { "UploadFile 结构" }
             PropsTable { headers: vec!["字段".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("name", "String", "—", "文件名"),
                 ("size", "u64", "0", "文件大小（字节）"),

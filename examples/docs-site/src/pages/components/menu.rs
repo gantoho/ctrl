@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn MenuPage() -> Element {
     rsx! {
 div { id: "menu", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Menu 导航菜单" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "垂直/水平导航菜单，适用于侧边栏或顶部导航。" }
+            h1 { "Menu 导航菜单" }
+            p { "垂直/水平导航菜单，适用于侧边栏或顶部导航。" }
             DemoBox { title: "垂直菜单".to_string(), description: None,
                 demo: rsx! {
                     MenuDocs {}
@@ -24,7 +24,7 @@ div { id: "menu", style: "margin-top: 64px;",
                 ("class", "String", "\"\"", "自定义 CSS 类 — Menu"),
                 ("children", "Element", "—", "子元素（MenuItem / Submenu）— Menu"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "MenuItem Props" }
+            h2 { "MenuItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("item_key", "String", "\"\"", "唯一标识"),
                 ("disabled", "bool", "false", "是否禁用"),

@@ -11,10 +11,10 @@ use super::_demos::*;
 pub fn InputPage() -> Element {
     rsx! {
 div { id: "input", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Input 输入框"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 24px;",
+            p {
                 "输入框用于文本输入。采用受控组件模式，支持尺寸、状态和事件绑定。"
             }
 
@@ -35,7 +35,7 @@ div { id: "input", style: "margin-top: 64px;",
                 title: "三种尺寸".to_string(),
                 description: Some("Sm 28px / Md 36px / Lg 44px".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 360px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Input { placeholder: "Small", size: Size::Sm }
                         Input { placeholder: "Medium", size: Size::Md }
                         Input { placeholder: "Large", size: Size::Lg }
@@ -48,7 +48,7 @@ div { id: "input", style: "margin-top: 64px;",
                 title: "状态".to_string(),
                 description: Some("禁用、只读、错误状态。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 360px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Input { placeholder: "禁用状态", disabled: true }
                         Input { placeholder: "只读状态", readonly: true, value: "只读内容".to_string() }
                         Input { placeholder: "错误状态", error: true }
@@ -64,7 +64,7 @@ div { id: "input", style: "margin-top: 64px;",
                 code: "// 代码见页面下方".to_string(),
             }
 
-            h3 { style: "font-size: 1rem; font-weight: 600; color: var(--ctrl-text); margin: 24px 0 12px;", "表单验证完整代码" }
+            h3 { "表单验证完整代码" }
             CodeBlock { code: [
                 "let mut email = use_signal(|| String::new());",
                 "let mut password = use_signal(|| String::new());",
@@ -88,7 +88,7 @@ div { id: "input", style: "margin-top: 64px;",
                 "}",
             ].join("\n"), lang: Some("rust".to_string()) }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 48px 0 20px;", "Input Props" }
+            h2 { "Input Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("size", "Size", "Md", "输入框尺寸"),
                 ("value", "String", "\"\"", "当前值（受控）"),

@@ -53,8 +53,9 @@ mod timeline;
 pub mod _demos;
 
 use dioxus::prelude::*;
+use ctrl::prelude::*;
 
-/// Component index page - shows all available components
+/// Component index page
 #[component]
 #[allow(non_snake_case)]
 pub fn ComponentsIndex() -> Element {
@@ -110,26 +111,23 @@ pub fn ComponentsIndex() -> Element {
     ];
 
     rsx! {
-        div { style: "max-width: 1200px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
-                "组件总览"
-            }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;",
-                "Ctrl UI 提供了 47 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。"
-            }
+        h1 { "组件总览" }
+        p { "Ctrl UI 提供了 47 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。" }
 
-            div { style: "display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;",
-                for (name, title, desc) in components {
+        Row { gutter: 16,
+            for (name, title, desc) in components {
+                Col { span: 24, sm: Some(12), md: Some(8), lg: Some(6),
                     div {
                         key: "{name}",
-                        style: "padding: 20px; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md); cursor: pointer; transition: all 0.2s;",
-                        onmouseenter: move |_| {},
+                        style: "cursor:pointer;".to_string(),
                         onclick: move |_| {
                             let nav = use_navigator();
                             nav.push(crate::Route::ComponentPage { name: name.to_string() });
                         },
-                        h3 { style: "font-size: 1rem; font-weight: 600; color: var(--ctrl-text); margin-bottom: 4px;", "{title}" }
-                        p { style: "font-size: 0.875rem; color: var(--ctrl-text-secondary);", "{desc}" }
+                        Card {
+                            title: title.to_string(),
+                            p { "{desc}" }
+                        }
                     }
                 }
             }
@@ -197,9 +195,9 @@ pub fn ComponentPage(name: String) -> Element {
         "steps" => rsx! { steps::StepsPage {} },
         "timeline" => rsx! { timeline::TimelinePage {} },
         _ => rsx! {
-            div { style: "padding: 40px; text-align: center;",
-                h1 { style: "font-size: 1.5rem; color: var(--ctrl-text);", "组件未找到" }
-                p { style: "color: var(--ctrl-text-secondary); margin-top: 8px;", "找不到名为 \"{name}\" 的组件" }
+            div { style: "padding:40px; text-align:center;",
+                h1 { "组件未找到" }
+                p { "找不到名为 \"{name}\" 的组件" }
             }
         }
     }

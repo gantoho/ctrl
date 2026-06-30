@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn BreadcrumbPage() -> Element {
     rsx! {
 div { id: "breadcrumb", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Breadcrumb 面包屑"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "面包屑用于展示当前页面的层级路径，帮助用户了解当前位置。"
             }
 
@@ -42,13 +42,13 @@ div { id: "breadcrumb", style: "margin-top: 64px;",
                 code: "Breadcrumb { separator: \">\", ... }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Breadcrumb Props" }
+            h2 { "Breadcrumb Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("separator", "String", "\"/\"", "分隔符"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),
                 ("children", "Element", "—", "子元素（BreadcrumbItem）"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "BreadcrumbItem Props" }
+            h2 { "BreadcrumbItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("href", "String", "\"\"", "链接地址（空则不可点击）"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),

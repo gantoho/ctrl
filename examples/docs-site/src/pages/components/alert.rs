@@ -10,10 +10,10 @@ use super::_demos::*;
 pub fn AlertPage() -> Element {
     rsx! {
 div { id: "alert", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Alert 警告提示"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "用于展示重要的提示信息，支持四种类型、可关闭功能。提供两种模式：内联（Inline）嵌入文档流，全局横幅（Banner）fixed 定位浮在页面顶部。支持声明式和命令式两种用法。"
             }
 
@@ -30,7 +30,7 @@ api.success("操作成功".into(), "数据已提交".into());"#.to_string(),
                 title: "声明式：内联提示（始终显示）".to_string(),
                 description: Some("默认模式，嵌入文档流，适合表单提示、卡片内警告。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 480px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Alert { r#type: AlertType::Info, title: "系统通知".to_string(), description: "新版本已发布，建议立即更新。".to_string() }
                         Alert { r#type: AlertType::Success, title: "保存成功".to_string(), description: "您的数据已成功保存到服务器。".to_string(), closable: true }
                         Alert { r#type: AlertType::Warning, description: "当前网络不稳定，部分功能可能受限。".to_string() }
@@ -40,8 +40,8 @@ api.success("操作成功".into(), "数据已提交".into());"#.to_string(),
                 code: "Alert { r#type: AlertType::Info, title: \"系统通知\", description: \"...\" }\nAlert { r#type: AlertType::Success, title: \"保存成功\", closable: true }\nAlert { r#type: AlertType::Warning, description: \"网络不稳定\" }\nAlert { r#type: AlertType::Error, title: \"加载失败\", closable: true }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "AlertBannerProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "AlertBannerProvider —— 命令式容器" }
+            p {
                 "使用命令式 API 前，需在应用根节点包裹 AlertBannerProvider："
             }
             DemoBox {
@@ -56,7 +56,7 @@ api.success("操作成功".into(), "数据已提交".into());"#.to_string(),
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_alert_banner() API" }
+            h2 { "use_alert_banner() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.info(title, desc)", "String, String", "打开一条信息横幅", ""),
                 ("api.success(title, desc)", "String, String", "打开一条成功横幅", ""),
@@ -67,13 +67,13 @@ api.success("操作成功".into(), "数据已提交".into());"#.to_string(),
                 ("api.remove(id)", "u32", "移除指定横幅", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "AlertBannerProvider Props" }
+            h2 { "AlertBannerProvider Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("max_count", "usize", "5", "最大显示数量，超出部分隐藏（先进先出）"),
                 ("children", "Element", "—", "子元素"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Alert Props（声明式）" }
+            h2 { "Alert Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("type", "AlertType", "Info", "提示类型（Info / Success / Warning / Error）"),
                 ("title", "String", "\"\"", "标题"),

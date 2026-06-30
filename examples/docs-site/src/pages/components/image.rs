@@ -27,14 +27,14 @@ pub fn ImagePage() -> Element {
     let api = use_image_preview();
     rsx! {
 div { id: "image", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Image 图片" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "图片组件支持懒加载、占位图、加载失败回退和预览功能。" }
+            h1 { "Image 图片" }
+            p { "图片组件支持懒加载、占位图、加载失败回退和预览功能。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
                 description: Some("通过 src 属性指定图片地址。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 12px;",
+                    Space { gap: "sm".to_string(),
                         Image { src: "https://picsum.photos/200/150".to_string(), width: "200px".to_string(), height: "150px".to_string() }
                         Image { src: "https://picsum.photos/150/150".to_string(), width: "150px".to_string(), height: "150px".to_string() }
                     }
@@ -101,8 +101,8 @@ api.open(vec![
 ], 0);"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "ImagePreviewProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "ImagePreviewProvider —— 命令式容器" }
+            p {
                 "使用 API 触发预览前，需在应用根节点包裹 ImagePreviewProvider："
             }
             DemoBox {
@@ -117,13 +117,13 @@ api.open(vec![
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_image_preview() API" }
+            h2 { "use_image_preview() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.open(urls, index)", "Vec<String>, usize", "打开图片预览，urls 为预览图片列表，index 为初始索引", ""),
                 ("api.close()", "—", "关闭预览", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Image Props（声明式）" }
+            h2 { "Image Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("src", "String", "\"\"", "图片地址"),
                 ("alt", "String", "\"\"", "替代文本"),

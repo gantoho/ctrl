@@ -9,10 +9,10 @@ use super::_demos::*;
 pub fn MessagePage() -> Element {
     rsx! {
 div { id: "message", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Message 全局提示"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "轻量级全局提示，通过 use_message() API 触发，以 fixed 定位弹出在页面指定位置，展示操作结果或系统通知。支持自动消失和多位置弹出。支持声明式和命令式两种用法。"
             }
 
@@ -40,8 +40,8 @@ api.error("网络连接超时".to_string());"#.to_string(),
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "MessageProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "MessageProvider —— 命令式容器" }
+            p {
                 "使用命令式 API 前，需在应用根节点包裹 MessageProvider："
             }
             DemoBox {
@@ -57,7 +57,7 @@ api.error("网络连接超时".to_string());"#.to_string(),
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_message() API" }
+            h2 { "use_message() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.info(msg)", "String", "打开一条信息提示", ""),
                 ("api.success(msg)", "String", "打开一条成功提示", ""),
@@ -67,14 +67,14 @@ api.error("网络连接超时".to_string());"#.to_string(),
                 ("api.open_with_duration(type, msg, dur)", "MessageType, String, u64", "自定义时长（ms），0 表示不自动关闭", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "MessageProvider Props" }
+            h2 { "MessageProvider Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("placement", "MessagePlacement", "Top", "弹出位置（Top / TopRight / TopLeft / Bottom）"),
                 ("max_count", "usize", "5", "最大显示数量，超出部分隐藏（先进先出）"),
                 ("children", "Element", "—", "子元素"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Message Props（声明式）" }
+            h2 { "Message Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("r#type", "MessageType", "Info", "消息类型（Info / Success / Warning / Error）"),
                 ("content", "String", "\"\"", "消息内容"),

@@ -70,6 +70,9 @@ fn App() -> Element {
     use_context_provider(|| ActiveSection(active));
 
     rsx! {
+        style { {r#"
+            .docs-sidebar-menu.ctrl-menu { width:auto; border-right:none; background:transparent; }
+        "#} }
         ThemeProvider {
             NotificationProvider {
                 placement: ctrl::prelude::NotificationPlacement::TopRight,

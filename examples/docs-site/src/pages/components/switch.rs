@@ -10,10 +10,10 @@ use super::_demos::*;
 pub fn SwitchPage() -> Element {
     rsx! {
 div { id: "switch", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Switch 开关"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "开关用于在两种状态间切换。支持三种尺寸和禁用状态。"
             }
 
@@ -28,7 +28,7 @@ div { id: "switch", style: "margin-top: 64px;",
                 title: "三种尺寸".to_string(),
                 description: Some("Sm / Md / Lg".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; align-items: center;",
+                    Space { gap: "md".to_string(),
                         Switch { size: Size::Sm }
                         Switch { size: Size::Md, checked: true }
                         Switch { size: Size::Lg }
@@ -41,7 +41,7 @@ div { id: "switch", style: "margin-top: 64px;",
                 title: "禁用状态".to_string(),
                 description: Some("禁用时不可交互，透明度降低。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; align-items: center;",
+                    Space { gap: "md".to_string(),
                         Switch { disabled: true }
                         Switch { disabled: true, checked: true }
                     }
@@ -49,7 +49,7 @@ div { id: "switch", style: "margin-top: 64px;",
                 code: "Switch { disabled: true }\nSwitch { disabled: true, checked: true }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Switch Props" }
+            h2 { "Switch Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("checked", "bool", "false", "是否选中"),
                 ("disabled", "bool", "false", "是否禁用"),

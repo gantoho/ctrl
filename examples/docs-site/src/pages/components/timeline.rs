@@ -9,8 +9,8 @@ use crate::pages::components::shared::PropsTable;
 pub fn TimelinePage() -> Element {
     rsx! {
 div { id: "timeline", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Timeline 时间线" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "垂直时间线组件，用于按时间顺序展示事件。" }
+            h1 { "Timeline 时间线" }
+            p { "垂直时间线组件，用于按时间顺序展示事件。" }
             DemoBox { title: "基本用法".to_string(), description: None,
                 demo: rsx! {
                     Timeline {
@@ -26,7 +26,7 @@ div { id: "timeline", style: "margin-top: 64px;",
                 ("class", "String", "\"\"", "自定义 CSS 类 — Timeline"),
                 ("children", "Element", "—", "子元素（TimelineItem）— Timeline"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "TimelineItem Props" }
+            h2 { "TimelineItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("timestamp", "String", "\"\"", "时间标签"),
                 ("color", "String", "\"default\"", "圆点颜色：default / primary / success / warning / danger"),

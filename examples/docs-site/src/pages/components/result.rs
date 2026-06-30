@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn ResultPage() -> Element {
     rsx! {
 div { id: "result", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Result 结果页"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 24px;",
+            p {
                 "用于展示操作结果反馈。支持 4 种状态（Info / Success / Warning / Error），可自定义图标、标题、副标题和底部操作区。"
             }
 
@@ -87,7 +87,7 @@ Result { status: ResultStatus::Error,   title: "操作失败".to_string() }"#.to
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Result Props" }
+            h2 { "Result Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("status", "ResultStatus", "Info", "状态：Success / Info / Warning / Error"),
                 ("title", "String", "\"\"", "标题"),
@@ -98,7 +98,7 @@ Result { status: ResultStatus::Error,   title: "操作失败".to_string() }"#.to
                 ("children", "Element", "—", "底部操作区（按钮等）"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "ResultStatus 枚举" }
+            h2 { "ResultStatus 枚举" }
             PropsTable { headers: vec!["值".to_string(), "默认图标".to_string(), "默认颜色".to_string(), "".to_string()], rows: vec![
                 ("Info (默认)", "ℹ️", "var(--ctrl-info)", ""),
                 ("Success", "✅", "var(--ctrl-success)", ""),

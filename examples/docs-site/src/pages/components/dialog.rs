@@ -9,10 +9,10 @@ use super::_demos::*;
 pub fn DialogPage() -> Element {
     rsx! {
 div { id: "dialog", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Dialog 对话框"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "对话框用于在当前页面之上显示重要信息或需要用户操作的场景。支持声明式和命令式两种用法。"
             }
 
@@ -45,8 +45,8 @@ api.open(DialogConfig {
 });"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DialogProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "DialogProvider —— 命令式容器" }
+            p {
                 "使用命令式 API 前，需在应用根节点包裹 DialogProvider："
             }
             DemoBox {
@@ -61,13 +61,13 @@ api.open(DialogConfig {
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_dialog() API" }
+            h2 { "use_dialog() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.open(config)", "DialogConfig", "打开对话框", ""),
                 ("api.close()", "—", "关闭对话框", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DialogConfig 字段" }
+            h2 { "DialogConfig 字段" }
             PropsTable { headers: vec!["字段".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "对话框标题"),
                 ("content", "Element", "rsx!{}", "对话框内容（Element）"),
@@ -80,7 +80,7 @@ api.open(DialogConfig {
                 ("onclose", "Option<EventHandler>", "None", "关闭时回调（确认/遮罩关闭均会触发）"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Dialog Props（声明式）" }
+            h2 { "Dialog Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("visible", "bool", "false", "是否显示"),
                 ("title", "String", "\"\"", "对话框标题"),

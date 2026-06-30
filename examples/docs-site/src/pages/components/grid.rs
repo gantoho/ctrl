@@ -17,10 +17,10 @@ pub fn GridPage() -> Element {
 
     rsx! {
         div { id: "grid", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Grid 栅格布局"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "基于 CSS Grid 的 24 列弹性栅格。Row 定义 24 列 1fr 网格，Col 通过 span / offset 控制占列和偏移。支持 5 级响应式断点、2 种沟槽模式。"
             }
 
@@ -162,7 +162,7 @@ Row {
                 title: "对齐方式".to_string(),
                 description: Some("水平对齐使用 offset；垂直对齐使用 Row 的 align。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         div {
                             Row {
                                 Col { span: 8, div { style: "{col_demo_bg}", "居左（默认）" } }
@@ -324,7 +324,7 @@ Row {
                 title: "复杂布局示例".to_string(),
                 description: Some("模拟真实页面结构：Header + Sidebar + Main + Footer。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 8px;",
+                    Space { direction: Direction::Vertical, gap: "xs".to_string(),
                         // Header
                         Row {
                             Col { span: 24,
@@ -411,7 +411,7 @@ Row {
             }
 
             // ═══ Row Props ═══
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Row Props" }
+            h2 { "Row Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("align", "RowAlign", "Top", "垂直对齐：Top / Middle / Bottom"),
                 ("gutter", "u32", "0", "列间距（px）"),
@@ -422,7 +422,7 @@ Row {
             ]}
 
             // ═══ Col Props ═══
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Col Props" }
+            h2 { "Col Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("span", "u8", "24", "列占位（1-24）"),
                 ("offset", "u8", "0", "列偏移（0-23），从第 N+1 列起始"),
@@ -437,7 +437,7 @@ Row {
             ]}
 
             // ═══ RowAlign ═══
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "RowAlign 枚举" }
+            h2 { "RowAlign 枚举" }
             PropsTable { headers: vec!["值".to_string(), "效果".to_string(), "".to_string(), "".to_string()], rows: vec![
                 ("Top (默认)", "顶部对齐", "", ""),
                 ("Middle", "居中对齐", "", ""),
@@ -445,7 +445,7 @@ Row {
             ]}
 
             // ═══ GutterMode ═══
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "GutterMode 枚举" }
+            h2 { "GutterMode 枚举" }
             PropsTable { headers: vec!["值".to_string(), "效果".to_string(), "".to_string(), "".to_string()], rows: vec![
                 ("Padding (默认)", "Row 负 margin + Col 左右 padding，列四周均有间距", "", ""),
                 ("Gap", "Row CSS gap 属性，仅在列与列之间产生间距，首尾无空白", "", ""),

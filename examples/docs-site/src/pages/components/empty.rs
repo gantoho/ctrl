@@ -9,8 +9,8 @@ use crate::pages::components::shared::PropsTable;
 pub fn EmptyPage() -> Element {
     rsx! {
 div { id: "empty", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Empty 空状态" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "无数据时的占位组件，可自定义图片和操作。" }
+            h1 { "Empty 空状态" }
+            p { "无数据时的占位组件，可自定义图片和操作。" }
             DemoBox { title: "基本用法".to_string(), description: None,
                 demo: rsx! { Empty { description: "暂无数据".to_string() } },
                 code: "Empty { description: \"暂无数据\".to_string() }".to_string(),

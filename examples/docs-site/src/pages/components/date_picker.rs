@@ -10,8 +10,8 @@ use super::_demos::*;
 pub fn DatePickerPage() -> Element {
     rsx! {
 div { id: "date_picker", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "DatePicker 日期选择器" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "日期选择器用于选择日期。提供日历面板、月份导航和今天快捷按钮。" }
+            h1 { "DatePicker 日期选择器" }
+            p { "日期选择器用于选择日期。提供日历面板、月份导航和今天快捷按钮。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
@@ -24,7 +24,7 @@ div { id: "date_picker", style: "margin-top: 64px;",
                 title: "带初始值".to_string(),
                 description: Some("设置 value 属性指定初始日期。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 12px;",
+                    Space { gap: "sm".to_string(),
                         DatePicker { value: "2024-06-15".to_string() }
                         DatePicker { value: "2024-12-25".to_string() }
                     }
@@ -46,7 +46,7 @@ div { id: "date_picker", style: "margin-top: 64px;",
                 code: "DatePicker { value: \"2024-06-15\".to_string(), clearable: false }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DatePicker Props" }
+            h2 { "DatePicker Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("value", "String", "\"\"", "选中的日期（YYYY-MM-DD）"),
                 ("placeholder", "String", "\"请选择日期\"", "占位文本"),

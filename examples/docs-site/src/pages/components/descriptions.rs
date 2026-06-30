@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn DescriptionsPage() -> Element {
     rsx! {
 div { id: "descriptions", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Descriptions 描述列表"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "用于标签-值成对展示信息。适合详情页，支持标题、尺寸、无边框模式和标签列宽度控制。"
             }
 
@@ -74,7 +74,7 @@ div { id: "descriptions", style: "margin-top: 64px;",
                 title: "三种尺寸".to_string(),
                 description: Some("通过 size 控制尺寸：Sm / Md（默认） / Lg。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 24px;",
+                    Space { direction: Direction::Vertical, gap: "lg".to_string(),
                         Descriptions {
                             title: "小尺寸（Sm）".to_string(),
                             size: Size::Sm,
@@ -130,7 +130,7 @@ Descriptions {
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Descriptions Props" }
+            h2 { "Descriptions Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "标题"),
                 ("size", "Size", "Md", "尺寸：Sm / Md / Lg"),
@@ -141,7 +141,7 @@ Descriptions {
                 ("style", "String", "\"\"", "自定义内联样式"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DescriptionsItem" }
+            h2 { "DescriptionsItem" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("label", "String", "—", "标签文本"),
                 ("value", "Element", "—", "值内容（支持任意 Dioxus 元素）"),

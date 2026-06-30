@@ -14,10 +14,10 @@ pub fn SelectPage() -> Element {
     let mut disabled_val = use_signal(|| String::new());
     rsx! {
 div { id: "select", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Select 下拉选择"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "下拉选择器用于从一组选项中选择一项。"
             }
 
@@ -32,7 +32,7 @@ div { id: "select", style: "margin-top: 64px;",
                 title: "尺寸".to_string(),
                 description: Some("Sm / Md / Lg".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 240px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         {
                             let mut val = sm_val;
                             rsx! { Select { size: Size::Sm, options: vec![("1".to_string(), "小".to_string(), false)], placeholder: "Small".to_string(), value: sm_val(), onchange: move |v| val.set(v) } }
@@ -54,7 +54,7 @@ div { id: "select", style: "margin-top: 64px;",
                 title: "禁用".to_string(),
                 description: Some("整体禁用或单项禁用。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px; max-width: 240px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Select {
                             disabled: true,
                             placeholder: "整个禁用".to_string(),
@@ -67,7 +67,7 @@ div { id: "select", style: "margin-top: 64px;",
                 code: "Select { disabled: true, options, placeholder: \"整个禁用\", value: val(), onchange: move |v| val.set(v) }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Select Props" }
+            h2 { "Select Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("options", "Vec<SelectOption>", "[]", "选项列表"),
                 ("value", "String", "\"\"", "当前选中值"),

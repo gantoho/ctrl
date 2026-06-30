@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn NotificationPage() -> Element {
     rsx! {
 div { id: "notification", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Notification 通知提醒" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "全局通知提醒，支持四种类型和自动关闭。支持声明式和命令式两种用法。" }
+            h1 { "Notification 通知提醒" }
+            p { "全局通知提醒，支持四种类型和自动关闭。支持声明式和命令式两种用法。" }
 
             DemoBox {
                 title: "命令式：use_notification() API".to_string(),
@@ -19,8 +19,8 @@ div { id: "notification", style: "margin-top: 64px;",
                 code: "let mut api = use_notification();\napi.info(\"通知\".to_string(), \"这是一条通知\".to_string());\napi.success(\"成功\".to_string(), \"操作成功\".to_string());\napi.warning(\"警告\".to_string(), \"请注意\".to_string());\napi.error(\"错误\".to_string(), \"操作失败\".to_string());".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "NotificationProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "NotificationProvider —— 命令式容器" }
+            p {
                 "使用命令式 API 前，需在应用根节点包裹 NotificationProvider："
             }
             DemoBox {
@@ -36,7 +36,7 @@ div { id: "notification", style: "margin-top: 64px;",
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_notification() API" }
+            h2 { "use_notification() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.info(title, content)", "String, String", "打开一条信息通知", ""),
                 ("api.success(title, content)", "String, String", "打开一条成功通知", ""),
@@ -47,7 +47,7 @@ div { id: "notification", style: "margin-top: 64px;",
                 ("api.remove(id)", "u32", "移除指定通知", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "NotificationProvider Props" }
+            h2 { "NotificationProvider Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("placement", "NotificationPlacement", "TopRight", "弹出位置（TopRight / TopLeft / BottomRight / BottomLeft）"),
                 ("max_count", "usize", "5", "最大显示数量，超出部分隐藏（先进先出）"),
@@ -55,7 +55,7 @@ div { id: "notification", style: "margin-top: 64px;",
                 ("children", "Element", "—", "子元素"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Notification Props（声明式）" }
+            h2 { "Notification Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("r#type", "NotificationType", "Info", "通知类型（Info / Success / Warning / Error）"),
                 ("title", "String", "\"\"", "标题"),

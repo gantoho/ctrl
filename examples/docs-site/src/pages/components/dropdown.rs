@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn DropdownPage() -> Element {
     rsx! {
 div { id: "dropdown", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Dropdown 下拉菜单" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "点击后展开的下拉菜单，支持选项和分割线。" }
+            h1 { "Dropdown 下拉菜单" }
+            p { "点击后展开的下拉菜单，支持选项和分割线。" }
             DemoBox { title: "基本用法".to_string(), description: None,
                 demo: rsx! {
                     DropdownDocs {}
@@ -23,7 +23,7 @@ div { id: "dropdown", style: "margin-top: 64px;",
                 ("class", "String", "\"\"", "自定义 CSS 类"),
                 ("children", "Element", "—", "菜单项（DropdownItem / DropdownDivider）"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DropdownItem Props" }
+            h2 { "DropdownItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("disabled", "bool", "false", "是否禁用"),
                 ("onclick", "Option<EventHandler<()>>", "None", "点击事件"),

@@ -9,11 +9,11 @@ use crate::pages::components::shared::PropsTable;
 pub fn PopoverPage() -> Element {
     rsx! {
 div { id: "popover", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Popover 气泡卡片" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "点击/悬停触发的气泡卡片，可包含标题和内容。" }
+            h1 { "Popover 气泡卡片" }
+            p { "点击/悬停触发的气泡卡片，可包含标题和内容。" }
             DemoBox { title: "基本用法".to_string(), description: None,
                 demo: rsx! {
-                    div { style: "display: flex; gap: 12px;",
+                    Space { gap: "sm".to_string(),
                         Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "向上弹出" } },
                             Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                         }

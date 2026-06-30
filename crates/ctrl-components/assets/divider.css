@@ -5,7 +5,10 @@
 .ctrl-divider {
     display: flex;
     align-items: center;
-    margin: 16px 0;
+    margin: var(--ctrl-divider-gap-top, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-right, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-bottom, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-left, var(--ctrl-spacing-md));
     color: var(--ctrl-text-secondary);
     font-size: var(--ctrl-font-size-sm);
     border: none;
@@ -26,6 +29,24 @@
     margin-left: 16px;
 }
 
+/* 文字左对齐 */
+.ctrl-divider--left::before {
+    flex: none;
+    width: 24px;
+}
+.ctrl-divider--left::after {
+    flex: 1;
+}
+
+/* 文字右对齐 */
+.ctrl-divider--right::before {
+    flex: 1;
+}
+.ctrl-divider--right::after {
+    flex: none;
+    width: 24px;
+}
+
 /* 无文字（纯分割线） */
 .ctrl-divider--plain::before {
     content: none;
@@ -35,7 +56,10 @@
 .ctrl-divider--vertical {
     display: inline-flex;
     flex-direction: column;
-    margin: 0 8px;
+    margin: var(--ctrl-divider-gap-top, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-right, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-bottom, var(--ctrl-spacing-md))
+            var(--ctrl-divider-gap-left, var(--ctrl-spacing-md));
     vertical-align: middle;
     border-left: 1px solid var(--ctrl-border);
     height: 1em;

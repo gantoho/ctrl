@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn DrawerPage() -> Element {
     rsx! {
 div { id: "drawer", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Drawer 抽屉" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "从屏幕边缘滑出的浮层面板，适用于表单、详情等场景。支持声明式和命令式两种用法。" }
+            h1 { "Drawer 抽屉" }
+            p { "从屏幕边缘滑出的浮层面板，适用于表单、详情等场景。支持声明式和命令式两种用法。" }
 
             DemoBox {
                 title: "声明式：基本用法".to_string(),
@@ -32,8 +32,8 @@ api.open(DrawerConfig {
 });"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DrawerProvider —— 命令式容器" }
-            p { style: "font-size: var(--ctrl-font-size-md); color: var(--ctrl-text-secondary); margin-bottom: 16px;",
+            h2 { "DrawerProvider —— 命令式容器" }
+            p {
                 "使用命令式 API 前，需在应用根节点包裹 DrawerProvider："
             }
             DemoBox {
@@ -48,13 +48,13 @@ api.open(DrawerConfig {
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "use_drawer() API" }
+            h2 { "use_drawer() API" }
             PropsTable { headers: vec!["方法".to_string(), "参数".to_string(), "说明".to_string(), "".to_string()], rows: vec![
                 ("api.open(config)", "DrawerConfig", "打开抽屉", ""),
                 ("api.close()", "—", "关闭抽屉", ""),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "DrawerConfig 字段" }
+            h2 { "DrawerConfig 字段" }
             PropsTable { headers: vec!["字段".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "抽屉标题"),
                 ("content", "Element", "rsx!{}", "抽屉内容（Element）"),
@@ -64,7 +64,7 @@ api.open(DrawerConfig {
                 ("onclose", "Option<EventHandler>", "None", "关闭时回调"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Drawer Props（声明式）" }
+            h2 { "Drawer Props（声明式）" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("visible", "bool", "false", "是否打开"),
                 ("title", "String", "\"\"", "抽屉标题"),

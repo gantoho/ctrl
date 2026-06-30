@@ -9,8 +9,8 @@ use crate::pages::components::shared::PropsTable;
 pub fn CarouselPage() -> Element {
     rsx! {
 div { id: "carousel", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Carousel 走马灯" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "走马灯用于在有限空间内循环展示内容。支持自动播放、箭头导航和指示器。子项推荐使用 CarouselSlide 封装。" }
+            h1 { "Carousel 走马灯" }
+            p { "走马灯用于在有限空间内循环展示内容。支持自动播放、箭头导航和指示器。子项推荐使用 CarouselSlide 封装。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
@@ -66,7 +66,7 @@ div { id: "carousel", style: "margin-top: 64px;",
                 code: "Carousel { height: \"200px\".to_string(), total_hint: 3, loop_play: false, autoplay: false, ... }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Carousel Props" }
+            h2 { "Carousel Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("total_hint", "usize", "1", "轮播项总数（使用 CarouselSlide 时必填）"),
                 ("autoplay", "bool", "true", "是否自动播放"),
@@ -81,7 +81,7 @@ div { id: "carousel", style: "margin-top: 64px;",
                 ("children", "Element", "—", "CarouselSlide 子元素"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "CarouselSlide Props" }
+            h2 { "CarouselSlide Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("class", "String", "\"\"", "自定义 CSS 类（激活时追加 --active）"),
                 ("children", "Element", "—", "单张幻灯片的内容"),

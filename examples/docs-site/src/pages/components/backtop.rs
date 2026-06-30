@@ -10,8 +10,8 @@ use crate::pages::components::shared::PropsTable;
 pub fn BacktopPage() -> Element {
     rsx! {
 div { id: "backtop", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Backtop 回到顶部" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 40px;", "页面滚动后显示在右下角的回到顶部按钮，点击后平滑滚动到顶部。支持多种缓动效果和弹簧阻尼模式。" }
+            h1 { "Backtop 回到顶部" }
+            p { "页面滚动后显示在右下角的回到顶部按钮，点击后平滑滚动到顶部。支持多种缓动效果和弹簧阻尼模式。" }
 
             style { {r#"
 .ctrl-backtop.demo-bt-default { right: 40px; bottom: 40px; }
@@ -38,9 +38,9 @@ div { id: "backtop", style: "margin-top: 64px;",
 
             DemoBox { title: "可交互示例（真实组件）".to_string(), description: Some("滚动页面后，下方各位置的按钮会依次出现，点击体验不同的回顶效果。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 16px; width: 100%;",
+                    Space { direction: Direction::Vertical, gap: "md".to_string(),
                         div { style: "padding: 16px; border-radius: 8px; background: var(--ctrl-bg-secondary);",
-                            p { style: "margin: 0 0 8px 0; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text); font-weight: 600;", "按钮位置说明" }
+                            p { "按钮位置说明" }
                             div { style: "display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
                                 span { "[右下] easeOutCubic（默认 400ms）" }
                                 span { "[左下] easeOutExpo（500ms）" }

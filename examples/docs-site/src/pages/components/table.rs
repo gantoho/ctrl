@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn TablePage() -> Element {
     rsx! {
 div { id: "table", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Table 表格"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "表格用于展示结构化数据，支持斑马纹和边框。"
             }
 
@@ -60,7 +60,7 @@ div { id: "table", style: "margin-top: 64px;",
                 code: "Table { striped: true, columns: cols, data: data }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Table Props" }
+            h2 { "Table Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("columns", "Vec<TableColumn>", "[]", "列定义"),
                 ("data", "Vec<Vec<String>>", "[]", "行数据"),
@@ -69,7 +69,7 @@ div { id: "table", style: "margin-top: 64px;",
                 ("class", "String", "\"\"", "自定义 CSS 类"),
                 ("style", "String", "\"\"", "自定义内联样式"),
             ]}
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "TableColumn 属性" }
+            h2 { "TableColumn 属性" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "列标题"),
                 ("width", "Option<String>", "None", "列宽"),

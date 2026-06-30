@@ -10,8 +10,8 @@ use super::_demos::*;
 pub fn RatePage() -> Element {
     rsx! {
 div { id: "rate", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Rate 评分" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "评分组件用于收集用户对内容的评价。支持半星、自定义图标和只读状态。" }
+            h1 { "Rate 评分" }
+            p { "评分组件用于收集用户对内容的评价。支持半星、自定义图标和只读状态。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
@@ -31,7 +31,7 @@ div { id: "rate", style: "margin-top: 64px;",
                 title: "禁用/只读".to_string(),
                 description: Some("禁用或只读状态下的评分。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Rate { value: 4.0, disabled: true }
                         Rate { value: 5.0, disabled: true }
                     }
@@ -60,7 +60,7 @@ div { id: "rate", style: "margin-top: 64px;",
                 code: "Rate {\n    value: value(),\n    allow_half: true,\n    icon_full: \"...\".to_string(),\n    icon_half: \"...\".to_string(),\n    icon_empty: \"...\".to_string(),\n    onchange: move |v| value.set(v),\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Rate Props" }
+            h2 { "Rate Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("value", "f64", "0.0", "当前评分值"),
                 ("count", "i32", "5", "星星数量"),

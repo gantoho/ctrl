@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn TextareaPage() -> Element {
     rsx! {
 div { id: "textarea", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Textarea 多行输入"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 24px;",
+            p {
                 "多行文本输入组件。支持字数统计、最大长度限制、resize 控制等。采用受控组件模式。"
             }
 
@@ -35,7 +35,7 @@ div { id: "textarea", style: "margin-top: 64px;",
                 title: "三种尺寸".to_string(),
                 description: Some("Sm / Md / Lg 三种尺寸变体。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Textarea { placeholder: "Small", rows: 2, size: Size::Sm }
                         Textarea { placeholder: "Medium（默认）", rows: 2, size: Size::Md }
                         Textarea { placeholder: "Large", rows: 2, size: Size::Lg }
@@ -59,7 +59,7 @@ Textarea { placeholder: "Large", rows: 2, size: Size::Lg }"#.to_string(),
                 title: "禁用与只读".to_string(),
                 description: Some("disabled 使输入框不可交互，readonly 仅可查看。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Textarea { placeholder: "禁用状态", rows: 2, disabled: true, value: "这段文本被禁用了".to_string() }
                         Textarea { placeholder: "只读状态", rows: 2, readonly: true, value: "这段文本是只读的".to_string() }
                     }
@@ -81,7 +81,7 @@ Textarea { placeholder: "只读状态", rows: 2, readonly: true }"#.to_string(),
                 title: "Resize 控制".to_string(),
                 description: Some("通过 resize 属性控制拖拽缩放行为（none / both / horizontal / vertical）。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 12px;",
+                    Space { direction: Direction::Vertical, gap: "sm".to_string(),
                         Textarea { placeholder: "不可拖拽 (none)", rows: 2, resize: "none".to_string() }
                         Textarea { placeholder: "默认 (vertical)", rows: 2 }
                         Textarea { placeholder: "水平拖拽 (horizontal)", rows: 2, resize: "horizontal".to_string() }
@@ -92,7 +92,7 @@ Textarea { placeholder: "默认垂直拖拽", rows: 2 }
 Textarea { placeholder: "水平拖拽", rows: 2, resize: "horizontal".to_string() }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Textarea Props" }
+            h2 { "Textarea Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("value", "String", "\"\"", "当前值（受控组件）"),
                 ("placeholder", "String", "\"\"", "占位文本"),

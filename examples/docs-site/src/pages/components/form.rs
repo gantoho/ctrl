@@ -10,8 +10,8 @@ use super::_demos::*;
 pub fn FormPage() -> Element {
     rsx! {
 div { id: "form", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Form 表单" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "表单组件用于数据录入，支持垂直、水平、内联三种布局，提供 FormItem 管理标签、帮助文本和校验信息。" }
+            h1 { "Form 表单" }
+            p { "表单组件用于数据录入，支持垂直、水平、内联三种布局，提供 FormItem 管理标签、帮助文本和校验信息。" }
 
             DemoBox {
                 title: "垂直布局".to_string(),
@@ -37,7 +37,7 @@ div { id: "form", style: "margin-top: 64px;",
                 title: "帮助文本与错误".to_string(),
                 description: Some("通过 FormItem 的 help 和 error 属性展示辅助信息。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 16px; max-width: 400px;",
+                    Space { direction: Direction::Vertical, gap: "md".to_string(),
                         FormItem { label: "用户名".to_string(), help: "请输入 4-16 个字符".to_string(), Input { placeholder: "请输入用户名" } }
                         FormItem { label: "邮箱".to_string(), error: "邮箱格式不正确".to_string(), Input { placeholder: "请输入邮箱" } }
                     }
@@ -52,7 +52,7 @@ div { id: "form", style: "margin-top: 64px;",
                 code: "Form {\n    validate_trigger: ValidationTrigger::Blur,\n    scroll_to_error: true,\n    onsubmit: move |_data| { submitted.set(true); },\n    FormItem {\n        name: \"username\".to_string(),\n        label: \"用户名\".to_string(),\n        required: true,\n        rules: vec![ValidationRule::min_length(3, \"用户名至少 3 个字符\")],\n        value: username(),\n        Input { ... }\n    }\n    FormItem {\n        name: \"confirm\".to_string(),\n        label: \"确认密码\".to_string(),\n        rules: vec![ValidationRule::custom(move |val| { ... })],\n        value: confirm(),\n        Input { ... }\n    }\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Form Props" }
+            h2 { "Form Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("layout", "String", "\"vertical\"", "布局方式：vertical / horizontal / inline"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),
@@ -66,7 +66,7 @@ div { id: "form", style: "margin-top: 64px;",
                 ("children", "Element", "—", "子元素"),
             ]}
 
-            h3 { style: "font-size: 1rem; font-weight: 600; color: var(--ctrl-text); margin: 24px 0 12px;", "FormItem Props" }
+            h3 { "FormItem Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("name", "String", "—（必填）", "字段唯一标识，用于注册到 FormContext"),
                 ("label", "String", "\"\"", "标签文本"),

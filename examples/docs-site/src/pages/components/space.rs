@@ -9,8 +9,8 @@ use crate::pages::components::shared::PropsTable;
 pub fn SpacePage() -> Element {
     rsx! {
 div { id: "space", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Space 间距" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "间距组件用于设置子元素之间的间距。支持水平和垂直方向，提供三种预设尺寸。" }
+            h1 { "Space 间距" }
+            p { "间距组件用于设置子元素之间的间距。支持水平和垂直方向，提供三种预设尺寸。" }
 
             DemoBox {
                 title: "水平间距".to_string(),
@@ -42,7 +42,7 @@ div { id: "space", style: "margin-top: 64px;",
                 title: "自定义间距".to_string(),
                 description: Some("通过 gap 属性设置间距大小 (sm / md / lg)。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; flex-direction: column; gap: 16px;",
+                    Space { direction: Direction::Vertical, gap: "md".to_string(),
                         Space { gap: "sm".to_string(), Tag { "小" } Tag { "间" } Tag { "距" } }
                         Space { gap: "md".to_string(), Tag { "中" } Tag { "间" } Tag { "距" } }
                         Space { gap: "lg".to_string(), Tag { "大" } Tag { "间" } Tag { "距" } }
@@ -51,7 +51,7 @@ div { id: "space", style: "margin-top: 64px;",
                 code: "Space { gap: \"sm\".to_string(), ... }\nSpace { gap: \"md\".to_string(), ... }\nSpace { gap: \"lg\".to_string(), ... }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Space Props" }
+            h2 { "Space Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("direction", "String", "\"horizontal\"", "排列方向：horizontal / vertical"),
                 ("size", "String", "\"md\"", "间距大小：sm / md / lg"),

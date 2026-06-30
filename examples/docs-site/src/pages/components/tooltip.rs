@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn TooltipPage() -> Element {
     rsx! {
 div { id: "tooltip", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Tooltip 气泡提示"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "鼠标悬浮时显示简短提示文字，支持上下左右四个方向。"
             }
 
@@ -20,7 +20,7 @@ div { id: "tooltip", style: "margin-top: 64px;",
                 title: "位置方向".to_string(),
                 description: Some("通过 placement 控制气泡弹出方向。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px; flex-wrap: wrap;",
+                    Space { wrap: true, gap: "md".to_string(),
                         Tooltip { content: "这是一段提示文字".to_string(), placement: Placement::Top,
                             Button { variant: Variant::Outline, size: Size::Sm, "Top" }
                         }
@@ -38,7 +38,7 @@ div { id: "tooltip", style: "margin-top: 64px;",
                 code: "Tooltip { content: \"提示文字\".into(), placement: \"top\",\n    Button { \"Top\" }\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Tooltip Props" }
+            h2 { "Tooltip Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("content", "String", "\"\"", "提示文字"),
                 ("placement", "String", "\"top\"", "弹出方向（top / bottom / left / right）"),

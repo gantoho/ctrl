@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn StatisticPage() -> Element {
     rsx! {
 div { id: "statistic", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Statistic 统计数值"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "用于突出展示统计数据。支持标题、数值、前缀/后缀、趋势箭头和精度控制。"
             }
 
@@ -35,7 +35,7 @@ div { id: "statistic", style: "margin-top: 64px;",
                 title: "趋势箭头".to_string(),
                 description: Some("通过 trend 显示上升/下降箭头，颜色自动适配。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 48px;",
+                    Space { gap: "xl".to_string(),
                         Statistic {
                             title: "日活跃用户".to_string(),
                             value: "12,580".to_string(),
@@ -68,7 +68,7 @@ Statistic {
                 title: "前缀与后缀".to_string(),
                 description: Some("通过 prefix / suffix 在数值前后添加自定义元素。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 48px;",
+                    Space { gap: "xl".to_string(),
                         Statistic {
                             title: "总销售额".to_string(),
                             value: "568,920".to_string(),
@@ -122,7 +122,7 @@ Statistic {
                 title: "精度控制".to_string(),
                 description: Some("设置 precision 控制小数位数（仅当 value 可解析为 f64 时生效）。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 48px;",
+                    Space { gap: "xl".to_string(),
                         Statistic {
                             title: "平均分".to_string(),
                             value: "98.56789".to_string(),
@@ -151,7 +151,7 @@ Statistic {
 }"#.to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Statistic Props" }
+            h2 { "Statistic Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "标题"),
                 ("value", "String", "\"\"", "数值（字符串格式，如 \"128\"、\"88.5%\"）"),
@@ -165,7 +165,7 @@ Statistic {
                 ("style", "String", "\"\"", "自定义内联样式"),
             ]}
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "StatisticTrend 枚举" }
+            h2 { "StatisticTrend 枚举" }
             PropsTable { headers: vec!["值".to_string(), "显示".to_string(), "颜色".to_string(), "".to_string()], rows: vec![
                 ("None (默认)", "不显示", "—", ""),
                 ("Up", "↑ 上升箭头", "var(--ctrl-success) 绿色", ""),

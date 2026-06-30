@@ -10,10 +10,10 @@ use super::_demos::*;
 pub fn PaginationPage() -> Element {
     rsx! {
 div { id: "pagination", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Pagination 分页"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "分页用于长列表的数据分页导航。"
             }
 
@@ -33,7 +33,7 @@ div { id: "pagination", style: "margin-top: 64px;",
                 code: "Pagination { total: 200, page_size: 10 }".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Pagination Props" }
+            h2 { "Pagination Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("current", "u32", "1", "当前页码"),
                 ("total", "u32", "0", "总条数"),

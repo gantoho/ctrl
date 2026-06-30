@@ -9,8 +9,8 @@ use super::_demos::*;
 pub fn TreePage() -> Element {
     rsx! {
 div { id: "tree", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;", "Tree 树形控件" }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;", "树形控件用于展示层级结构数据。支持节点展开/收起、选择和复选框功能。" }
+            h1 { "Tree 树形控件" }
+            p { "树形控件用于展示层级结构数据。支持节点展开/收起、选择和复选框功能。" }
 
             DemoBox {
                 title: "基本用法".to_string(),
@@ -33,7 +33,7 @@ div { id: "tree", style: "margin-top: 64px;",
                 code: "let mut checked = use_signal(|| Vec::new());\n\nTree {\n    data: tree_data,\n    checkable: true,\n    checked_keys: checked(),\n    default_expand_all: true,\n    oncheck: move |keys| checked.set(keys),\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Tree Props" }
+            h2 { "Tree Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("data", "Vec<TreeNode>", "[]", "树形数据"),
                 ("selected_key", "String", "\"\"", "选中节点 key"),
@@ -47,7 +47,7 @@ div { id: "tree", style: "margin-top: 64px;",
                 ("oncheck", "Option<EventHandler<Vec<String>>>", "None", "复选框回调"),
             ]}
 
-            h3 { style: "font-size: 1rem; font-weight: 600; color: var(--ctrl-text); margin: 24px 0 12px;", "TreeNode Props" }
+            h3 { "TreeNode Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("node_key", "String", "—", "节点唯一标识"),
                 ("title", "String", "—", "节点标题"),

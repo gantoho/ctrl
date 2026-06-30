@@ -9,10 +9,10 @@ use crate::pages::components::shared::PropsTable;
 pub fn CardPage() -> Element {
     rsx! {
 div { id: "card", style: "margin-top: 64px;",
-            h1 { style: "font-size: 2rem; font-weight: 700; color: var(--ctrl-text); margin-bottom: 8px;",
+            h1 {
                 "Card 卡片"
             }
-            p { style: "font-size: 1rem; color: var(--ctrl-text-secondary); margin-bottom: 32px;",
+            p {
                 "卡片用于承载和展示信息，支持标题、边框、阴影等样式。"
             }
 
@@ -21,7 +21,7 @@ div { id: "card", style: "margin-top: 64px;",
                 description: Some("默认带边框，无阴影。".to_string()),
                 demo: rsx! {
                     Card { title: "卡片标题".to_string(),
-                        p { style: "color: var(--ctrl-text-secondary); margin: 0; font-size: var(--ctrl-font-size-md);", "这是卡片的内容区域，可以放置任何元素。" }
+                        p { "这是卡片的内容区域，可以放置任何元素。" }
                     }
                 },
                 code: "Card { title: \"卡片标题\".to_string(),\n    p { \"这是卡片内容\" }\n}".to_string(),
@@ -31,19 +31,19 @@ div { id: "card", style: "margin-top: 64px;",
                 title: "带阴影".to_string(),
                 description: Some("设置 shadow 为 true 显示投影。".to_string()),
                 demo: rsx! {
-                    div { style: "display: flex; gap: 16px;",
+                    Space { gap: "md".to_string(),
                         Card { style: "flex: 1;".to_string(), title: "默认卡片".to_string(),
-                            p { style: "color: var(--ctrl-text-secondary); margin: 0;", "bordered 为默认值 true" }
+                            p { "bordered 为默认值 true" }
                         }
                         Card { style: "flex: 1;".to_string(), shadow: true, title: "阴影卡片".to_string(),
-                            p { style: "color: var(--ctrl-text-secondary); margin: 0;", "shadow: true" }
+                            p { "shadow: true" }
                         }
                     }
                 },
                 code: "Card { title: \"阴影卡片\".to_string(), shadow: true,\n    p { \"卡片内容\" }\n}".to_string(),
             }
 
-            h2 { style: "font-size: 1.25rem; font-weight: 600; color: var(--ctrl-text); margin: 40px 0 20px;", "Card Props" }
+            h2 { "Card Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("title", "String", "\"\"", "卡片标题"),
                 ("bordered", "bool", "true", "是否显示边框"),

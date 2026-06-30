@@ -89,3 +89,12 @@
 .ctrl-table__th--sortable:hover .ctrl-table__sort-icon {
     color: var(--ctrl-primary, #4a90d9);
 }
+
+/* ── 响应式：小屏紧凑 ── */
+@media (max-width: 640px) {
+    .ctrl-table__th,
+    .ctrl-table__td {
+        padding: 8px 10px;
+        font-size: var(--ctrl-font-size-sm);
+    }
+}

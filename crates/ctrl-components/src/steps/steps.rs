@@ -1,5 +1,16 @@
 use dioxus::prelude::*;
 use ctrl_core::types::Direction;
+use std::rc::Rc;
+use std::cell::Cell;
+
+// ── 步骤上下文：Steps 通过 Context 向每个 Step 传递 current 和位置计数器 ──
+#[derive(Clone)]
+struct StepCtx {
+    /// 当前激活步骤索引
+    current: i32,
+    /// 步骤计数器（每个 Step 渲染时递增分配索引）
+    counter: Rc<Cell<i32>>,
+}
 
 /// Steps 步骤条组件属性
 #[derive(Props, PartialEq, Clone)]
@@ -53,6 +64,12 @@ pub fn Steps(props: StepsProps) -> Element {
         format!("ctrl-steps {} {}", dir_class, props.class)
     };
 
+    // 通过 Context 将 current 索引和共享计数器传递给所有 Step 子组件
+    use_context_provider(|| StepCtx {
+        current: props.current,
+        counter: Rc::new(Cell::new(0)),
+    });
+
     rsx! {
         style { {CSS} }
         div {
@@ -65,14 +82,57 @@ pub fn Steps(props: StepsProps) -> Element {
 /// 单个步骤
 #[allow(non_snake_case)]
 pub fn Step(props: StepProps) -> Element {
-    // Step 本身不渲染状态类名，由 Steps 通过 children 遍历时处理
-    // 这里渲染一个占位结构，实际状态标记由父组件注入
+    // 从 Steps 上下文获取 current 索引，并通过共享计数器分配自身位置
+    let ctx = try_use_context::<StepCtx>();
+
+    let my_index = if let Some(ref c) = ctx {
+        let idx = c.counter.get();
+        c.counter.set(idx + 1);
+        idx
+    } else {
+        -1 // 无上下文时回退（独立使用 Step）
+    };
+
+    let status = if my_index < 0 {
+        "wait"
+    } else if let Some(ref c) = ctx {
+        if my_index < c.current {
+            "finish"
+        } else if my_index == c.current {
+            "process"
+        } else {
+            "wait"
+        }
+    } else {
+        "wait"
+    };
+
+    let item_class = {
+        let mut c = String::from("ctrl-steps__item");
+        match status {
+            "finish" => c.push_str(" ctrl-steps__item--finish"),
+            "process" => c.push_str(" ctrl-steps__item--process"),
+            _ => {}
+        }
+        if !props.class.is_empty() {
+            c.push_str(" ");
+            c.push_str(&props.class);
+        }
+        c
+    };
+
+    // 圆圈内容：完成显示 ✓，进行中显示索引+1，待处理显示索引+1
+    let circle_content = match status {
+        "finish" => "✓".to_string(),
+        _ => format!("{}", my_index.max(0) as usize + 1),
+    };
+
     rsx! {
         div {
-            class: "ctrl-steps__item",
+            class: "{item_class}",
             div {
                 class: "ctrl-steps__head",
-                span { class: "ctrl-steps__circle", "✓" }
+                span { class: "ctrl-steps__circle", "{circle_content}" }
                 span { class: "ctrl-steps__title", "{props.title}" }
             }
             if !props.description.is_empty() {

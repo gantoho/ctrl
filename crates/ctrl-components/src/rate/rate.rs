@@ -134,6 +134,11 @@ pub fn Rate(props: RateProps) -> Element {
     let mut value = use_signal(|| props.value);
     let mut hover_value = use_signal(|| 0.0f64);
 
+    // 同步外部 prop 更新到内部信号
+    use_effect(use_reactive(&props.value, move |v| {
+        value.set(v);
+    }));
+
     let is_interactive = !props.readonly && !props.disabled;
 
     let rate_class = {

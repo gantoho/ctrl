@@ -115,7 +115,7 @@
 /* 多选勾选标记 */
 .ctrl-select__checkmark {
     width: 16px;
-    font-size: 12px;
+    font-size: var(--ctrl-font-size-xs, 12px);
     text-align: center;
     flex-shrink: 0;
 }
@@ -171,7 +171,7 @@
 
 .ctrl-select__tag-close {
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--ctrl-font-size-md, 14px);
     line-height: 1;
     color: var(--ctrl-text-secondary, #999);
     margin-left: 2px;

@@ -63,6 +63,12 @@ pub fn InputNumber(props: InputNumberProps) -> Element {
     let mut value = use_signal(|| props.value);
     let mut input_value = use_signal(|| props.value.to_string());
 
+    // 同步外部 prop 更新到内部信号
+    use_effect(use_reactive(&props.value, move |v| {
+        value.set(v);
+        input_value.set(v.to_string());
+    }));
+
     let wrapper_class = {
         let mut c = format!("ctrl-input-number ctrl-input-number--{}", props.size);
         if props.disabled {

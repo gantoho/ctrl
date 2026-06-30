@@ -114,3 +114,17 @@
 .ctrl-dialog__btn--confirm:hover {
     background: var(--ctrl-primary-hover);
 }
+
+/* ── 响应式：小屏适配 ── */
+@media (max-width: 640px) {
+    .ctrl-dialog {
+        max-width: calc(100vw - 16px);
+        border-radius: var(--ctrl-radius-md);
+    }
+    .ctrl-dialog__header,
+    .ctrl-dialog__body,
+    .ctrl-dialog__footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

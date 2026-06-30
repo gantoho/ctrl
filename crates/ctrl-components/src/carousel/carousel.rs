@@ -3,6 +3,13 @@ use ctrl_core::types::Effect;
 use std::cell::Cell;
 use std::rc::Rc;
 
+// ── Carousel 上下文：向 CarouselSlide 传递 active_index 和分配位置 ──
+#[derive(Clone)]
+struct CarouselCtx {
+    active: Signal<usize>,
+    counter: Rc<Cell<usize>>,
+}
+
 /// Carousel 走马灯组件属性
 #[derive(Props, PartialEq, Clone)]
 pub struct CarouselProps {
@@ -34,9 +41,9 @@ pub struct CarouselProps {
     #[props(default = "300px".to_string())]
     pub height: String,
 
-    /// 幻灯片总数
-    #[props(default = 1)]
-    pub total: usize,
+    /// 幻灯片总数（自动统计 CarouselSlide 数量时可不传）
+    #[props(default = 0)]
+    pub total_hint: usize,
 
     /// 自定义类名
     #[props(default = "".to_string())]
@@ -46,8 +53,51 @@ pub struct CarouselProps {
     #[props(default = "".to_string())]
     pub style: String,
 
-    /// 子元素（轮播项）
+    /// 子元素（CarouselSlide）
     pub children: Element,
+}
+
+/// CarouselSlide 子组件属性
+#[derive(Props, PartialEq, Clone)]
+pub struct CarouselSlideProps {
+    /// 自定义类名
+    #[props(default = "".to_string())]
+    pub class: String,
+
+    /// 子元素（单张幻灯片内容）
+    pub children: Element,
+}
+
+/// CarouselSlide 单张幻灯片组件
+///
+/// 嵌套在 Carousel 中使用，自动获取当前激活状态。
+/// 可通过 class 接收 `ctrl-carousel__slide--active` 实现进入/退出动画。
+#[allow(non_snake_case)]
+pub fn CarouselSlide(props: CarouselSlideProps) -> Element {
+    let ctx = try_use_context::<CarouselCtx>();
+    let my_index = if let Some(ref c) = ctx {
+        let idx = c.counter.get();
+        c.counter.set(idx + 1);
+        idx
+    } else {
+        0
+    };
+
+    let is_active = ctx.as_ref().map(|c| (c.active)() == my_index).unwrap_or(false);
+    let slide_class = if props.class.is_empty() {
+        format!("ctrl-carousel__slide")
+    } else {
+        format!("ctrl-carousel__slide {}", props.class)
+    };
+
+    rsx! {
+        div {
+            class: "{slide_class}",
+            "data-active": if is_active { "true" } else { "false" },
+            "data-index": "{my_index}",
+            {props.children}
+        }
+    }
 }
 
 /// Carousel 走马灯组件
@@ -55,8 +105,15 @@ pub struct CarouselProps {
 pub fn Carousel(props: CarouselProps) -> Element {
     const CSS: &str = include_str!("../../assets/carousel.css");
     let active_index = use_signal(|| 0usize);
-    let total = props.total.max(1);
     let loop_play = props.loop_play;
+
+    // 通过 Context 向 CarouselSlide 传递 active_index 和计数器
+    use_context_provider(|| CarouselCtx {
+        active: active_index.clone(),
+        counter: Rc::new(Cell::new(0)),
+    });
+
+    let total = props.total_hint.max(1);
 
     let carousel_class = {
         let mut c = String::from("ctrl-carousel");
@@ -72,15 +129,16 @@ pub fn Carousel(props: CarouselProps) -> Element {
 
     // 自动播放（带取消机制）
     if props.autoplay {
+        #[allow(unused_mut)]
         let mut index = active_index.clone();
         let interval = props.interval;
         let total = total;
         let loop_play = loop_play;
         let cancelled = Rc::new(Cell::new(false));
-        let cancelled_clone = cancelled.clone();
+        let cancelled_for_effect = cancelled.clone();
 
         use_effect(move || {
-            let cancelled = cancelled_clone.clone();
+            let cancelled = cancelled_for_effect.clone();
             #[cfg(target_arch = "wasm32")]
             {
                 wasm_bindgen_futures::spawn_local(async move {
@@ -100,7 +158,11 @@ pub fn Carousel(props: CarouselProps) -> Element {
             }
             #[cfg(not(target_arch = "wasm32"))]
             {
-                let _ = (index, interval, total, loop_play, cancelled);
+                let _ = index;
+                let _ = cancelled;
+                let _ = interval;
+                let _ = total;
+                let _ = loop_play;
             }
         });
 

@@ -57,6 +57,11 @@ pub fn Segmented(props: SegmentedProps) -> Element {
     const CSS: &str = include_str!("../../assets/segmented.css");
     let mut selected = use_signal(|| props.value.clone());
 
+    // 同步外部 prop 更新到内部信号
+    use_effect(use_reactive(&props.value, move |v| {
+        selected.set(v.clone());
+    }));
+
     let seg_class = {
         let mut c = format!("ctrl-segmented ctrl-segmented--{}", props.size);
         if props.block {
@@ -70,6 +75,8 @@ pub fn Segmented(props: SegmentedProps) -> Element {
     };
 
     let onchange = props.onchange.clone();
+    let current_value = selected();
+    let disabled = props.disabled;
 
     rsx! {
         style { {CSS} }
@@ -80,16 +87,15 @@ pub fn Segmented(props: SegmentedProps) -> Element {
                 {
                     let val = val.clone();
                     let label = label.clone();
-                    let is_active = selected() == val;
+                    let is_active = current_value == *val;
                     let item_class = if is_active {
                         "ctrl-segmented__item ctrl-segmented__item--active".to_string()
-                    } else if props.disabled {
+                    } else if disabled {
                         "ctrl-segmented__item ctrl-segmented__item--disabled".to_string()
                     } else {
                         "ctrl-segmented__item".to_string()
                     };
                     let onchange = onchange.clone();
-                    let disabled = props.disabled;
 
                     rsx! {
                         button {

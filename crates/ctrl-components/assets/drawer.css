@@ -112,3 +112,21 @@
     gap: 8px;
     flex-shrink: 0;
 }
+
+/* ── 响应式：小屏全宽 ── */
+@media (max-width: 640px) {
+    .ctrl-drawer--right,
+    .ctrl-drawer--left {
+        width: 100vw;
+    }
+    .ctrl-drawer--top,
+    .ctrl-drawer--bottom {
+        height: 50vh;
+    }
+    .ctrl-drawer__header,
+    .ctrl-drawer__body,
+    .ctrl-drawer__footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

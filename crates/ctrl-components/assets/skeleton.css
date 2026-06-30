@@ -92,7 +92,7 @@
 .ctrl-skeleton__row {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--ctrl-spacing-lg, 16px);
 }
 
 .ctrl-skeleton__lines {
@@ -122,8 +122,8 @@
 .ctrl-skeleton__list-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 8px 0;
+    gap: var(--ctrl-spacing-lg, 16px);
+    padding: var(--ctrl-spacing-sm, 8px) 0;
 }
 
 .ctrl-skeleton__list-item .ctrl-skeleton__lines {

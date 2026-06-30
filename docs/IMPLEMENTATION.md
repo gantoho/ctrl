@@ -257,87 +257,131 @@ ThemeProvider (build_css_vars)
 
 ## 4. 样式方案
 
-### 4.1 核心思路：CSS 变量 + 内联样式
+### 4.1 核心思路：CSS 文件 + BEM 类名
 
-Ctrl UI 采用 **CSS 变量 + 内联样式** 的混合方案，无需任何外部 CSS 文件。
+Ctrl UI 采用 **CSS 文件 + BEM 类名** 方案，样式以独立的 `.css` 文件存在，通过 Dioxus 的 `include_str!()` 宏内联到组件中。
 
 | 方案 | 优点 | 缺点 | 我们的选择 |
 |------|------|------|-----------|
-| 外部 CSS 文件 | 完整的伪类支持 | 需要构建工具配置，不够"开箱即用" | ❌ |
-| CSS-in-JS 库 | 运行时动态样式 | 增加依赖，Dioxus 生态不成熟 | ❌ |
-| 纯内联样式 | 零配置 | 无法使用 `:hover`、`:focus` 等伪类 | 部分使用 |
-| CSS 变量 + 内联 + 事件模拟 | 零配置 + 伪类效果 | 轻微运行时开销 | ✅ 采用 |
+| 外部 CSS 文件 | 完整的伪类支持 | 需要构建工具配置 | 通过 include_str! 内联解决 |
+| CSS-in-JS 库 | 运行时动态样式 | 增加依赖 | ❌ |
+| 纯内联样式 | 零配置 | 无伪类/动画支持 | ❌ |
+| CSS 文件 + BEM + include_str! | 伪类/动画 + 零外部依赖 | 运行时注入 style 标签 | ✅ 采用 |
 
-### 4.2 样式构建流程
+### 4.2 CSS 文件组织结构
 
-每个组件包含一个私有的 `build_xxx_style()` 函数，根据 props 动态构建样式字符串：
-
-```
-Props 输入
-    │
-    ▼
-build_xxx_style(variant, size, hovered, disabled, ...)
-    │
-    ▼
-Vec<String> 样式声明列表
-    │
-    ▼
-join("; ") → 最终 style 字符串
-    │
-    ▼
-注入到 HTML 元素的 style 属性
-```
-
-### 4.3 样式优先级（从低到高）
+每个组件对应一个独立的 CSS 文件，位于 `crates/ctrl-components/assets/`：
 
 ```
-1. 组件默认样式（build_xxx_style 中的基础样式）
-2. 主题 CSS 变量（var(--ctrl-primary) 等）
-3. Props 驱动的动态样式（variant、size、hovered 等）
-4. 用户自定义 style 属性（props.style，追加在最后）
-5. 用户自定义 class 属性（props.class，CSS 选择器优先级最高）
+assets/
+├── button.css
+├── input.css
+├── switch.css
+├── checkbox.css
+├── radio.css
+├── select.css
+├── tag.css
+├── card.css
+├── dialog.css
+├── drawer.css
+├── table.css
+├── carousel.css
+├── collapse.css
+├── tree.css
+├── form.css
+├── date-picker.css
+├── segmented.css
+├── skeleton.css
+├── ...  (共 43 个组件 CSS 文件)
+└── theme.css            # ThemeProvider 注入的全局 CSS 变量
 ```
 
-这确保了用户可以通过 `style` 和 `class` 属性轻松覆盖任何默认样式。
+### 4.3 BEM 命名规范
 
-### 4.4 伪类模拟
+所有 CSS 类名遵循 **BEM (Block-Element-Modifier)** 约定：
 
-由于内联样式不支持 `:hover`、`:focus` 等伪类，Ctrl UI 使用 Dioxus 事件处理器模拟：
-
-| CSS 伪类 | 模拟方式 |
-|----------|---------|
-| `:hover` | `onmouseenter` / `onmouseleave` 切换 `hovered` 信号 |
-| `:focus` | `onfocusin` / `onfocusout` 切换 `focused` 信号 |
-| `:active` | 暂未实现（后续可扩展） |
-| `:disabled` | 通过 `disabled` prop 直接判断 |
-
-**实现示例（Button 悬停）：**
-```rust
-let mut hovered = use_signal(|| false);
-
-// 在 rsx! 中：
-onmouseenter: move |_| hovered.set(true),
-onmouseleave: move |_| hovered.set(false),
-
-// 样式函数根据 hovered 状态切换颜色：
-let bg = if hovered {
-    "var(--ctrl-primary-hover)"
-} else {
-    "var(--ctrl-primary)"
-};
+```
+.ctrl-{component}                      # Block（块）
+.ctrl-{component}__{element}           # Element（元素）
+.ctrl-{component}--{modifier}          # Modifier（修饰符）
+.ctrl-{component}__{element}--{modifier}  # 元素修饰符
 ```
 
-### 4.5 自定义样式合并
+**示例（Button）：**
+```css
+.ctrl-button { }                          /* 块 */
+.ctrl-button__icon { }                    /* 元素 */
+.ctrl-button--primary { }                 /* Primary 变体修饰符 */
+.ctrl-button--sm { }                     /* 尺寸修饰符 */
+.ctrl-button__icon--loading { }           /* 加载中的图标 */
+```
 
-用户传入的 `style` 属性会**追加**到组件默认样式之后，因此可以覆盖任何默认值：
+### 4.4 CSS 注入方式
+
+组件通过 `include_str!()` 在编译期将 CSS 内容嵌入，然后在运行时通过 `<style>` 标签注入：
 
 ```rust
-// 组件内部：
-styles.push("font-weight: 500".into());
-// ... 其他默认样式 ...
-styles.push(custom_style.to_string());  // 用户样式追加在最后
+#[allow(non_snake_case)]
+pub fn Button(props: ButtonProps) -> Element {
+    const CSS: &str = include_str!("../../assets/button.css");
+    rsx! {
+        style { {CSS} }
+        button { class: "ctrl-button ctrl-button--primary", "按钮" }
+    }
+}
+```
 
-// 最终效果：用户的 font-weight 会覆盖默认值
+**优点：**
+- 编译期嵌入，零运行时 I/O
+- 每个页面只注入访问过的组件的 CSS（按需加载）
+- 享受完整的 CSS 伪类（`:hover`、`:focus`、`:disabled`）、CSS 动画（`@keyframes`）、CSS 变量等特性
+- 天然支持 `@media` 响应式查询
+
+### 4.5 主题定制 & CSS 变量
+
+`ThemeProvider` 在 `<style>` 标签中注入全局 CSS 变量到 `:root`：
+
+```css
+:root {
+    --ctrl-primary: #4F46E5;
+    --ctrl-primary-hover: #4338CA;
+    --ctrl-bg: #FFFFFF;
+    --ctrl-text: #111827;
+    --ctrl-border: #E5E7EB;
+    --ctrl-font-family: system-ui, -apple-system, sans-serif;
+    --ctrl-font-size-sm: 0.75rem;
+    --ctrl-font-size-md: 0.875rem;
+    --ctrl-font-size-lg: 1rem;
+    --ctrl-radius-sm: 0.25rem;
+    --ctrl-radius-md: 0.375rem;
+    --ctrl-radius-lg: 0.5rem;
+    --ctrl-transition: 0.15s ease;
+    /* ... 共 27 个 CSS 变量 */
+}
+```
+
+各组件 CSS 文件引用这些变量，实现全局一致的视觉体系。用户可通过覆盖 CSS 变量自定义主题。
+
+### 4.6 受控/非受控组件规范
+
+所有表单类组件统一采用**受控模式**：prop 驱动，父组件通过 `use_signal` 管理状态。
+
+```rust
+let mut value = use_signal(|| String::new());
+
+Input {
+    value: value(),
+    oninput: move |evt: FormEvent| value.set(evt.value()),
+}
+```
+
+内部通过 `use_effect(use_reactive(...))` 确保外部 prop 变更时同步内部状态：
+
+```rust
+let mut internal = use_signal(|| props.value);
+use_effect(use_reactive(&props.value, move |v| {
+    internal.set(v);
+}));
 ```
 
 ---
@@ -349,65 +393,131 @@ styles.push(custom_style.to_string());  // 用户样式追加在最后
 每个组件遵循统一的结构：
 
 ```
-┌─────────────────────────────────────────┐
+┌─────────────────────────────────────────────────┐
 │  Props 结构体（#[derive(Props, PartialEq, Clone)]）  │
-│  ├── 功能属性（variant, size, disabled 等）         │
-│  ├── 样式属性（class, style）                      │
-│  ├── 事件属性（onclick, oninput 等）              │
-│  └── 子元素（children: Element）                  │
-├─────────────────────────────────────────┤
-│  build_xxx_style() 私有函数                       │
-│  根据 props 构建样式字符串                        │
-├─────────────────────────────────────────┤
-│  组件函数（#[allow(non_snake_case)]）              │
-│  ├── use_signal 管理内部状态                       │
-│  ├── 调用 build_xxx_style 构建样式                 │
-│  ├── 复制事件处理器（避免所有权问题）               │
-│  └── rsx! 渲染 HTML 元素                         │
-└─────────────────────────────────────────┘
+│  ├── 功能属性（variant, size, disabled 等）             │
+│  ├── 样式属性（class, style）                          │
+│  ├── 事件属性（onclick, onchange 等）                  │
+│  └── 子元素（children: Element）                      │
+├─────────────────────────────────────────────────┤
+│  组件函数（#[allow(non_snake_case)]）                  │
+│  ├── include_str! 嵌入 CSS 文件                       │
+│  ├── use_signal 管理内部状态                          │
+│  ├── use_effect 同步外部 prop → 内部信号               │
+│  ├── BEM 类名拼接（基于 variant / size / state）       │
+│  └── rsx! 渲染（style → HTML → BEM 类名）             │
+└─────────────────────────────────────────────────┘
 ```
 
 ### 5.2 Props 设计约定
 
-所有组件的 Props 遵循以下约定：
-
 **通用属性（每个组件都应包含）：**
 - `class: String` — 自定义 CSS 类名，默认空字符串
 - `style: String` — 自定义内联样式，追加到组件默认样式之后
-- `size: Size` — 尺寸控制，默认 `Size::Md`
+- `size: Size` — 尺寸控制，默认 `Size::Md`（部分组件）
 
 **可选通用属性：**
 - `disabled: bool` — 禁用状态
-- `variant: Variant` — 语义变体（仅部分组件需要）
+- `variant: Variant` — 语义变体
 
 **事件属性：**
 - 使用 `Option<EventHandler<T>>` 类型，默认 `None`
 - 在组件函数中 `.clone()` 后移入闭包
+- 命名统一：`onchange` 传递新值，`onclose` 传递关闭事件
 
-### 5.3 事件处理模式
+### 5.3 受控组件模式
 
-由于 Dioxus 的 `EventHandler::call()` 需要所有权，组件内部使用 clone 模式：
+所有表单类组件（Input、Switch、Select、Slider 等）统一采用受控模式：
 
 ```rust
-// 从 props 中 clone 事件处理器
-let onclick = props.onclick.clone();
+// 父组件管理状态
+let mut checked = use_signal(|| false);
 
-// 在 rsx! 闭包中调用
-onclick: move |evt| {
-    if let Some(ref handler) = onclick {
-        handler.call(evt);
-    }
-},
+Switch {
+    checked: checked(),
+    onchange: move |val: bool| checked.set(val),
+}
 ```
 
-### 5.4 命名规范
+对于需要内部状态缓冲的组件，使用 `use_effect(use_reactive(...))` 同步外部 prop：
+
+```rust
+let mut internal = use_signal(|| props.value);
+use_effect(use_reactive(&props.value, move |v| {
+    internal.set(v);
+}));
+```
+
+### 5.4 命令式 API 模式
+
+部分组件（Dialog、Drawer、Notification、Message、Alert）提供命令式调用接口，采用统一的 **Provider + Context + API** 模式：
+
+```
+┌──────────────────────────────────┐
+│  XxxProvider (Provider 组件)     │
+│  ├── 渲染命令式 Xxx 实例         │
+│  ├── use_context_provider API    │
+│  └── 管理 visible + config 状态  │
+├──────────────────────────────────┤
+│  XxxConfig (配置结构体)          │
+│  ├── title, content, ...         │
+│  └── on_confirm, onclose 等回调  │
+├──────────────────────────────────┤
+│  XxxAPI (Context 类型)           │
+│  ├── open(config) → 打开并配置   │
+│  └── close() → 关闭             │
+├──────────────────────────────────┤
+│  use_xxx() → Hook                │
+│  子组件调用获取 XxxAPI 引用      │
+└──────────────────────────────────┘
+```
+
+**使用示例（Dialog）：**
+```rust
+DialogProvider {
+    // 子组件中：
+    let mut dialog = use_dialog();
+    dialog.open(DialogConfig {
+        title: "确认删除".into(),
+        content: rsx! { p { "确定要删除吗？" } },
+        on_confirm: Some(EventHandler::new(|_| { /* 删除 */ })),
+        ..Default::default()
+    });
+}
+```
+
+### 5.5 父子上下文通信模式
+
+对于需要父组件向子组件传递运行时状态的场景（Steps/Step、Carousel/CarouselSlide），使用 Dioxus Context：
+
+```rust
+// 父组件注入
+struct MyCtx { active: Signal<usize>, ... }
+use_context_provider(|| MyCtx { ... });
+
+// 子组件读取
+let ctx = use_context::<MyCtx>();
+```
+
+### 5.6 Overlay 生命周期管理
+
+弹出层组件（Select、Popover、Dropdown、DatePicker）使用 `overlay.rs` 辅助模块统一管理：
+- `setup_click_outside()` — 绑定 click-outside 监听器
+- `OverlayClosures` — 存储事件闭包，随组件 drop 时自动 cleanup
+- `use_drop` — Dioxus 生命周期钩子，组件卸载时移除 DOM 监听器
+
+### 5.7 命名规范
 
 | 元素 | 规范 | 示例 |
 |------|------|------|
 | 组件函数 | PascalCase + `#[allow(non_snake_case)]` | `pub fn Button(...)` |
 | Props 结构体 | PascalCase + `Props` 后缀 | `ButtonProps` |
-| 样式构建函数 | snake_case + `build_` 前缀 | `build_button_style()` |
+| Config 结构体 | PascalCase + `Config` 后缀 | `DialogConfig` |
+| API 类型 | PascalCase + `API` 后缀 | `DialogAPI` |
+| Provider 组件 | PascalCase + `Provider` 后缀 | `DialogProvider` |
 | 模块文件 | 小写 + 下划线 | `button.rs` |
+| CSS 文件 | 小写 + 连字符 | `button.css` |
+| CSS 类名 | `ctrl-` 前缀 + BEM | `ctrl-button--primary` |
 
 ---
 
@@ -736,142 +846,144 @@ Input {
 
 ### 8.1 添加新组件的步骤
 
-假设要添加一个 `Switch` 组件：
+假设要添加一个 `Avatar` 组件：
 
 **步骤 1：创建目录和文件**
 
 ```
-crates/ctrl-components/src/switch/
+crates/ctrl-components/src/avatar/
 ├── mod.rs
-└── switch.rs
+└── avatar.rs
+
+crates/ctrl-components/assets/
+└── avatar.css
 ```
 
-**步骤 2：实现组件**
+**步骤 2：编写 CSS 文件（avatar.css）**
+
+```css
+.ctrl-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ctrl-bg-secondary, #f0f0f0);
+    color: var(--ctrl-text, #333);
+    font-size: var(--ctrl-font-size-md, 14px);
+    overflow: hidden;
+}
+
+.ctrl-avatar--sm { width: 32px; height: 32px; }
+.ctrl-avatar--md { width: 40px; height: 40px; }
+.ctrl-avatar--lg { width: 48px; height: 48px; }
+
+.ctrl-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+```
+
+**步骤 3：实现组件（avatar.rs）**
 
 ```rust
-// switch.rs
 use dioxus::prelude::*;
 use ctrl_core::types::Size;
 
 #[derive(Props, PartialEq, Clone)]
-pub struct SwitchProps {
-    #[props(default = false)]
-    pub checked: bool,
+pub struct AvatarProps {
+    #[props(default = "".to_string())]
+    pub src: String,
+    #[props(default = "".to_string())]
+    pub alt: String,
     #[props(default = Size::default())]
     pub size: Size,
-    #[props(default = false)]
-    pub disabled: bool,
     #[props(default = "".to_string())]
     pub class: String,
-    #[props(default = "".to_string())]
-    pub style: String,
-    pub onchange: Option<EventHandler<FormEvent>>,
-}
-
-fn build_switch_style(size: Size, checked: bool, disabled: bool, custom_style: &str) -> String {
-    // 构建样式字符串...
-    String::new()
+    pub children: Element,
 }
 
 #[allow(non_snake_case)]
-pub fn Switch(props: SwitchProps) -> Element {
-    // 组件实现...
-    todo!()
+pub fn Avatar(props: AvatarProps) -> Element {
+    const CSS: &str = include_str!("../../assets/avatar.css");
+    let size_class = match props.size {
+        Size::Sm => "ctrl-avatar--sm",
+        Size::Md => "ctrl-avatar--md",
+        Size::Lg => "ctrl-avatar--lg",
+    };
+    let class = if props.class.is_empty() {
+        format!("ctrl-avatar {}", size_class)
+    } else {
+        format!("ctrl-avatar {} {}", size_class, props.class)
+    };
+
+    rsx! {
+        style { {CSS} }
+        div { class: "{class}",
+            if props.src.is_empty() {
+                {props.children}
+            } else {
+                img { src: "{props.src}", alt: "{props.alt}" }
+            }
+        }
+    }
 }
 ```
 
-**步骤 3：注册导出**
+**步骤 4：注册导出**
 
 ```rust
-// crates/ctrl-components/src/switch/mod.rs
-pub mod switch;
-pub use switch::{Switch, SwitchProps};
+// crates/ctrl-components/src/avatar/mod.rs
+pub mod avatar;
+pub use avatar::{Avatar, AvatarProps};
 
 // crates/ctrl-components/src/lib.rs
-pub mod switch;
-pub use switch::{Switch, SwitchProps};
+pub mod avatar;
+pub use avatar::{Avatar, AvatarProps};
 
-// crates/ctrl/src/lib.rs (prelude 模块)
-pub use ctrl_components::{Switch, SwitchProps};
+// crates/ctrl/src/lib.rs
+pub use ctrl_components::{Avatar, AvatarProps};
 ```
 
-### 8.2 样式构建函数模板
+### 8.2 样式指南
 
-```rust
-fn build_xxx_style(
-    // 从 Props 传入的参数
-    variant: Variant,
-    size: Size,
-    // 内部状态
-    hovered: bool,
-    disabled: bool,
-    // 用户自定义
-    custom_style: &str,
-) -> String {
-    let mut styles: Vec<String> = vec![
-        // 1. 布局样式
-        "display: inline-flex".into(),
-        "align-items: center".into(),
-        // 2. 主题相关样式（使用 CSS 变量）
-        "font-family: var(--ctrl-font-family)".into(),
-        format!("font-size: {}", size.font_size_var()),
-        "border-radius: var(--ctrl-radius-md)".into(),
-        "transition: all var(--ctrl-transition)".into(),
-        // 3. 尺寸相关
-        format!("padding: {}", size.padding()),
-        format!("height: {}", size.height()),
-        // 4. 变体相关
-        // ...
-    ];
+**CSS 变量（必须使用）：**
+- 颜色类：`var(--ctrl-primary)`、`var(--ctrl-bg)`、`var(--ctrl-text)`、`var(--ctrl-border)` 等
+- 尺寸类：`var(--ctrl-font-size-sm)`、`var(--ctrl-radius-md)` 等
+- 动效类：`var(--ctrl-transition)`
+- 始终提供 fallback：`var(--ctrl-border, #d9d9d9)`
 
-    // 5. 状态样式
-    if disabled {
-        styles.push("opacity: 0.5".into());
-        styles.push("cursor: not-allowed".into());
-    }
-
-    // 6. 用户自定义样式（追加在最后）
-    if !custom_style.is_empty() {
-        styles.push(custom_style.to_string());
-    }
-
-    styles.join("; ")
-}
+**BEM 命名（必须遵循）：**
+```css
+.ctrl-{component}           /* 块，最外层元素 */
+.ctrl-{component}__{el}     /* 内部元素 */
+.ctrl-{component}--{mod}    /* 变体/状态修饰符 */
 ```
 
-### 8.3 何时使用 CSS 变量 vs 硬编码
-
-| 场景 | 使用 CSS 变量 | 硬编码 |
-|------|-------------|--------|
-| 颜色值 | ✅ `var(--ctrl-primary)` | ❌ |
-| 字体 | ✅ `var(--ctrl-font-family)` | ❌ |
-| 圆角 | ✅ `var(--ctrl-radius-md)` | ❌ |
-| 过渡动效 | ✅ `var(--ctrl-transition)` | ❌ |
-| 布局属性（display, position） | ❌ | ✅ `display: inline-flex` |
-| 盒模型（padding 由 size 决定） | ❌ | ✅ 通过 Size 方法获取 |
-| 宽度/高度 | ❌ | ✅ 通过 Size 方法获取 |
-| 光标样式 | ❌ | ✅ `cursor: pointer` |
-
-**原则：** 可能与主题定制相关的值使用 CSS 变量，与主题无关的固定布局属性直接硬编码。
+**直接硬编码（可以接受）：**
+- 布局属性：`display: flex`、`position: relative`
+- 盒模型固定值：不需要定制化的 `width` / `height`
+- 光标：`cursor: pointer`
+- z-index：如 `z-index: 1000` 用于遮罩层
 
 ---
 
 ## 9. 设计决策与权衡
 
-### 9.1 为什么使用内联样式而不是 CSS 文件
+### 9.1 为什么使用 CSS 文件 + BEM 类名
 
-**决策：** 使用内联样式 + CSS 变量，不使用外部 CSS 文件。
+**决策：** 使用独立的 CSS 文件 + BEM 命名 + `include_str!()` 内联，不使用内联样式。
 
 **原因：**
-1. **开箱即用：** 用户无需配置 CSS 构建工具（如 tailwind、postcss 等）
-2. **零依赖：** 不需要额外的 CSS 处理工具链
-3. **动态性：** 样式可以直接根据 Rust 状态动态计算，无需类名切换
-4. **隔离性：** 每个组件的样式天然隔离，不会污染全局
+1. **完整的 CSS 特性支持：** `:hover`、`:focus`、`:disabled`、`@keyframes`、`@media` 查询等，无需事件模拟
+2. **开箱即用：** `include_str!()` 编译期嵌入，用户无需配置 CSS 构建工具
+3. **BEM 隔离性：** `.ctrl-{component}` 前缀保证样式不会污染全局，也不被外部样式意外覆盖
+4. **CSS 变量主题：** 所有组件的颜色/字号/圆角统一通过 `var(--ctrl-xxx)` 引用，ThemeProvider 注入全局变量即可实现动态主题
+5. **响应式支持：** 可直接在 CSS 中编写 `@media` 查询，无需 Rust 端判断视口尺寸
 
 **代价：**
-1. 无法使用 `:hover`、`:focus` 等伪类 → 通过事件模拟解决
-2. 生成的 HTML 内联样式较长 → 实际影响可忽略
-3. 无法使用 CSS 动画关键帧 → 未来可扩展为注入全局 `<style>`
+1. 每个组件渲染时注入一个 `<style>` 标签 → 标签数量 = 渲染的组件数量，生产中可合并优化
+2. CSS 内容在编译后内联到 wasm binary → 增大 binary 体积，但 43 个 CSS 文件合计约 50KB（gzip 后更小）
 
 ### 9.2 为什么 ColorPalette 使用 `&'static str`
 

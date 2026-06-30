@@ -99,6 +99,12 @@ pub fn Collapse(props: CollapseProps) -> Element {
 pub fn CollapseItem(props: CollapseItemProps) -> Element {
     let ctx = try_use_context::<CollapseCtx>();
     let mut expanded = use_signal(|| props.expanded);
+
+    // 同步外部 prop 更新到内部信号
+    use_effect(use_reactive(&props.expanded, move |e| {
+        expanded.set(e);
+    }));
+
     let item_id = COLLAPSE_ID.fetch_add(1, Ordering::Relaxed);
     let content_id = format!("ctrl-collapse-{}", item_id);
 

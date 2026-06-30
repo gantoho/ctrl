@@ -56,6 +56,7 @@ pub struct SliderProps {
 }
 
 /// 根据鼠标/触摸位置计算滑块值
+#[allow(dead_code)]
 fn calc_slider_value(
     client_pos: f64,
     rail_start: f64,
@@ -104,6 +105,7 @@ fn update_dom_track(rail_id: &str, value: i32, min: i32, max: i32, vertical: boo
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+#[allow(dead_code)]
 fn update_dom_track(_rail_id: &str, _value: i32, _min: i32, _max: i32, _vertical: bool) {}
 
 /// 拖拽监听器句柄
@@ -278,8 +280,13 @@ fn begin_drag(
 #[allow(non_snake_case)]
 pub fn Slider(props: SliderProps) -> Element {
     const CSS: &str = include_str!("../../assets/slider.css");
-    let value = use_signal(|| props.value);
+    let mut value = use_signal(|| props.value);
     let is_dragging = use_signal(|| false);
+
+    // 同步外部 prop 更新到内部信号
+    use_effect(use_reactive(&props.value, move |v| {
+        value.set(v);
+    }));
 
     // 生成唯一 ID 用于定位 rail 元素
     let rail_id = use_signal(|| {

@@ -85,7 +85,7 @@ pub use space::{Space, SpaceProps};
 pub use segmented::{Segmented, SegmentedProps};
 pub use input_number::{InputNumber, InputNumberProps};
 pub use upload::{Upload, UploadFile, UploadFileStatus, UploadProps};
-pub use carousel::{Carousel, CarouselProps};
+pub use carousel::{Carousel, CarouselProps, CarouselSlide, CarouselSlideProps};
 pub use form::{Form, FormContext, FormFieldState, FormItem, FormItemProps, FormProps, FormValidationResult, ValidationRule, ValidationTrigger};
 pub use tree::{Tree, TreeNode, TreeProps};
 pub use date_picker::{DatePicker, DatePickerProps};

@@ -21,7 +21,7 @@ pub struct SpaceProps {
     pub wrap: bool,
 
     /// 是否占满整行
-    #[props(default = false)]
+    #[props(default = true)]
     pub block: bool,
 
     /// 自定义类名

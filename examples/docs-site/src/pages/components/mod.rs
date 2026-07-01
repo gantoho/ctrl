@@ -48,6 +48,9 @@ mod descriptions;
 mod grid;
 mod steps;
 mod timeline;
+mod typography;
+mod color_picker;
+mod anchor;
 
 // Demo components shared across pages
 pub mod _demos;
@@ -108,6 +111,9 @@ pub fn ComponentsIndex() -> Element {
         ("menu", "Menu 菜单", "导航菜单"),
         ("steps", "Steps 步骤条", "步骤条"),
         ("timeline", "Timeline 时间轴", "时间轴"),
+        ("typography", "Typography 排版", "标题、文本、链接"),
+        ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
+        ("anchor", "Anchor 锚点导航", "页面内锚点导航"),
     ];
 
     rsx! {
@@ -194,6 +200,9 @@ pub fn ComponentPage(name: String) -> Element {
         "menu" => rsx! { menu::MenuPage {} },
         "steps" => rsx! { steps::StepsPage {} },
         "timeline" => rsx! { timeline::TimelinePage {} },
+        "typography" => rsx! { typography::TypographyPage {} },
+        "color_picker" => rsx! { color_picker::ColorPickerPage {} },
+        "anchor" => rsx! { anchor::AnchorPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",
                 h1 { "组件未找到" }

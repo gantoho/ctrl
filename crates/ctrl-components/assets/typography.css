@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Typography 排版
+   ═══════════════════════════════════════════════════ */
+
+/* ── Heading ── */
+
+.ctrl-heading {
+    color: var(--ctrl-text);
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0 0 8px;
+}
+.ctrl-heading--h1 { font-size: 2rem; }
+.ctrl-heading--h2 { font-size: 1.5rem; }
+.ctrl-heading--h3 { font-size: 1.17rem; }
+.ctrl-heading--h4 { font-size: 1rem; }
+.ctrl-heading--h5 { font-size: 0.875rem; }
+.ctrl-heading--h6 { font-size: 0.75rem; }
+
+/* ── Text ── */
+
+.ctrl-text {
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text);
+    line-height: 1.6;
+}
+
+.ctrl-text--secondary  { color: var(--ctrl-text-secondary); }
+.ctrl-text--success    { color: var(--ctrl-success); }
+.ctrl-text--warning    { color: var(--ctrl-warning); }
+.ctrl-text--danger     { color: var(--ctrl-danger); }
+
+.ctrl-text--strong     { font-weight: 600; }
+.ctrl-text--italic     { font-style: italic; }
+.ctrl-text--underline  { text-decoration: underline; }
+.ctrl-text--delete     { text-decoration: line-through; }
+
+.ctrl-text--code {
+    padding: 2px 6px;
+    margin: 0 2px;
+    font-size: 0.85em;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    background: var(--ctrl-bg-secondary);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+}
+
+.ctrl-text--mark {
+    background: #FFF3CD;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+/* ── HyperLink ── */
+
+.ctrl-hyperlink {
+    color: var(--ctrl-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color var(--ctrl-transition, 0.15s ease);
+}
+.ctrl-hyperlink:hover {
+    color: var(--ctrl-primary-hover);
+}
+.ctrl-hyperlink:active {
+    color: var(--ctrl-primary-active);
+}
+
+.ctrl-hyperlink--no-underline {
+    text-decoration: none;
+}
+
+.ctrl-hyperlink--disabled {
+    color: var(--ctrl-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}

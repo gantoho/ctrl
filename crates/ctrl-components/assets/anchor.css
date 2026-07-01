@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Anchor 锚点导航
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-anchor {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0;
+    border-left: 2px solid var(--ctrl-border);
+}
+
+.ctrl-anchor__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--ctrl-transition, 0.15s);
+}
+.ctrl-anchor__item:hover {
+    color: var(--ctrl-primary);
+}
+
+.ctrl-anchor__item--active {
+    color: var(--ctrl-primary);
+    font-weight: 500;
+}
+
+/* 左侧指示线 */
+.ctrl-anchor__line {
+    width: 2px;
+    height: 14px;
+    border-radius: 2px;
+    background: transparent;
+    position: absolute;
+    left: -2px;
+    transition: background var(--ctrl-transition, 0.15s);
+}
+.ctrl-anchor__item--active .ctrl-anchor__line {
+    background: var(--ctrl-primary);
+}
+
+/* 文字 */
+.ctrl-anchor__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — ColorPicker 颜色选择器
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-color-picker {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 颜色触发区 */
+.ctrl-color-picker__trigger {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ctrl-radius-md);
+    border: 1px solid var(--ctrl-border);
+    cursor: pointer;
+    overflow: hidden;
+}
+.ctrl-color-picker__trigger:hover {
+    border-color: var(--ctrl-border-hover);
+}
+
+.ctrl-color-picker__trigger input[type="color"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+/* hex 输入框 */
+.ctrl-color-picker__input {
+    width: 160px;
+    padding: 6px 10px;
+    font-size: var(--ctrl-font-size-sm);
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: var(--ctrl-text);
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    outline: none;
+    transition: border-color var(--ctrl-transition, 0.15s);
+}
+.ctrl-color-picker__input:focus {
+    border-color: var(--ctrl-primary);
+    box-shadow: 0 0 0 2px var(--ctrl-primary-light);
+}
+.ctrl-color-picker__input:disabled {
+    background: var(--ctrl-bg-disabled);
+    color: var(--ctrl-text-disabled);
+    cursor: not-allowed;
+}
+
+/* 预设色板 */
+.ctrl-color-picker__presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 180px;
+}
+.ctrl-color-picker__preset {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid var(--ctrl-border);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.ctrl-color-picker__preset:hover {
+    transform: scale(1.2);
+    border-color: var(--ctrl-primary);
+}

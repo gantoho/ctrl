@@ -99,6 +99,9 @@ fn SidebarContent() -> Element {
             SidebarItem { label: "Menu 导航菜单".to_string(), route: Route::ComponentPage { name: "menu".to_string() }, current: route.clone() }
             SidebarItem { label: "Steps 步骤条".to_string(), route: Route::ComponentPage { name: "steps".to_string() }, current: route.clone() }
             SidebarItem { label: "Timeline 时间线".to_string(), route: Route::ComponentPage { name: "timeline".to_string() }, current: route.clone() }
+            SidebarItem { label: "Typography 排版".to_string(), route: Route::ComponentPage { name: "typography".to_string() }, current: route.clone() }
+            SidebarItem { label: "ColorPicker 颜色选择器".to_string(), route: Route::ComponentPage { name: "color_picker".to_string() }, current: route.clone() }
+            SidebarItem { label: "Anchor 锚点导航".to_string(), route: Route::ComponentPage { name: "anchor".to_string() }, current: route.clone() }
             SidebarItem { label: "Slider 滑块".to_string(), route: Route::ComponentPage { name: "slider".to_string() }, current: route.clone() }
             SidebarItem { label: "Rate 评分".to_string(), route: Route::ComponentPage { name: "rate".to_string() }, current: route.clone() }
             SidebarItem { label: "Image 图片".to_string(), route: Route::ComponentPage { name: "image".to_string() }, current: route.clone() }

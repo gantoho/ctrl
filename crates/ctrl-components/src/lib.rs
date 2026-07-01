@@ -47,7 +47,13 @@ pub mod result;
 pub mod statistic;
 pub mod descriptions;
 pub mod grid;
+pub mod anchor;
+pub mod color_picker;
+pub mod typography;
 
+pub use anchor::{Anchor, AnchorItem, AnchorProps};
+pub use color_picker::{ColorPicker, ColorPickerProps};
+pub use typography::{Heading, HeadingProps, HyperLink, HyperLinkProps, Text, TextProps};
 pub use button::{Button, ButtonProps};
 pub use input::{Input, InputProps};
 pub use textarea::{Textarea, TextareaProps};

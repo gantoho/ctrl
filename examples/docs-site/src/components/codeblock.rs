@@ -9,11 +9,13 @@ pub fn CodeBlock(code: String, lang: Option<String>) -> Element {
     let style_str = [
         "margin:0",
         "padding:16px 20px",
-        "background:#1E293B",
-        "color:#E2E8F0",
+        "background:var(--ctrl-bg)",
+        "color:var(--ctrl-text)",
         "font-size:0.8125rem",
         "line-height:1.6",
         "overflow-x:auto",
+        "border:1px solid var(--ctrl-border)",
+        "border-radius:var(--ctrl-radius-md)",
     ].join("; ");
 
     rsx! {

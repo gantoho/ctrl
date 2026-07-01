@@ -3,7 +3,6 @@
    ═══════════════════════════════════════════════════ */
 
 .ctrl-card {
-    background: var(--ctrl-bg);
     overflow: hidden;
     border-radius: var(--ctrl-radius-lg);
 }

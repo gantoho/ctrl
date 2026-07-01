@@ -488,7 +488,7 @@ pub fn FormValidationDemo() -> Element {
                 }
                 if !errors().is_empty() {
                     div {
-                        style: "margin-bottom: 12px; padding: 8px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 13px; color: #dc2626;",
+                        style: "margin-bottom: 12px; padding: 8px 12px; background: var(--ctrl-bg-secondary); border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md); font-size: 13px; color: var(--ctrl-danger);",
                         for err in errors() {
                             div { key: "{err}", "{err}" }
                         }

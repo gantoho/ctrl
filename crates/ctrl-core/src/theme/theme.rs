@@ -26,6 +26,8 @@ pub struct Theme {
     pub shadow_sm: &'static str,
     pub shadow_md: &'static str,
     pub transition: &'static str,
+    /// 组件默认宽度（DatePicker、TimePicker、Select、Input 等）
+    pub component_width: &'static str,
 }
 
 impl Default for Theme {
@@ -50,6 +52,7 @@ impl Default for Theme {
             shadow_sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             shadow_md: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
             transition: "0.15s ease",
+            component_width: "240px",
         }
     }
 }

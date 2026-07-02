@@ -5,7 +5,7 @@
 .ctrl-select {
     position: relative;
     display: inline-block;
-    width: 100%;
+    width: var(--ctrl-component-width, 240px);
 }
 
 /* 触发器 */
@@ -68,12 +68,11 @@
     transform: rotate(180deg);
 }
 
-/* 下拉面板 —— position:absolute 由 CSS 定位，仅 visibility 由 JS 控制 */
+/* 下拉面板 —— fixed 定位，不受 overflow:hidden 裁切，坐标 JS 计算 */
 .ctrl-select__dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
+    position: fixed;
+    top: 0;
     left: 0;
-    right: 0;
     visibility: hidden;
     background: var(--ctrl-bg, #fff);
     border: 1px solid var(--ctrl-border, #d9d9d9);

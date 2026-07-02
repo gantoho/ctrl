@@ -1,0 +1,17 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Watermark 水印
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-watermark {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.ctrl-watermark__layer {
+    /* 基础样式由内联 style 控制（含 !important），此处仅作兜底 */
+}
+
+.ctrl-watermark__content {
+    position: relative !important;
+    z-index: 1 !important;
+}

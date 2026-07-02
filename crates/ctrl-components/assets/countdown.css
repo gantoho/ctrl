@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Countdown 倒计时
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ctrl-countdown__item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 分隔卡片样式 */
+.ctrl-countdown__split {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.ctrl-countdown__digit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 36px;
+    padding: 0 4px;
+    background: var(--ctrl-bg-secondary);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    font-size: var(--ctrl-font-size-lg);
+    font-weight: 600;
+    color: var(--ctrl-text);
+    font-family: 'Consolas', 'Monaco', monospace;
+    line-height: 1;
+}
+
+/* 普通数字样式 */
+.ctrl-countdown__num {
+    font-size: var(--ctrl-font-size-xxl);
+    font-weight: 600;
+    color: var(--ctrl-text);
+    font-family: 'Consolas', 'Monaco', monospace;
+    line-height: 1;
+}
+
+/* 标签 */
+.ctrl-countdown__label {
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+}

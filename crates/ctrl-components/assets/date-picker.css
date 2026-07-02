@@ -1,7 +1,7 @@
 .ctrl-date-picker {
   position: relative;
   display: inline-block;
-  width: 240px;
+  width: var(--ctrl-component-width, 240px);
 }
 
 .ctrl-date-picker__input {
@@ -60,10 +60,10 @@
   font-size: var(--ctrl-font-size-md, 14px);
 }
 
-/* 面板 - absolute 定位，不占用文档流，不影响输入框宽度 */
+/* 面板 - fixed 定位，不受 overflow:hidden 裁切，坐标 JS 计算 */
 .ctrl-date-picker__panel {
-  position: absolute;
-  top: calc(100% + 4px);
+  position: fixed;
+  top: 0;
   left: 0;
   z-index: 1000;
   background: var(--ctrl-bg, #fff);

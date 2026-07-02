@@ -12,6 +12,14 @@
     text-align: center;
 }
 
+.ctrl-empty--small {
+    padding: 24px 16px;
+}
+
+.ctrl-empty--large {
+    padding: 64px 32px;
+}
+
 /* 图标占位 */
 .ctrl-empty__image {
     display: flex;
@@ -22,7 +30,16 @@
     margin-bottom: 16px;
     font-size: var(--ctrl-font-size-xxl, 48px);
     line-height: 1;
-    opacity: 0.4;
+    opacity: 0.45;
+    color: var(--ctrl-text-secondary);
+}
+
+.ctrl-empty--small .ctrl-empty__image {
+    margin-bottom: 12px;
+}
+
+.ctrl-empty--large .ctrl-empty__image {
+    margin-bottom: 24px;
 }
 
 /* SVG 图片 */
@@ -38,6 +55,16 @@
     color: var(--ctrl-text-secondary);
     margin: 0 0 16px;
     line-height: 1.5;
+}
+
+.ctrl-empty--small .ctrl-empty__description {
+    font-size: var(--ctrl-font-size-sm);
+    margin-bottom: 12px;
+}
+
+.ctrl-empty--large .ctrl-empty__description {
+    font-size: var(--ctrl-font-size-lg);
+    margin-bottom: 24px;
 }
 
 /* 底部操作区 */

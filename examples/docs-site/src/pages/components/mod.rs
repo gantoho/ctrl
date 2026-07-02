@@ -51,6 +51,12 @@ mod timeline;
 mod typography;
 mod color_picker;
 mod anchor;
+mod watermark;
+mod code_block;
+mod countdown;
+mod spin;
+mod float_button;
+mod time_picker;
 
 // Demo components shared across pages
 pub mod _demos;
@@ -114,11 +120,17 @@ pub fn ComponentsIndex() -> Element {
         ("typography", "Typography 排版", "标题、文本、链接"),
         ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
         ("anchor", "Anchor 锚点导航", "页面内锚点导航"),
+        ("watermark", "Watermark 水印", "页面水印"),
+        ("code_block", "CodeBlock 代码块", "代码展示"),
+        ("countdown", "Countdown 倒计时", "倒计时"),
+        ("spin", "Spin 加载中", "加载状态"),
+        ("float_button", "FloatButton 浮动按钮", "浮动操作"),
+        ("time_picker", "TimePicker 时间选择", "时间选择"),
     ];
 
     rsx! {
         h1 { "组件总览" }
-        p { "Ctrl UI 提供了 47 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。" }
+        p { "Ctrl UI 提供了 50 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。" }
 
         Row { gutter: 16,
             for (name, title, desc) in components {
@@ -203,6 +215,12 @@ pub fn ComponentPage(name: String) -> Element {
         "typography" => rsx! { typography::TypographyPage {} },
         "color_picker" => rsx! { color_picker::ColorPickerPage {} },
         "anchor" => rsx! { anchor::AnchorPage {} },
+        "watermark" => rsx! { watermark::WatermarkPage {} },
+        "code_block" => rsx! { code_block::CodeBlockPage {} },
+        "countdown" => rsx! { countdown::CountdownPage {} },
+        "spin" => rsx! { spin::SpinPage {} },
+        "float_button" => rsx! { float_button::FloatButtonPage {} },
+        "time_picker" => rsx! { time_picker::TimePickerPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",
                 h1 { "组件未找到" }

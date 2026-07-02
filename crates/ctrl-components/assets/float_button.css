@@ -1,0 +1,94 @@
+/* ── FloatButton 浮动按钮 ── */
+.ctrl-float-btn {
+    position: fixed;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    min-width: 40px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 20px;
+    background: var(--ctrl-bg-container, #fff);
+    color: var(--ctrl-text-primary, #333);
+    font-size: var(--ctrl-font-size, 14px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    user-select: none;
+    transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+    line-height: 1;
+}
+
+.ctrl-float-btn:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.ctrl-float-btn:active {
+    transform: translateY(0);
+}
+
+/* 方形 */
+.ctrl-float-btn--square {
+    border-radius: 6px;
+}
+
+/* 主要按钮 */
+.ctrl-float-btn--primary {
+    background: var(--ctrl-primary, #1677ff);
+    color: #fff;
+}
+
+.ctrl-float-btn--primary:hover {
+    background: var(--ctrl-primary-hover, #4096ff);
+}
+
+/* 图标 */
+.ctrl-float-btn__icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* 标签 */
+.ctrl-float-btn__label {
+    white-space: nowrap;
+}
+
+/* 徽标 */
+.ctrl-float-btn__badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: #ff4d4f;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ctrl-float-btn__badge--dot {
+    min-width: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+/* ── FloatButtonGroup 浮动按钮组 ── */
+.ctrl-float-btn-group {
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

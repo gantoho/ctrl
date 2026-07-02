@@ -31,8 +31,8 @@ pub fn Popover(props: PopoverProps) -> Element {
 
     let wrapper_class = if props.class.is_empty() { "ctrl-popover".to_string() } else { format!("ctrl-popover {}", props.class) };
 
-    // ── Visibility（position 由 CSS 处理）──
-    overlay::use_visibility_effect(&card_id, visible.clone());
+    // ── fixed 弹层：不受 overflow:hidden 裁切 + document capture scroll 跟随 ──
+    overlay::use_fixed_panel_effect(&card_id, &trigger_id, visible.clone(), 4.0, false);
 
     // ── 事件监听（mousedown/mouseup click-outside）──
     let listeners = use_signal(|| Rc::new(RefCell::new(OverlayClosures::new())));

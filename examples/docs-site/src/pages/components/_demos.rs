@@ -640,6 +640,13 @@ pub fn BasicSelectDemo() -> Element {
         ("a".to_string(), "选项 A".to_string(), false),
         ("b".to_string(), "选项 B".to_string(), false),
         ("c".to_string(), "选项 C".to_string(), true),
+        ("d".to_string(), "选项 D".to_string(), false),
+        ("e".to_string(), "选项 E".to_string(), false),
+        ("f".to_string(), "选项 F".to_string(), false),
+        ("g".to_string(), "选项 G".to_string(), false),
+        ("h".to_string(), "选项 H".to_string(), false),
+        ("i".to_string(), "选项 I".to_string(), true),
+        ("j".to_string(), "选项 J".to_string(), false),
     ];
 
     rsx! {
@@ -787,6 +794,7 @@ pub fn CustomRangeSliderDemo() -> Element {
                 min: -50,
                 max: 50,
                 step: 10,
+                show_tooltip: true,
                 show_label: true,
                 onchange: move |v| v2.set(v),
             }

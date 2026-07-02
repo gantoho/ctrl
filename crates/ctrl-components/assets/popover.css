@@ -11,10 +11,10 @@
     cursor: pointer;
 }
 
-/* 气泡卡片 —— position:absolute 由 CSS 定位 */
+/* 气泡卡片 —— fixed 定位，不受 overflow:hidden 裁切，坐标 JS 计算 */
 .ctrl-popover__card {
-    position: absolute;
-    top: calc(100% + 4px);
+    position: fixed;
+    top: 0;
     left: 0;
     z-index: 1001;
     min-width: 160px;

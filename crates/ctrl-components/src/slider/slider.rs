@@ -39,9 +39,13 @@ pub struct SliderProps {
     #[props(default = false)]
     pub marks: bool,
 
-    /// 是否显示数值标签
+    /// 是否显示数值标签（min/max）
     #[props(default = false)]
     pub show_label: bool,
+
+    /// 是否显示拖拽浮层提示
+    #[props(default = false)]
+    pub show_tooltip: bool,
 
     /// 自定义类名
     #[props(default = "".to_string())]
@@ -115,9 +119,18 @@ struct DragListeners {
     mu: Closure<dyn FnMut(web_sys::MouseEvent)>,
     tm: Closure<dyn FnMut(web_sys::TouchEvent)>,
     tu: Closure<dyn FnMut(web_sys::TouchEvent)>,
+    /// RAF handle，拖拽结束时取消未执行的动画帧
+    #[allow(dead_code)]
+    raf: Option<i32>,
+    /// 拖拽期间通过 RAF 发出的最新值，用于 mouseup 时精确同步
+    #[allow(dead_code)]
+    latest: Rc<RefCell<i32>>,
 }
 
-/// 开始拖拽的核心逻辑，绑定全局事件监听
+/// 开始拖拽的核心逻辑，绑定全局事件监听。
+/// - 只在 document 上注册 mousemove/mouseup（避免 window+document 双重触发导致卡顿）
+/// - DOM 直接更新轨道/滑块位置（即时视觉反馈）
+/// - value 信号 + onchange 回调通过 requestAnimationFrame 节流（避免每像素触发 VDOM diff）
 #[cfg(target_arch = "wasm32")]
 fn begin_drag(
     mut value: Signal<i32>,
@@ -146,18 +159,22 @@ fn begin_drag(
         value.set(new_val);
         is_dragging.set(true);
         update_dom_track(&rid, new_val, min, max, vertical);
-
         if let Some(ref cb) = onchange {
             cb.call(new_val);
         }
 
-        // 绑定全局 mouse/touch 事件
         let document: web_sys::EventTarget = doc.clone().into();
-        let window_target: web_sys::EventTarget = window.into();
+        let latest_val = Rc::new(RefCell::new(new_val));
+        let raf_id: Rc<RefCell<Option<i32>>> = Rc::new(RefCell::new(None));
+        let raf_scheduled: Rc<RefCell<bool>> = Rc::new(RefCell::new(false));
 
+        // ── mousemove：即时 DOM 更新 + RAF 节流信号 ──
         let mm_closure = {
-            let mut value = value;
             let rid = rail_id;
+            let latest_val = latest_val.clone();
+            let raf_scheduled = raf_scheduled.clone();
+            let raf_id = raf_id.clone();
+            let mut value = value;
             let onchange = onchange.clone();
             Closure::wrap(Box::new(move |e: web_sys::MouseEvent| {
                 e.prevent_default();
@@ -166,88 +183,165 @@ fn begin_drag(
                 let Some(doc) = win.document() else { return; };
                 if let Some(rail) = doc.get_element_by_id(&rid) {
                     let rect = rail.get_bounding_client_rect();
-                    let new_val = if vertical {
+                    let nv = if vertical {
                         calc_slider_value(e.client_y() as f64, rect.top(), rect.height(), min, max, step, vertical)
                     } else {
                         calc_slider_value(e.client_x() as f64, rect.left(), rect.width(), min, max, step, vertical)
                     };
-                    value.set(new_val);
-                    update_dom_track(&rid, new_val, min, max, vertical);
-                    if let Some(ref cb) = onchange {
-                        cb.call(new_val);
+                    *latest_val.borrow_mut() = nv;
+
+                    // 即时 DOM 更新，不经过 Dioxus
+                    update_dom_track(&rid, nv, min, max, vertical);
+
+                    // RAF 节流信号更新（最多每帧一次）
+                    if !*raf_scheduled.borrow() {
+                        *raf_scheduled.borrow_mut() = true;
+                        let lv = latest_val.clone();
+                        let mut sv = value;
+                        let oc = onchange.clone();
+                        let sched = raf_scheduled.clone();
+                        let rid_c = rid.clone();
+                        let raf_closure = Closure::once(Box::new(move || {
+                            let v = *lv.borrow();
+                            sv.set(v);
+                            if let Some(ref cb) = oc {
+                                cb.call(v);
+                            }
+                            *sched.borrow_mut() = false;
+                        }) as Box<dyn FnOnce()>);
+                        if let Ok(h) = web_sys::window().unwrap().request_animation_frame(
+                            raf_closure.as_ref().unchecked_ref(),
+                        ) {
+                            *raf_id.borrow_mut() = Some(h);
+                        }
+                        raf_closure.forget();
                     }
                 }
             }) as Box<dyn FnMut(web_sys::MouseEvent)>)
         };
 
+        // ── mouseup：提交最终值，清理 ──
         let mu_closure = {
             let mut is_dragging = is_dragging;
+            let mut value = value;
+            let latest_val = latest_val.clone();
             let drag_listeners = drag_listeners;
+            let onchange = onchange.clone();
+            let raf_id = raf_id.clone();
             Closure::wrap(Box::new(move |_e: web_sys::MouseEvent| {
+                let final_val = *latest_val.borrow();
+                value.set(final_val);
                 is_dragging.set(false);
+                if let Some(ref cb) = onchange {
+                    cb.call(final_val);
+                }
+                // 取消未执行的 RAF
+                if let Some(h) = raf_id.borrow_mut().take() {
+                    let _ = web_sys::window().unwrap().cancel_animation_frame(h);
+                }
                 // 清理监听器
                 if let Some(listeners) = drag_listeners().borrow_mut().take() {
-                    let Some(window) = web_sys::window() else { return; };
-                    let Some(doc) = window.document() else { return; };
-                    let document: web_sys::EventTarget = doc.into();
-                    let window_target: web_sys::EventTarget = window.into();
-                    let _ = document.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("mouseup", listeners.mu.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("touchmove", listeners.tm.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("touchend", listeners.tu.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("mouseup", listeners.mu.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("touchmove", listeners.tm.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("touchend", listeners.tu.as_ref().unchecked_ref());
+                    let Some(doc) = web_sys::window().unwrap().document() else { return; };
+                    let d: web_sys::EventTarget = doc.into();
+                    let _ = d.remove_event_listener_with_callback(
+                        "mousemove", listeners.mm.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "mouseup", listeners.mu.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "touchmove", listeners.tm.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "touchend", listeners.tu.as_ref().unchecked_ref(),
+                    );
                 }
             }) as Box<dyn FnMut(web_sys::MouseEvent)>)
         };
 
+        // ── touchmove ──
         let tm_closure = {
-            let mut value = value;
             let rid = rail_id;
+            let latest_val = latest_val.clone();
+            let raf_scheduled = raf_scheduled.clone();
+            let raf_id = raf_id.clone();
+            let mut value = value;
             let onchange = onchange.clone();
             Closure::wrap(Box::new(move |e: web_sys::TouchEvent| {
                 e.prevent_default();
                 let rid = rid();
                 if let Some(touch) = e.touches().get(0) {
                     let Some(win) = web_sys::window() else { return; };
-                let Some(doc) = win.document() else { return; };
+                    let Some(doc) = win.document() else { return; };
                     if let Some(rail) = doc.get_element_by_id(&rid) {
                         let rect = rail.get_bounding_client_rect();
-                        let new_val = if vertical {
+                        let nv = if vertical {
                             calc_slider_value(touch.client_y() as f64, rect.top(), rect.height(), min, max, step, vertical)
                         } else {
                             calc_slider_value(touch.client_x() as f64, rect.left(), rect.width(), min, max, step, vertical)
                         };
-                        value.set(new_val);
-                        update_dom_track(&rid, new_val, min, max, vertical);
-                        if let Some(ref cb) = onchange {
-                            cb.call(new_val);
+                        *latest_val.borrow_mut() = nv;
+                        update_dom_track(&rid, nv, min, max, vertical);
+
+                        if !*raf_scheduled.borrow() {
+                            *raf_scheduled.borrow_mut() = true;
+                            let lv = latest_val.clone();
+                            let mut sv = value;
+                            let oc = onchange.clone();
+                            let sched = raf_scheduled.clone();
+                            let raf_closure = Closure::once(Box::new(move || {
+                                let v = *lv.borrow();
+                                sv.set(v);
+                                if let Some(ref cb) = oc {
+                                    cb.call(v);
+                                }
+                                *sched.borrow_mut() = false;
+                            }) as Box<dyn FnOnce()>);
+                            if let Ok(h) = web_sys::window().unwrap().request_animation_frame(
+                                raf_closure.as_ref().unchecked_ref(),
+                            ) {
+                                *raf_id.borrow_mut() = Some(h);
+                            }
+                            raf_closure.forget();
                         }
                     }
                 }
             }) as Box<dyn FnMut(web_sys::TouchEvent)>)
         };
 
+        // ── touchend ──
         let tu_closure = {
             let mut is_dragging = is_dragging;
+            let mut value = value;
+            let latest_val = latest_val.clone();
             let drag_listeners = drag_listeners;
+            let onchange = onchange.clone();
+            let raf_id = raf_id.clone();
             Closure::wrap(Box::new(move |_e: web_sys::TouchEvent| {
+                let final_val = *latest_val.borrow();
+                value.set(final_val);
                 is_dragging.set(false);
+                if let Some(ref cb) = onchange {
+                    cb.call(final_val);
+                }
+                if let Some(h) = raf_id.borrow_mut().take() {
+                    let _ = web_sys::window().unwrap().cancel_animation_frame(h);
+                }
                 if let Some(listeners) = drag_listeners().borrow_mut().take() {
-                    let Some(window) = web_sys::window() else { return; };
-                    let Some(doc) = window.document() else { return; };
-                    let document: web_sys::EventTarget = doc.into();
-                    let window_target: web_sys::EventTarget = window.into();
-                    let _ = document.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("mouseup", listeners.mu.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("touchmove", listeners.tm.as_ref().unchecked_ref());
-                    let _ = document.remove_event_listener_with_callback("touchend", listeners.tu.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("mousemove", listeners.mm.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("mouseup", listeners.mu.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("touchmove", listeners.tm.as_ref().unchecked_ref());
-                    let _ = window_target.remove_event_listener_with_callback("touchend", listeners.tu.as_ref().unchecked_ref());
+                    let Some(doc) = web_sys::window().unwrap().document() else { return; };
+                    let d: web_sys::EventTarget = doc.into();
+                    let _ = d.remove_event_listener_with_callback(
+                        "mousemove", listeners.mm.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "mouseup", listeners.mu.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "touchmove", listeners.tm.as_ref().unchecked_ref(),
+                    );
+                    let _ = d.remove_event_listener_with_callback(
+                        "touchend", listeners.tu.as_ref().unchecked_ref(),
+                    );
                 }
             }) as Box<dyn FnMut(web_sys::TouchEvent)>)
         };
@@ -261,17 +355,14 @@ fn begin_drag(
         let _ = document.add_event_listener_with_callback("mouseup", mu_ref.unchecked_ref());
         let _ = document.add_event_listener_with_callback("touchmove", tm_ref.unchecked_ref());
         let _ = document.add_event_listener_with_callback("touchend", tu_ref.unchecked_ref());
-        let _ = window_target.add_event_listener_with_callback("mousemove", mm_closure.as_ref().unchecked_ref());
-        let _ = window_target.add_event_listener_with_callback("mouseup", mu_closure.as_ref().unchecked_ref());
-        let _ = window_target.add_event_listener_with_callback("touchmove", tm_closure.as_ref().unchecked_ref());
-        let _ = window_target.add_event_listener_with_callback("touchend", tu_closure.as_ref().unchecked_ref());
 
-        // 存储监听器句柄以便后续清理
         *drag_listeners().borrow_mut() = Some(DragListeners {
             mm: mm_closure,
             mu: mu_closure,
             tm: tm_closure,
             tu: tu_closure,
+            raf: None,
+            latest: latest_val,
         });
     }
 }
@@ -454,7 +545,7 @@ pub fn Slider(props: SliderProps) -> Element {
                     } else {
                         "left: {percent}%;"
                     },
-                    if props.show_label {
+                    if props.show_tooltip {
                         span { class: "ctrl-slider__tooltip", "{value()}" }
                     }
                 }

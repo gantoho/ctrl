@@ -13,10 +13,10 @@
     display: inline-block;
 }
 
-/* 菜单列表 */
+/* 菜单列表 - fixed 定位，不受 overflow:hidden 裁切，坐标 JS 计算 */
 .ctrl-dropdown__menu {
-    position: absolute;
-    top: calc(100% + 4px);
+    position: fixed;
+    top: 0;
     left: 0;
     visibility: hidden;
     min-width: 160px;

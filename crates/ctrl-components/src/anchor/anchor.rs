@@ -72,6 +72,7 @@ pub fn Anchor(props: AnchorProps) -> Element {
 }
 
 /// 平滑滚动到锚点元素
+#[allow(unused_variables)]
 fn scroll_to_anchor(href: &str, offset: u32) {
     #[cfg(target_arch = "wasm32")]
     {

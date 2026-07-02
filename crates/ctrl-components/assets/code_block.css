@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — CodeBlock 代码块
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-code-block {
+    border-radius: var(--ctrl-radius-md);
+    border: 1px solid var(--ctrl-border);
+    overflow: hidden;
+    background: var(--ctrl-bg-secondary);
+}
+
+/* 顶部栏 */
+.ctrl-code-block__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: var(--ctrl-bg);
+    border-bottom: 1px solid var(--ctrl-border);
+}
+
+.ctrl-code-block__lang {
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.ctrl-code-block__copy {
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+    background: none;
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: color var(--ctrl-transition), border-color var(--ctrl-transition);
+}
+.ctrl-code-block__copy:hover {
+    color: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+}
+
+/* 代码区域 */
+.ctrl-code-block__pre {
+    margin: 0;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--ctrl-text);
+    background: var(--ctrl-bg);
+}
+
+.ctrl-code-block--compact .ctrl-code-block__pre {
+    padding: 8px 12px;
+}
+
+.ctrl-code-block__code {
+    display: block;
+    font-family: inherit;
+}
+
+/* 行号模式 */
+.ctrl-code-block--with-lines .ctrl-code-block__pre {
+    padding: 12px 0;
+}
+
+.ctrl-code-block__line {
+    display: flex;
+    padding: 0 12px;
+}
+.ctrl-code-block__line:hover {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-code-block__line-num {
+    display: inline-block;
+    text-align: right;
+    padding-right: 16px;
+    color: var(--ctrl-text-disabled);
+    user-select: none;
+    font-size: 0.75rem;
+}
+
+.ctrl-code-block__line-code {
+    flex: 1;
+}

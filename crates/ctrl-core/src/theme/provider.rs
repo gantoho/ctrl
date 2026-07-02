@@ -87,7 +87,8 @@ fn build_vars_block(theme: &Theme, palette: &super::colors::ColorPalette) -> Str
             --ctrl-radius-lg: {radius_lg};
             --ctrl-shadow-sm: {shadow_sm};
             --ctrl-shadow-md: {shadow_md};
-            --ctrl-transition: {transition};",
+            --ctrl-transition: {transition};
+            --ctrl-component-width: {component_width};",
         primary = c.primary,
         primary_hover = c.primary_hover,
         primary_active = c.primary_active,
@@ -125,6 +126,7 @@ fn build_vars_block(theme: &Theme, palette: &super::colors::ColorPalette) -> Str
         shadow_sm = theme.shadow_sm,
         shadow_md = theme.shadow_md,
         transition = theme.transition,
+        component_width = theme.component_width,
     )
 }
 

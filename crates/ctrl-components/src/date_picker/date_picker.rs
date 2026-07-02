@@ -67,6 +67,7 @@ fn get_today() -> (i32, u32, u32) {
 pub fn DatePicker(props: DatePickerProps) -> Element {
     const CSS: &str = include_str!("../../assets/date-picker.css");
     let pid = DP_ID.fetch_add(1, Ordering::Relaxed);
+    let trigger_id = format!("ctrl-date-picker-input-{}", pid);
     let panel_id = format!("ctrl-date-picker-panel-{}", pid);
     let panel_visible = use_signal(|| false);
     let mut inner_value = use_signal(|| props.value.clone());
@@ -209,13 +210,13 @@ pub fn DatePicker(props: DatePickerProps) -> Element {
     }
     use_drop(move || { listeners.read().borrow_mut().cleanup(); });
 
-    // ── 控制 panel visibility ──
-    overlay::use_visibility_effect(&panel_id, panel_visible.clone());
+    // ── fixed 弹层：不受 overflow:hidden 裁切 + document capture scroll 跟随 ──
+    overlay::use_fixed_panel_effect(&panel_id, &trigger_id, panel_visible.clone(), 4.0, false);
 
     rsx! {
         style { {CSS} }
         div { class: "{picker_class}", style: "{props.style}",
-            div { class: "{input_class}", onclick: toggle_panel,
+            div { id: "{trigger_id}", class: "{input_class}", onclick: toggle_panel,
                 if inner_value().is_empty() {
                     span { class: "ctrl-date-picker__placeholder", "{props.placeholder}" }
                 } else {

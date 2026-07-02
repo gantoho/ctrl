@@ -4,7 +4,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use ctrl_core::types::Size;
 use crate::overlay::{self, OverlayClosures};
-use web_sys;
+use wasm_bindgen::JsCast;
 
 static SELECT_ID: AtomicU16 = AtomicU16::new(1);
 
@@ -60,8 +60,8 @@ pub fn Select(props: SelectProps) -> Element {
     let selected_val = props.value.clone();
     let disabled = props.disabled;
 
-    // ── Visibility + z-index（position 由 CSS 处理）──
-    overlay::use_visibility_effect(&dropdown_id, open.clone());
+    // ── fixed 弹层：不受 overflow:hidden 裁切 + document capture scroll 跟随 + 匹配 trigger 宽度 ──
+    overlay::use_fixed_panel_effect(&dropdown_id, &trigger_id, open.clone(), 4.0, true);
 
     // ── z-index：打开时提升容器层级，防止被下方兄弟元素遮挡 ──
     {
@@ -70,10 +70,11 @@ pub fn Select(props: SelectProps) -> Element {
         use_effect(move || {
             let doc = match web_sys::window().and_then(|w| w.document()) { Some(d) => d, None => return };
             let Some(el) = doc.get_element_by_id(&cid) else { return };
+            let Some(html_el) = el.dyn_ref::<web_sys::HtmlElement>() else { return };
             if o() {
-                let _ = el.set_attribute("style", "z-index:100;");
+                let _ = html_el.style().set_property("z-index", "100");
             } else {
-                let _ = el.set_attribute("style", "z-index:auto;");
+                let _ = html_el.style().set_property("z-index", "auto");
             }
         });
     }

@@ -1,6 +1,6 @@
 /* ── Affix 固钉 ── */
 .ctrl-affix {
-    position: relative;
+    /* viewport 模式 base */
 }
 
 .ctrl-affix--fixed {
@@ -9,4 +9,5 @@
 
 .ctrl-affix__placeholder {
     pointer-events: none;
+    visibility: hidden;
 }

@@ -122,4 +122,4 @@ pub use tree::{Tree, TreeNode, TreeProps};
 pub use date_picker::{DatePicker, DatePickerProps};
 pub use virtual_list::{VirtualList, VirtualListProps};
 pub use infinite_scroll::{InfiniteScroll, InfiniteScrollProps};
-pub use affix::{Affix, AffixProps};
+pub use affix::{Affix, AffixProps, AffixPosition};

@@ -57,6 +57,9 @@ mod countdown;
 mod spin;
 mod float_button;
 mod time_picker;
+mod virtual_list;
+mod infinite_scroll;
+mod affix;
 
 // Demo components shared across pages
 pub mod _demos;
@@ -221,6 +224,9 @@ pub fn ComponentPage(name: String) -> Element {
         "spin" => rsx! { spin::SpinPage {} },
         "float_button" => rsx! { float_button::FloatButtonPage {} },
         "time_picker" => rsx! { time_picker::TimePickerPage {} },
+        "virtual_list" => rsx! { virtual_list::VirtualListPage {} },
+        "infinite_scroll" => rsx! { infinite_scroll::InfiniteScrollPage {} },
+        "affix" => rsx! { affix::AffixPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",
                 h1 { "组件未找到" }

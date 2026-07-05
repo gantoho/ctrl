@@ -119,6 +119,9 @@ fn SidebarContent() -> Element {
             SidebarItem { label: "Form 表单".to_string(), route: Route::ComponentPage { name: "form".to_string() }, current: route.clone() }
             SidebarItem { label: "Tree 树形控件".to_string(), route: Route::ComponentPage { name: "tree".to_string() }, current: route.clone() }
             SidebarItem { label: "DatePicker 日期选择".to_string(), route: Route::ComponentPage { name: "date_picker".to_string() }, current: route.clone() }
+            SidebarItem { label: "VirtualList 虚拟列表".to_string(), route: Route::ComponentPage { name: "virtual_list".to_string() }, current: route.clone() }
+            SidebarItem { label: "InfiniteScroll 无限滚动".to_string(), route: Route::ComponentPage { name: "infinite_scroll".to_string() }, current: route.clone() }
+            SidebarItem { label: "Affix 固钉".to_string(), route: Route::ComponentPage { name: "affix".to_string() }, current: route.clone() }
 
             Divider { content: "指南".to_string() }
             SidebarItem { label: "主题定制".to_string(), route: Route::ThemePage {}, current: route.clone() }

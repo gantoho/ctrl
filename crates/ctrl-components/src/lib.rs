@@ -56,6 +56,9 @@ pub mod watermark;
 pub mod spin;
 pub mod float_button;
 pub mod time_picker;
+pub mod virtual_list;
+pub mod infinite_scroll;
+pub mod affix;
 
 pub use anchor::{Anchor, AnchorItem, AnchorProps};
 pub use color_picker::{ColorPicker, ColorPickerProps};
@@ -117,3 +120,6 @@ pub use carousel::{Carousel, CarouselProps, CarouselSlide, CarouselSlideProps};
 pub use form::{Form, FormContext, FormFieldState, FormItem, FormItemProps, FormProps, FormValidationResult, ValidationRule, ValidationTrigger};
 pub use tree::{Tree, TreeNode, TreeProps};
 pub use date_picker::{DatePicker, DatePickerProps};
+pub use virtual_list::{VirtualList, VirtualListProps};
+pub use infinite_scroll::{InfiniteScroll, InfiniteScrollProps};
+pub use affix::{Affix, AffixProps};

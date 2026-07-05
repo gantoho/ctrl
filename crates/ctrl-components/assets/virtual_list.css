@@ -1,0 +1,38 @@
+/* ── VirtualList 虚拟列表 ── */
+.ctrl-virtual-list {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.ctrl-virtual-list__phantom {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.ctrl-virtual-list__content {
+    position: relative;
+    z-index: 1;
+}
+
+.ctrl-virtual-list__item {
+    box-sizing: border-box;
+}
+
+/* 自定义滚动条 */
+.ctrl-virtual-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ctrl-virtual-list::-webkit-scrollbar-thumb {
+    background: var(--ctrl-border, #d9d9d9);
+    border-radius: 3px;
+}
+
+.ctrl-virtual-list::-webkit-scrollbar-thumb:hover {
+    background: var(--ctrl-text-secondary, #999);
+}

@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — AutoComplete 自动补全
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-auto-complete {
+    position: relative;
+    display: inline-block;
+    width: var(--ctrl-component-width, 240px);
+}
+
+/* ── 触发器 ── */
+.ctrl-auto-complete__trigger {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    background: var(--ctrl-bg);
+    transition: border-color var(--ctrl-transition);
+    outline: none;
+}
+
+.ctrl-auto-complete__trigger:focus-within {
+    border-color: var(--ctrl-primary);
+}
+
+.ctrl-auto-complete--disabled .ctrl-auto-complete__trigger {
+    background: var(--ctrl-bg-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── 输入框 ── */
+.ctrl-auto-complete__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--ctrl-font-family, inherit);
+    color: var(--ctrl-text);
+    min-width: 0;
+    padding: 0;
+}
+
+.ctrl-auto-complete__input::placeholder {
+    color: var(--ctrl-text-disabled);
+}
+
+.ctrl-auto-complete__input:disabled {
+    color: var(--ctrl-text-disabled);
+}
+
+.ctrl-auto-complete__input--sm {
+    height: 32px;
+    padding: 0 var(--ctrl-spacing-sm);
+    font-size: var(--ctrl-font-size-sm);
+}
+
+.ctrl-auto-complete__input--md {
+    height: 36px;
+    padding: 0 var(--ctrl-spacing-md);
+    font-size: var(--ctrl-font-size-md);
+}
+
+.ctrl-auto-complete__input--lg {
+    height: 44px;
+    padding: 0 16px;
+    font-size: var(--ctrl-font-size-md);
+}
+
+/* ── 箭头 ── */
+.ctrl-auto-complete__arrow {
+    flex-shrink: 0;
+    margin-right: var(--ctrl-spacing-sm);
+    transition: transform 0.15s ease;
+    cursor: pointer;
+}
+
+.ctrl-auto-complete__arrow--open {
+    transform: rotate(180deg);
+}
+
+.ctrl-auto-complete--disabled .ctrl-auto-complete__arrow {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+/* ── 加载 ── */
+.ctrl-auto-complete__loading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: var(--ctrl-spacing-sm);
+}
+
+.ctrl-auto-complete__loading svg circle {
+    animation: ctrl-auto-complete-spin 1s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes ctrl-auto-complete-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── 清除按钮 ── */
+.ctrl-auto-complete__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: var(--ctrl-spacing-sm);
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity var(--ctrl-transition);
+}
+
+.ctrl-auto-complete__clear:hover {
+    opacity: 1;
+}
+
+/* ── 下拉面板 ── */
+.ctrl-auto-complete__dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    box-shadow: var(--ctrl-shadow-md);
+    max-height: 256px;
+    overflow-y: auto;
+    z-index: 1050;
+    min-width: 160px;
+}
+
+/* ── 选项 ── */
+.ctrl-auto-complete__option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text);
+    transition: background var(--ctrl-transition);
+}
+
+.ctrl-auto-complete__option:hover {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-auto-complete__option--highlighted {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-auto-complete__option--empty {
+    color: var(--ctrl-text-disabled);
+    justify-content: center;
+    cursor: default;
+}
+
+.ctrl-auto-complete__option-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctrl-auto-complete__option-label mark {
+    background: transparent;
+    color: var(--ctrl-primary);
+    font-weight: 600;
+}

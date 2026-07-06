@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Transfer 穿梭框
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-transfer {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    font-family: var(--ctrl-font-family, inherit);
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text, #333);
+}
+
+/* ── 面板 ────────────────────────────────────── */
+
+.ctrl-transfer__panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-md, 6px);
+    background: var(--ctrl-bg, #fff);
+    overflow: hidden;
+}
+
+.ctrl-transfer__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--ctrl-border, #eee);
+    background: var(--ctrl-bg-secondary, #fafafa);
+}
+
+.ctrl-transfer__panel-title {
+    font-weight: 600;
+    font-size: var(--ctrl-font-size-md, 14px);
+    color: var(--ctrl-text, #333);
+}
+
+.ctrl-transfer__panel-stat {
+    font-size: var(--ctrl-font-size-xs, 12px);
+    color: var(--ctrl-text-secondary, #999);
+}
+
+/* ── 搜索 ───────────────────────────────────── */
+
+.ctrl-transfer__search {
+    position: relative;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--ctrl-border, #eee);
+}
+
+.ctrl-transfer__search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px 4px 28px;
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-sm, 4px);
+    font-size: var(--ctrl-font-size-md, 14px);
+    font-family: var(--ctrl-font-family, inherit);
+    color: var(--ctrl-text, #333);
+    background: var(--ctrl-bg, #fff);
+    outline: none;
+    transition: border-color var(--ctrl-transition, 0.2s);
+}
+
+.ctrl-transfer__search-input:focus {
+    border-color: var(--ctrl-primary, #4a90d9);
+}
+
+.ctrl-transfer__search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* ── 面板主体 ────────────────────────────────── */
+
+.ctrl-transfer__panel-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── 列表 ───────────────────────────────────── */
+
+.ctrl-transfer__list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* ── 列表项 ─────────────────────────────────── */
+
+.ctrl-transfer__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--ctrl-transition, 0.15s);
+}
+
+.ctrl-transfer__item:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+}
+
+.ctrl-transfer__item--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.ctrl-transfer__item--disabled:hover {
+    background: transparent;
+}
+
+.ctrl-transfer__item-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── 复选框（列表项及全选共用） ───────────────── */
+
+.ctrl-transfer__checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--ctrl-radius-sm, 4px);
+    transition: all var(--ctrl-transition, 0.2s);
+    flex-shrink: 0;
+    background: var(--ctrl-bg, #fff);
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    cursor: pointer;
+}
+
+.ctrl-transfer__checkbox--checked {
+    background: var(--ctrl-primary, #4a90d9);
+    border-color: var(--ctrl-primary, #4a90d9);
+}
+
+.ctrl-transfer__checkbox--disabled {
+    background: var(--ctrl-bg-disabled, #f5f5f5);
+    border-color: var(--ctrl-border, #d9d9d9);
+    cursor: not-allowed;
+}
+
+.ctrl-transfer__checkbox--disabled.ctrl-transfer__checkbox--checked {
+    background: var(--ctrl-primary-light, #e8f0fe);
+    border-color: var(--ctrl-primary-light, #e8f0fe);
+}
+
+/* ── 全选行 ─────────────────────────────────── */
+
+.ctrl-transfer__select-all {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--ctrl-border, #eee);
+}
+
+.ctrl-transfer__select-all-label {
+    font-weight: 500;
+    font-size: var(--ctrl-font-size-sm, 13px);
+    color: var(--ctrl-text, #333);
+}
+
+/* ── 空数据 ─────────────────────────────────── */
+
+.ctrl-transfer__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 12px;
+    color: var(--ctrl-text-disabled, #bfbfbf);
+    font-size: var(--ctrl-font-size-sm, 13px);
+}
+
+/* ── 中间操作按钮区 ──────────────────────────── */
+
+.ctrl-transfer__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.ctrl-transfer__action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-sm, 4px);
+    background: var(--ctrl-bg, #fff);
+    color: var(--ctrl-text-secondary, #999);
+    cursor: pointer;
+    transition: all var(--ctrl-transition, 0.2s);
+    padding: 0;
+}
+
+.ctrl-transfer__action-btn:hover:not(:disabled) {
+    color: var(--ctrl-primary, #4a90d9);
+    border-color: var(--ctrl-primary, #4a90d9);
+}
+
+.ctrl-transfer__action-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}

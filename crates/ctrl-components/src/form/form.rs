@@ -95,8 +95,12 @@ impl Default for ValidationTrigger {
 
 /// 表单上下文，用于跨组件通信
 pub struct FormContext {
-    /// 字段及其验证规则: (value_signal, rules)
+    /// 字段及其验证规则
     pub fields: Signal<Rc<RefCell<HashMap<String, FormFieldState>>>>,
+    /// 字段级验证错误（由 validate_all 写入，FormItem 读取）
+    pub field_errors: Signal<Rc<RefCell<HashMap<String, String>>>>,
+    /// 错误版本号，每次 validate_all 后递增，触发 FormItem 重渲染
+    pub error_version: Signal<u64>,
     /// 全局验证触发时机
     pub validate_trigger: ValidationTrigger,
 }
@@ -109,12 +113,13 @@ pub struct FormFieldState {
 }
 
 impl FormContext {
-    /// 验证所有字段，返回 (是否通过, 字段错误列表)
+    /// 验证所有字段，返回 (是否通过, 字段错误列表)，同时更新 field_errors
     pub fn validate_all(&self) -> (bool, Vec<(String, String)>) {
         let guard = self.fields.read();
         let fields = guard.borrow();
         let mut all_valid = true;
         let mut errors = Vec::new();
+        let mut err_map = HashMap::new();
         for (name, state) in fields.iter() {
             let mut field_error = String::new();
             for rule in &state.rules {
@@ -125,10 +130,52 @@ impl FormContext {
                 }
             }
             if !field_error.is_empty() {
-                errors.push((name.clone(), field_error));
+                errors.push((name.clone(), field_error.clone()));
+                err_map.insert(name.clone(), field_error);
             }
         }
+        // 写入 field_errors，让 FormItem 可以通过读取此信号获取自己的错误
+        {
+            let guard = self.field_errors.read();
+            let mut err_map = guard.borrow_mut();
+            err_map.clear();
+            for (name, error) in &errors {
+                err_map.insert(name.clone(), error.clone());
+            }
+        }
+        // 递增版本号以触发 FormItem 重渲染
+        let mut ver = self.error_version;
+        ver.set(ver() + 1);
         (all_valid, errors)
+    }
+
+    /// 校验单个字段，更新 field_errors 中该字段的错误
+    pub fn validate_field(&self, name: &str) -> Option<String> {
+        let guard = self.fields.read();
+        let fields = guard.borrow();
+        let mut field_error = String::new();
+        if let Some(state) = fields.get(name) {
+            for rule in &state.rules {
+                if let Some(err) = rule.validate(&state.value) {
+                    field_error = err;
+                    break;
+                }
+            }
+        }
+        // 更新该字段的错误
+        {
+            let err_guard = self.field_errors.read();
+            let mut err_map = err_guard.borrow_mut();
+            if field_error.is_empty() {
+                err_map.remove(name);
+            } else {
+                err_map.insert(name.to_string(), field_error.clone());
+            }
+        }
+        // 递增版本号以触发 FormItem 重渲染
+        let mut ver = self.error_version;
+        ver.set(ver() + 1);
+        if field_error.is_empty() { None } else { Some(field_error) }
     }
 }
 
@@ -136,6 +183,8 @@ impl Clone for FormContext {
     fn clone(&self) -> Self {
         FormContext {
             fields: self.fields.clone(),
+            field_errors: self.field_errors.clone(),
+            error_version: self.error_version,
             validate_trigger: self.validate_trigger,
         }
     }
@@ -260,8 +309,13 @@ pub fn Form(props: FormProps) -> Element {
     };
 
     // 表单上下文，收集所有 FormItem 的字段验证信息
+    let field_err_signal: Signal<Rc<RefCell<HashMap<String, String>>>> =
+        use_signal(|| Rc::new(RefCell::new(HashMap::new())));
+    let error_ver: Signal<u64> = use_signal(|| 0);
     let form_ctx = FormContext {
         fields: use_signal(|| Rc::new(RefCell::new(HashMap::new()))),
+        field_errors: field_err_signal.clone(),
+        error_version: error_ver,
         validate_trigger: props.validate_trigger,
     };
     use_context_provider(|| form_ctx.clone());
@@ -320,48 +374,58 @@ pub fn FormItem(props: FormItemProps) -> Element {
         c
     };
 
-    // 注册到 FormContext
-    let validation_error = use_signal(|| String::new());
-    if !props.name.is_empty() {
-        if let Some(ctx) = try_use_context::<FormContext>() {
-            let name = props.name.clone();
-            let rules = props.rules.clone();
-            let required = props.required;
-            let value = props.value.clone();
+    // 注册到 FormContext + 同步值 + 从上下文获取验证错误
+    let validation_error_str = {
+        let mut err = String::new();
+        if !props.name.is_empty() {
+            if let Some(ctx) = try_use_context::<FormContext>() {
+                let name = props.name.clone();
+                let rules = props.rules.clone();
+                let required = props.required;
+                let value = props.value.clone();
 
-            // 注册字段到上下文
-            {
-                let guard = ctx.fields.read();
-                let mut fields = guard.borrow_mut();
-                let mut all_rules = rules.clone();
-                if required {
-                    all_rules.push(ValidationRule::required(format!("{} 为必填项", props.label)));
-                }
-                fields.insert(name.clone(), FormFieldState {
-                    value: value.clone(),
-                    rules: all_rules,
-                    error: String::new(),
-                });
-            }
-
-            // 当 value 变化时更新上下文字段值
-            use_effect(use_reactive(&props.value, move |v| {
-                if let Some(ctx) = try_use_context::<FormContext>() {
+                // 注册字段到上下文
+                {
                     let guard = ctx.fields.read();
                     let mut fields = guard.borrow_mut();
-                    if let Some(state) = fields.get_mut(&name) {
-                        state.value = v.clone();
+                    let mut all_rules = rules.clone();
+                    if required {
+                        all_rules.push(ValidationRule::required(format!("{} 为必填项", props.label)));
                     }
+                    fields.insert(name.clone(), FormFieldState {
+                        value: value.clone(),
+                        rules: all_rules,
+                        error: String::new(),
+                    });
                 }
-            }));
+
+                // 当 value 变化时更新上下文字段值
+                use_effect(use_reactive(&props.value, move |v| {
+                    if let Some(ctx) = try_use_context::<FormContext>() {
+                        let guard = ctx.fields.read();
+                        let mut fields = guard.borrow_mut();
+                        if let Some(state) = fields.get_mut(&name) {
+                            state.value = v.clone();
+                        }
+                    }
+                }));
+
+                // 从 field_errors 读取该字段的验证错误
+                // 读取 error_version 以订阅验证变更（触发重渲染）
+                let _ver = (ctx.error_version)();
+                let err_guard = ctx.field_errors.read();
+                let errors = err_guard.borrow();
+                err = errors.get(&props.name).cloned().unwrap_or_default();
+            }
         }
-    }
+        err
+    };
 
     // 显示的错误信息：手动 error 优先级最高
     let display_error = if !props.error.is_empty() {
         props.error.clone()
     } else {
-        validation_error()
+        validation_error_str
     };
 
     rsx! {

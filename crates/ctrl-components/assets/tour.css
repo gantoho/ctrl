@@ -1,0 +1,214 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Tour 引导漫游
+   ═══════════════════════════════════════════════════ */
+
+/* ── 容器（可聚焦以接收键盘事件）── */
+.ctrl-tour {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    outline: none;
+}
+
+/* ── 遮罩层 ── */
+.ctrl-tour__overlay {
+    position: fixed;
+    inset: 0;
+}
+
+/* ── 遮罩（透明，仅用于拦截页面点击；变暗由 spotlight 的 box-shadow 负责）── */
+.ctrl-tour__mask {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+}
+
+/* ── 聚光灯（固定在目标元素上方，通过 box-shadow 向四周扩展暗色，
+      中间目标区域完全无遮罩、保持明亮）── */
+.ctrl-tour__spotlight {
+    position: fixed;
+    z-index: 1101;
+    pointer-events: none;
+    border-radius: var(--ctrl-radius-md);
+    background: transparent;
+    box-shadow: 0 0 0 9999px var(--ctrl-mask-bg);
+    transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+/* ── 提示卡片 ── */
+.ctrl-tour__tooltip {
+    position: fixed;
+    z-index: 1102;
+    background: var(--ctrl-bg);
+    border-radius: var(--ctrl-radius-lg);
+    box-shadow: var(--ctrl-shadow-lg);
+    min-width: 280px;
+    max-width: 360px;
+    transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    will-change: transform, left, top;
+}
+
+/* ── 提示卡片头部 ── */
+.ctrl-tour__tooltip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 0 20px;
+    flex-shrink: 0;
+}
+
+.ctrl-tour__tooltip-title {
+    font-size: var(--ctrl-font-size-md);
+    font-weight: 600;
+    color: var(--ctrl-text);
+    flex: 1;
+    margin-right: 8px;
+}
+
+.ctrl-tour__tooltip-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    border-radius: var(--ctrl-radius-sm);
+    cursor: pointer;
+    color: var(--ctrl-text-secondary);
+    font-size: 1rem;
+    outline: none;
+    flex-shrink: 0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.ctrl-tour__tooltip-close:hover {
+    background: var(--ctrl-bg-secondary);
+    color: var(--ctrl-text);
+}
+
+/* ── 提示卡片内容 ── */
+.ctrl-tour__tooltip-body {
+    padding: 12px 20px 0 20px;
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-sm);
+    line-height: 1.6;
+}
+
+/* ── 提示卡片底部 ── */
+.ctrl-tour__tooltip-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    flex-shrink: 0;
+}
+
+/* ── 步骤指示器 ── */
+.ctrl-tour__tooltip-steps {
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text-secondary);
+}
+
+/* ── 操作按钮区域 ── */
+.ctrl-tour__tooltip-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── 按钮基础 ── */
+.ctrl-tour__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 15px;
+    border-radius: var(--ctrl-radius-sm);
+    font-size: var(--ctrl-font-size-sm);
+    cursor: pointer;
+    border: 1px solid var(--ctrl-border);
+    font-family: inherit;
+    transition: background 0.15s ease, color 0.15s ease;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* ── Prev 按钮 ── */
+.ctrl-tour__btn--prev {
+    background: var(--ctrl-bg);
+    color: var(--ctrl-text);
+}
+
+.ctrl-tour__btn--prev:hover {
+    background: var(--ctrl-bg-secondary);
+}
+
+/* ── Next 按钮（主色调）── */
+.ctrl-tour__btn--next {
+    background: var(--ctrl-primary);
+    color: #fff;
+    border-color: var(--ctrl-primary);
+}
+
+.ctrl-tour__btn--next:hover {
+    background: var(--ctrl-primary-hover);
+}
+
+/* ── Finish 按钮（主色调）── */
+.ctrl-tour__btn--finish {
+    background: var(--ctrl-primary);
+    color: #fff;
+    border-color: var(--ctrl-primary);
+}
+
+.ctrl-tour__btn--finish:hover {
+    background: var(--ctrl-primary-hover);
+}
+
+/* ── Skip 按钮 ── */
+.ctrl-tour__btn--skip {
+    background: transparent;
+    color: var(--ctrl-text-secondary);
+    border-color: transparent;
+}
+
+.ctrl-tour__btn--skip:hover {
+    color: var(--ctrl-text);
+    background: var(--ctrl-bg-secondary);
+}
+
+/* ── 箭头 ── */
+.ctrl-tour__tooltip-arrow {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--ctrl-bg);
+    transform: rotate(45deg);
+    box-shadow: var(--ctrl-shadow-lg);
+    z-index: -1;
+}
+
+/* 箭头方向由 placement 控制，通过行内样式定位 */
+
+/* ── 响应式：小屏适配 ── */
+@media (max-width: 640px) {
+    .ctrl-tour__tooltip {
+        max-width: calc(100vw - 32px);
+        min-width: auto;
+    }
+
+    .ctrl-tour__tooltip-header,
+    .ctrl-tour__tooltip-body {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .ctrl-tour__tooltip-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

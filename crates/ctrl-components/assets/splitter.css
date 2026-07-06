@@ -1,0 +1,130 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Splitter 可拖拽分隔面板
+   ═══════════════════════════════════════════════════ */
+
+/* ── Container ── */
+.ctrl-splitter {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ctrl-splitter--horizontal {
+    flex-direction: row;
+}
+
+.ctrl-splitter--vertical {
+    flex-direction: column;
+}
+
+/* ── Panel ── */
+.ctrl-splitter__panel {
+    overflow: auto;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.ctrl-splitter__panel--collapsed {
+    overflow: hidden;
+}
+
+/* ── Divider (drag handle) ── */
+.ctrl-splitter__divider {
+    position: relative;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    background: var(--ctrl-border, #e0e0e0);
+    z-index: 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.ctrl-splitter--horizontal > .ctrl-splitter__divider {
+    width: 4px;
+    min-width: 4px;
+    cursor: col-resize;
+    height: 100%;
+}
+
+.ctrl-splitter--vertical > .ctrl-splitter__divider {
+    height: 4px;
+    min-height: 4px;
+    cursor: row-resize;
+    width: 100%;
+}
+
+/* Hover / active state */
+.ctrl-splitter__divider:hover,
+.ctrl-splitter__divider:active {
+    background: var(--ctrl-primary, #1890ff);
+}
+
+/* ── Divider toggle buttons container ── */
+.ctrl-splitter__divider-toggles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 4px;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+/* In vertical mode, stack buttons vertically */
+.ctrl-splitter--vertical .ctrl-splitter__divider-toggles {
+    flex-direction: column;
+}
+
+/* ── Collapse / expand button ── */
+.ctrl-splitter__collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid var(--ctrl-border, #d9d9d9);
+    border-radius: var(--ctrl-radius-sm, 2px);
+    background: var(--ctrl-bg, #fff);
+    color: var(--ctrl-text-secondary, #666);
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--ctrl-transition, 0.15s);
+    outline: none;
+    flex-shrink: 0;
+    pointer-events: auto;
+}
+
+.ctrl-splitter__collapse-btn:hover {
+    color: var(--ctrl-primary, #1890ff);
+    border-color: var(--ctrl-primary, #1890ff);
+    background: var(--ctrl-primary-light, rgba(24, 144, 255, 0.06));
+}
+
+.ctrl-splitter__collapse-btn--expand {
+    color: var(--ctrl-primary, #1890ff);
+    border-color: var(--ctrl-primary, #1890ff);
+}
+
+/* ── Nested splitter support ── */
+.ctrl-splitter__panel > .ctrl-splitter {
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Touch improvements ── */
+@media (hover: none) and (pointer: coarse) {
+    .ctrl-splitter--horizontal > .ctrl-splitter__divider {
+        width: 8px;
+        min-width: 8px;
+    }
+
+    .ctrl-splitter--vertical > .ctrl-splitter__divider {
+        height: 8px;
+        min-height: 8px;
+    }
+}

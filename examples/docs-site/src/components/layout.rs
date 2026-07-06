@@ -63,6 +63,8 @@ fn SidebarContent() -> Element {
             Divider { content: "组件".to_string() }
             SidebarItem { label: "组件总览".to_string(), route: Route::ComponentsIndex {}, current: route.clone() }
             SidebarItem { label: "Button 按钮".to_string(), route: Route::ComponentPage { name: "button".to_string() }, current: route.clone() }
+            SidebarItem { label: "AutoComplete 自动补全".to_string(), route: Route::ComponentPage { name: "auto_complete".to_string() }, current: route.clone() }
+            SidebarItem { label: "ConfigProvider 全局配置".to_string(), route: Route::ComponentPage { name: "config_provider".to_string() }, current: route.clone() }
             SidebarItem { label: "Input 输入框".to_string(), route: Route::ComponentPage { name: "input".to_string() }, current: route.clone() }
             SidebarItem { label: "Textarea 多行输入".to_string(), route: Route::ComponentPage { name: "textarea".to_string() }, current: route.clone() }
             SidebarItem { label: "Result 结果页".to_string(), route: Route::ComponentPage { name: "result".to_string() }, current: route.clone() }
@@ -75,6 +77,10 @@ fn SidebarContent() -> Element {
             SidebarItem { label: "Select 下拉选择".to_string(), route: Route::ComponentPage { name: "select".to_string() }, current: route.clone() }
             SidebarItem { label: "Tag 标签".to_string(), route: Route::ComponentPage { name: "tag".to_string() }, current: route.clone() }
             SidebarItem { label: "Card 卡片".to_string(), route: Route::ComponentPage { name: "card".to_string() }, current: route.clone() }
+            SidebarItem { label: "Cascader 级联选择".to_string(), route: Route::ComponentPage { name: "cascader".to_string() }, current: route.clone() }
+            SidebarItem { label: "Transfer 穿梭框".to_string(), route: Route::ComponentPage { name: "transfer".to_string() }, current: route.clone() }
+            SidebarItem { label: "Tour 引导漫游".to_string(), route: Route::ComponentPage { name: "tour".to_string() }, current: route.clone() }
+            SidebarItem { label: "Splitter 分隔面板".to_string(), route: Route::ComponentPage { name: "splitter".to_string() }, current: route.clone() }
             SidebarItem { label: "Dialog 对话框".to_string(), route: Route::ComponentPage { name: "dialog".to_string() }, current: route.clone() }
             SidebarItem { label: "Table 表格".to_string(), route: Route::ComponentPage { name: "table".to_string() }, current: route.clone() }
             SidebarItem { label: "Badge 徽标".to_string(), route: Route::ComponentPage { name: "badge".to_string() }, current: route.clone() }

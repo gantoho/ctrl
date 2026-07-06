@@ -509,6 +509,97 @@ pub fn FormValidationDemo() -> Element {
 }
 
 
+// ── InputPassword 演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn InputPasswordDemo() -> Element {
+    let mut value = use_signal(|| String::new());
+
+    rsx! {
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            InputPassword {
+                placeholder: "请输入密码",
+                value: value(),
+                oninput: move |v: String| value.set(v),
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "密码: "
+                em { style: "font-style: normal; color: var(--ctrl-primary); font-weight: 500;", "{value()}" }
+            }
+        }
+    }
+}
+
+// ── InputOtp 演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn InputOtpDemo() -> Element {
+    let mut value = use_signal(|| String::new());
+
+    rsx! {
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            InputOtp {
+                value: value(),
+                onchange: move |v: String| value.set(v),
+                oncomplete: move |v: String| {
+                    // 在完成时不做额外操作，仅演示
+                    let _ = v;
+                },
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "验证码: "
+                em { style: "font-style: normal; color: var(--ctrl-primary); font-weight: 500;", "{value()}" }
+            }
+        }
+    }
+}
+
+// ── Input 清除按钮演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn InputClearDemo() -> Element {
+    let mut val = use_signal(|| String::from("可清除的内容"));
+
+    rsx! {
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            Input {
+                allow_clear: true,
+                value: val(),
+                oninput: move |v: String| val.set(v),
+                onclear: move |_| val.set(String::new()),
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "值: {val()}"
+            }
+        }
+    }
+}
+
+// ── InputOtp 密码模式演示 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn InputOtpMaskDemo() -> Element {
+    let mut masked = use_signal(|| String::new());
+
+    rsx! {
+        Space { direction: Direction::Vertical, gap: "sm".to_string(),
+            InputOtp {
+                mask: true,
+                value: masked(),
+                onchange: move |v: String| masked.set(v),
+            }
+            span { style: "font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                "值: "
+                em { style: "font-style: normal; color: var(--ctrl-primary); font-weight: 500;", "{masked()}" }
+            }
+        }
+    }
+}
+
 // ── Switch 演示 ──
 
 #[component]

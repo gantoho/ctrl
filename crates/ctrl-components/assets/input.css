@@ -109,7 +109,8 @@
     cursor: pointer;
     color: var(--ctrl-text-secondary, #999);
     font-size: var(--ctrl-font-size-md, 14px);
-    padding: 2px;
+    padding: 2px 8px;
+    flex-shrink: 0;
 }
 .ctrl-input__suffix-btn:hover {
     color: var(--ctrl-text, #333);

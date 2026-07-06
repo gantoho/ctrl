@@ -60,6 +60,12 @@ mod time_picker;
 mod virtual_list;
 mod infinite_scroll;
 mod affix;
+mod auto_complete;
+mod cascader;
+mod config_provider;
+mod splitter;
+mod tour;
+mod transfer;
 
 // Demo components shared across pages
 pub mod _demos;
@@ -73,6 +79,12 @@ use ctrl::prelude::*;
 pub fn ComponentsIndex() -> Element {
     let components = vec![
         ("button", "Button 按钮", "按钮用于触发操作"),
+        ("auto_complete", "AutoComplete 自动补全", "输入时自动匹配候选项"),
+        ("cascader", "Cascader 级联选择", "多级数据选择"),
+        ("config_provider", "ConfigProvider 全局配置", "全局配置提供者"),
+        ("splitter", "Splitter 分隔面板", "可拖拽调整的分隔面板"),
+        ("tour", "Tour 引导漫游", "分步引导用户操作"),
+        ("transfer", "Transfer 穿梭框", "双栏选择移动"),
         ("input", "Input 输入框", "输入框用于文本输入"),
         ("textarea", "Textarea 多行输入", "多行文本输入"),
         ("result", "Result 结果页", "操作结果反馈"),
@@ -168,6 +180,12 @@ pub fn ComponentPage(name: String) -> Element {
     // match arm changes, which properly destroys old scopes and creates new ones.
     match name.as_str() {
         "button" => rsx! { button::ButtonPage {} },
+        "auto_complete" => rsx! { auto_complete::AutoCompletePage {} },
+        "cascader" => rsx! { cascader::CascaderPage {} },
+        "config_provider" => rsx! { config_provider::ConfigProviderPage {} },
+        "splitter" => rsx! { splitter::SplitterPage {} },
+        "tour" => rsx! { tour::TourPage {} },
+        "transfer" => rsx! { transfer::TransferPage {} },
         "input" => rsx! { input::InputPage {} },
         "textarea" => rsx! { textarea::TextareaPage {} },
         "result" => rsx! { result::ResultPage {} },

@@ -735,6 +735,206 @@ fn App() -> Element {
                         {}
                     }
                 }
+
+                // ════════════════════════════════════════
+                // AutoComplete
+                // ════════════════════════════════════════
+                Section { title: "AutoComplete 自动补全".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            AutoComplete {
+                                placeholder: "请输入水果名称".to_string(),
+                                options: vec![
+                                    AutoCompleteOption { value: "apple".to_string(), label: "Apple 苹果".to_string() },
+                                    AutoCompleteOption { value: "banana".to_string(), label: "Banana 香蕉".to_string() },
+                                    AutoCompleteOption { value: "cherry".to_string(), label: "Cherry 樱桃".to_string() },
+                                    AutoCompleteOption { value: "grape".to_string(), label: "Grape 葡萄".to_string() },
+                                    AutoCompleteOption { value: "orange".to_string(), label: "Orange 橙子".to_string() },
+                                ],
+                            }
+                        }
+                        DemoCard { title: "禁用".to_string(),
+                            AutoComplete {
+                                disabled: true,
+                                value: "禁用状态".to_string(),
+                                options: vec![],
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════════
+                // Cascader
+                // ════════════════════════════════════════
+                Section { title: "Cascader 级联选择器".to_string(),
+                    Row {
+                        DemoCard { title: "省市区选择".to_string(),
+                            div { style: "width: 300px;",
+                                Cascader {
+                                    placeholder: "请选择地区".to_string(),
+                                    options: vec![
+                                        CascaderOption {
+                                            value: "zhejiang".to_string(), label: "浙江".to_string(), disabled: false,
+                                            children: vec![
+                                                CascaderOption { value: "hangzhou".to_string(), label: "杭州".to_string(), disabled: false, children: vec![] },
+                                                CascaderOption { value: "ningbo".to_string(), label: "宁波".to_string(), disabled: false, children: vec![] },
+                                                CascaderOption { value: "wenzhou".to_string(), label: "温州".to_string(), disabled: false, children: vec![] },
+                                            ],
+                                        },
+                                        CascaderOption {
+                                            value: "jiangsu".to_string(), label: "江苏".to_string(), disabled: false,
+                                            children: vec![
+                                                CascaderOption { value: "nanjing".to_string(), label: "南京".to_string(), disabled: false, children: vec![] },
+                                                CascaderOption { value: "suzhou".to_string(), label: "苏州".to_string(), disabled: false, children: vec![] },
+                                            ],
+                                        },
+                                    ],
+                                }
+                            }
+                        }
+                        DemoCard { title: "可清空".to_string(),
+                            div { style: "width: 300px;",
+                                Cascader {
+                                    clearable: true,
+                                    placeholder: "点击清空".to_string(),
+                                    options: vec![
+                                        CascaderOption {
+                                            value: "beijing".to_string(), label: "北京".to_string(), disabled: false,
+                                            children: vec![
+                                                CascaderOption { value: "chaoyang".to_string(), label: "朝阳区".to_string(), disabled: false, children: vec![] },
+                                                CascaderOption { value: "haidian".to_string(), label: "海淀区".to_string(), disabled: false, children: vec![] },
+                                            ],
+                                        },
+                                    ],
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════════
+                // Transfer
+                // ════════════════════════════════════════
+                Section { title: "Transfer 穿梭框".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            Transfer {
+                                data_source: vec![
+                                    TransferItem { key: "1".to_string(), label: "选项 1".to_string(), disabled: false },
+                                    TransferItem { key: "2".to_string(), label: "选项 2".to_string(), disabled: false },
+                                    TransferItem { key: "3".to_string(), label: "选项 3".to_string(), disabled: true },
+                                    TransferItem { key: "4".to_string(), label: "选项 4".to_string(), disabled: false },
+                                    TransferItem { key: "5".to_string(), label: "选项 5".to_string(), disabled: false },
+                                ],
+                                target_keys: vec!["2".to_string()],
+                            }
+                        }
+                        DemoCard { title: "带搜索".to_string(),
+                            Transfer {
+                                show_search: true,
+                                search_placeholder: "搜索".to_string(),
+                                data_source: vec![
+                                    TransferItem { key: "read".to_string(), label: "读取".to_string(), disabled: false },
+                                    TransferItem { key: "write".to_string(), label: "写入".to_string(), disabled: false },
+                                    TransferItem { key: "delete".to_string(), label: "删除".to_string(), disabled: false },
+                                    TransferItem { key: "admin".to_string(), label: "管理".to_string(), disabled: false },
+                                ],
+                                target_keys: vec![],
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════════
+                // Splitter
+                // ════════════════════════════════════════
+                Section { title: "Splitter 分隔面板".to_string(),
+                    Row {
+                        DemoCard { title: "水平布局".to_string(),
+                            div { style: "width: 100%; height: 160px; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md);",
+                                Splitter { direction: Direction::Horizontal,
+                                    SplitterPanel { default_size: 30.0, min_size: 10.0,
+                                        div { style: "padding: 16px;",
+                                            p { "左侧 30%" }
+                                        }
+                                    }
+                                    SplitterPanel { default_size: 70.0, min_size: 20.0,
+                                        div { style: "padding: 16px;",
+                                            p { "右侧 70%" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        DemoCard { title: "垂直布局".to_string(),
+                            div { style: "width: 100%; height: 200px; border: 1px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md);",
+                                Splitter { direction: Direction::Vertical,
+                                    SplitterPanel { default_size: 40.0, min_size: 10.0,
+                                        div { style: "padding: 16px;",
+                                            p { "上面板 40%" }
+                                        }
+                                    }
+                                    SplitterPanel { default_size: 60.0, min_size: 20.0,
+                                        div { style: "padding: 16px;",
+                                            p { "下面板 60%" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════════
+                // Tour
+                // ════════════════════════════════════════
+                Section { title: "Tour 引导漫游".to_string(),
+                    TourProvider {
+                        // 目标元素
+                        div { style: "display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;",
+                            div {
+                                id: "tour-demo-btn",
+                                style: "padding: 8px 20px; background: var(--ctrl-primary); color: #fff; border-radius: var(--ctrl-radius-md); font-weight: 600; cursor: pointer; display: inline-block;",
+                                "功能按钮"
+                            }
+                            div {
+                                id: "tour-demo-card",
+                                style: "padding: 16px; border: 2px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md);",
+                                p { style: "font-weight: 600; margin-bottom: 4px;", "数据面板" }
+                                p { style: "color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);", "这里展示数据概览" }
+                            }
+                            div {
+                                id: "tour-demo-input",
+                                style: "padding: 8px 16px; border: 2px solid var(--ctrl-border); border-radius: var(--ctrl-radius-md); display: inline-block; font-size: var(--ctrl-font-size-sm); color: var(--ctrl-text-secondary);",
+                                "搜索框"
+                            }
+                        }
+                        TourDemoButton {}
+                    }
+                }
+
+                // ════════════════════════════════════════
+                // ConfigProvider
+                // ════════════════════════════════════════
+                Section { title: "ConfigProvider 全局配置".to_string(),
+                    Row {
+                        DemoCard { title: "中英文切换".to_string(),
+                            div { style: "display: flex; gap: 8px; flex-wrap: wrap;",
+                                Tag { "确定" }
+                                Tag { "取消" }
+                                Tag { "暂无数据" }
+                                Tag { "搜索" }
+                            }
+                        }
+                        DemoCard { title: "RTL 支持".to_string(),
+                            div { style: "padding: 8px;",
+                                p { style: "color: var(--ctrl-text-secondary); font-size: var(--ctrl-font-size-sm);",
+                                    "设置 rtl: true 启用从右到左布局"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -915,6 +1115,43 @@ fn DemoCard(title: String, children: Element) -> Element {
 // ════════════════════════════════════════
 // 交互演示
 // ════════════════════════════════════════
+
+/// Tour 引导启动按钮（多步骤演示）
+#[component]
+#[allow(non_snake_case)]
+fn TourDemoButton() -> Element {
+    let mut tour = use_tour();
+
+    rsx! {
+        button {
+            style: "padding: 8px 16px; background: var(--ctrl-primary); color: #fff; border: none; border-radius: var(--ctrl-radius-sm); cursor: pointer; font-family: inherit; font-size: var(--ctrl-font-size-sm);",
+            onclick: move |_| {
+                tour.start(vec![
+                    TourStep {
+                        target: "#tour-demo-btn".to_string(),
+                        title: "第一步：功能按钮".to_string(),
+                        description: "点击这里可以触发核心功能。点击「Next」继续下一步。".to_string(),
+                        placement: Placement::Bottom,
+                    },
+                    TourStep {
+                        target: "#tour-demo-card".to_string(),
+                        title: "第二步：数据面板".to_string(),
+                        description: "这里展示关键数据概览。也可以用键盘方向键（← →）切换。".to_string(),
+                        placement: Placement::Bottom,
+                    },
+                    TourStep {
+                        target: "#tour-demo-input".to_string(),
+                        title: "第三步：搜索框".to_string(),
+                        description: "在这里输入关键字进行搜索。点击「Finish」完成引导。".to_string(),
+                        placement: Placement::Top,
+                    },
+                ]);
+            },
+            "开始引导演示"
+        }
+    }
+}
+
 
 #[component]
 fn CounterDemo() -> Element {

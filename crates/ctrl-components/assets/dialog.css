@@ -29,6 +29,11 @@
     flex-direction: column;
 }
 
+/* 自定义（空白）模式：仅保留面板容器，内部内容与内边距完全由 children 掌控 */
+.ctrl-dialog--custom {
+    overflow: auto;
+}
+
 /* 头部 */
 .ctrl-dialog__header {
     display: flex;

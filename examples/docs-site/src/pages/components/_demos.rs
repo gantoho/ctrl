@@ -809,6 +809,31 @@ pub fn FooterDialogDemo() -> Element {
 
 #[component]
 #[allow(non_snake_case)]
+pub fn CustomDialogDemo() -> Element {
+    let mut visible = use_signal(|| false);
+
+    rsx! {
+        div {
+            Button { variant: Variant::Primary, onclick: move |_| visible.set(true), "打开空白对话框" }
+            Dialog {
+                visible: visible(),
+                custom: true,
+                width: "420px".to_string(),
+                onclose: move |_| visible.set(false),
+                // custom 模式下，对话框内部结构完全由 children 自行实现
+                div { style: "padding: 24px; display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center;",
+                    div { style: "width: 56px; height: 56px; border-radius: 50%; background: var(--ctrl-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px;", "✓" }
+                    h3 { style: "margin: 0; color: var(--ctrl-text);", "操作成功" }
+                    p { style: "margin: 0; color: var(--ctrl-text-secondary);", "这是一个完全自定义内容的空白对话框，头部、正文、按钮均由使用者自行实现。" }
+                    Button { variant: Variant::Primary, onclick: move |_| visible.set(false), "我知道了" }
+                }
+            }
+        }
+    }
+}
+
+#[component]
+#[allow(non_snake_case)]
 pub fn DialogImperativeDemo() -> Element {
     let mut visible = use_signal(|| false);
 
@@ -823,6 +848,47 @@ pub fn DialogImperativeDemo() -> Element {
             title: "确认删除".to_string(),
             onclose: move |_| visible.set(false),
             p { "删除后不可恢复，确定继续？" }
+        }
+    }
+}
+
+// ── 自带 DialogProvider 的命令式空白对话框 ──
+
+#[component]
+#[allow(non_snake_case)]
+pub fn DialogCustomImperativeDemo() -> Element {
+    rsx! {
+        DialogProvider {
+            DialogCustomImperativeInner {}
+        }
+    }
+}
+
+#[component]
+#[allow(non_snake_case)]
+fn DialogCustomImperativeInner() -> Element {
+    let mut api = use_dialog();
+
+    rsx! {
+        Button {
+            variant: Variant::Primary,
+            onclick: move |_| {
+                let mut close_api = api;
+                api.open(DialogConfig {
+                    custom: true,
+                    width: "420px".to_string(),
+                    content: rsx! {
+                        div { style: "padding: 24px; display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center;",
+                            div { style: "width: 56px; height: 56px; border-radius: 50%; background: var(--ctrl-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px;", "✓" }
+                            h3 { style: "margin: 0; color: var(--ctrl-text);", "命令式空白对话框" }
+                            p { style: "margin: 0; color: var(--ctrl-text-secondary);", "通过 use_dialog().open() 打开，custom: true 时内部结构完全自定义。" }
+                            Button { variant: Variant::Primary, onclick: move |_| close_api.close(), "我知道了" }
+                        }
+                    },
+                    ..Default::default()
+                });
+            },
+            "命令式打开空白对话框"
         }
     }
 }

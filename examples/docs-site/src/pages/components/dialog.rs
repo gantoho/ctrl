@@ -45,6 +45,32 @@ api.open(DialogConfig {
 });"#.to_string(),
             }
 
+            DemoBox {
+                title: "声明式：空白（自定义）对话框".to_string(),
+                description: Some("设置 custom: true，Dialog 仅提供遮罩与空白面板，内部头部、正文、按钮等全部由 children 自行实现。".to_string()),
+                demo: rsx! { CustomDialogDemo {} },
+                code: "Dialog {\n    visible: visible(),\n    custom: true,\n    width: \"420px\".to_string(),\n    onclose: move |_| visible.set(false),\n    // 内部结构完全自定义\n    div { style: \"padding: 24px;\",\n        h3 { \"操作成功\" }\n        p { \"完全自定义内容\" }\n        Button { onclick: move |_| visible.set(false), \"我知道了\" }\n    }\n}".to_string(),
+            }
+
+            DemoBox {
+                title: "命令式：空白（自定义）对话框".to_string(),
+                description: Some("命令式 API 同样支持空白模式：DialogConfig 设置 custom: true，content 内部结构全部自定义，通过 close_api.close() 关闭。".to_string()),
+                demo: rsx! { DialogCustomImperativeDemo {} },
+                code: r#"let mut api = use_dialog();
+api.open(DialogConfig {
+    custom: true,
+    width: "420px".into(),
+    content: rsx! {
+        div { style: "padding: 24px;",
+            h3 { "命令式空白对话框" }
+            p { "custom: true 时内部结构完全自定义" }
+            Button { onclick: move |_| close_api.close(), "我知道了" }
+        }
+    },
+    ..Default::default()
+});"#.to_string(),
+            }
+
             h2 { "DialogProvider —— 命令式容器" }
             p {
                 "使用命令式 API 前，需在应用根节点包裹 DialogProvider："
@@ -78,6 +104,7 @@ api.open(DialogConfig {
                 ("mask_closable", "bool", "true", "点击遮罩是否关闭"),
                 ("onconfirm", "Option<EventHandler>", "None", "确认按钮回调"),
                 ("onclose", "Option<EventHandler>", "None", "关闭时回调（确认/遮罩关闭均会触发）"),
+                ("custom", "bool", "false", "空白模式：仅提供遮罩与面板，content 内部结构全部自定义"),
             ]}
 
             h2 { "Dialog Props（声明式）" }
@@ -87,6 +114,7 @@ api.open(DialogConfig {
                 ("width", "String", "\"480px\"", "对话框宽度"),
                 ("show_close", "bool", "true", "是否显示关闭按钮"),
                 ("mask_closable", "bool", "true", "点击遮罩是否关闭"),
+                ("custom", "bool", "false", "空白模式：仅提供遮罩与面板，内部内容全部由 children 实现"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),
                 ("style", "String", "\"\"", "自定义内联样式"),
                 ("onclose", "Option<EventHandler<()>>", "None", "关闭事件"),

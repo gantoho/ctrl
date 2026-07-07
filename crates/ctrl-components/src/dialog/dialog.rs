@@ -25,6 +25,8 @@ pub struct DialogConfig {
     pub confirm_text: String,
     /// 取消按钮文字
     pub cancel_text: String,
+    /// 空白模式：为 true 时仅提供遮罩与面板，内部内容全部由 content 实现（不套 header/footer）
+    pub custom: bool,
 }
 
 impl Default for DialogConfig {
@@ -39,6 +41,7 @@ impl Default for DialogConfig {
             onclose: None,
             confirm_text: "确定".to_string(),
             cancel_text: "取消".to_string(),
+            custom: false,
         }
     }
 }
@@ -145,15 +148,26 @@ pub fn DialogProvider(props: DialogProviderProps) -> Element {
 
     rsx! {
         {props.children}
-        Dialog {
-            visible: vis,
-            title: cfg.title,
-            width: cfg.width,
-            show_close: cfg.show_close,
-            mask_closable: cfg.mask_closable,
-            onclose: Some(EventHandler::new(move |_| close())),
-            footer: Some(footer),
-            {cfg.content}
+        if cfg.custom {
+            Dialog {
+                visible: vis,
+                custom: true,
+                width: cfg.width,
+                mask_closable: cfg.mask_closable,
+                onclose: Some(EventHandler::new(move |_| close())),
+                {cfg.content}
+            }
+        } else {
+            Dialog {
+                visible: vis,
+                title: cfg.title,
+                width: cfg.width,
+                show_close: cfg.show_close,
+                mask_closable: cfg.mask_closable,
+                onclose: Some(EventHandler::new(move |_| close())),
+                footer: Some(footer),
+                {cfg.content}
+            }
         }
     }
 }
@@ -191,6 +205,11 @@ pub struct DialogProps {
     #[props(default = true)]
     pub mask_closable: bool,
 
+    /// 自定义（空白）模式：为 true 时 Dialog 仅渲染遮罩与空白面板，
+    /// 内部 header/body/footer 全部由 children 自行实现（不套内置结构，无内边距）。
+    #[props(default = false)]
+    pub custom: bool,
+
     /// 关闭事件
     pub onclose: Option<EventHandler<()>>,
 
@@ -219,6 +238,36 @@ pub fn Dialog(props: DialogProps) -> Element {
     };
 
     let dialog_style = format!("width: {w}; {extra}", w = props.width, extra = props.style);
+
+    // 自定义（空白）模式：仅提供遮罩 + 空白面板，内部内容完全由 children 掌控
+    if props.custom {
+        let panel_class = if props.class.is_empty() {
+            "ctrl-dialog ctrl-dialog--custom".to_string()
+        } else {
+            format!("ctrl-dialog ctrl-dialog--custom {}", props.class)
+        };
+        return rsx! {
+            style { {CSS} }
+            div {
+                class: "ctrl-dialog__overlay",
+                div {
+                    class: "ctrl-dialog__mask",
+                    onclick: move |_| {
+                        if mask_closable {
+                            if let Some(ref handler) = onclose {
+                                handler.call(());
+                            }
+                        }
+                    },
+                }
+                div {
+                    class: "{panel_class}",
+                    style: "{dialog_style}",
+                    {props.children}
+                }
+            }
+        };
+    }
 
     rsx! {
         style { {CSS} }

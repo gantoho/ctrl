@@ -14,6 +14,9 @@ pub struct PopoverProps {
     pub placement: Placement,
     #[props(default = "".to_string())]
     pub title: String,
+    /// 是否使用悬停触发（默认 false，即点击触发）
+    #[props(default = false)]
+    pub hover: bool,
     #[props(default = "".to_string())]
     pub class: String,
     pub children: Element,
@@ -32,7 +35,7 @@ pub fn Popover(props: PopoverProps) -> Element {
     let wrapper_class = if props.class.is_empty() { "ctrl-popover".to_string() } else { format!("ctrl-popover {}", props.class) };
 
     // ── fixed 弹层：不受 overflow:hidden 裁切 + document capture scroll 跟随 ──
-    overlay::use_fixed_panel_effect(&card_id, &trigger_id, visible.clone(), 4.0, false);
+    overlay::use_fixed_panel_effect_with_placement(&card_id, &trigger_id, visible.clone(), 8.0, props.placement);
 
     // ── 事件监听（mousedown/mouseup click-outside）──
     let listeners = use_signal(|| Rc::new(RefCell::new(OverlayClosures::new())));
@@ -51,13 +54,16 @@ pub fn Popover(props: PopoverProps) -> Element {
     }
     use_drop(move || { listeners.read().borrow_mut().cleanup(); });
 
+    let hover = props.hover;
     rsx! {
         style { {CSS} }
         div { class: "{wrapper_class}",
+            onmouseenter: move |_| { if hover { visible.set(true); } },
+            onmouseleave: move |_| { if hover { visible.set(false); } },
             div {
                 id: "{trigger_id}",
                 class: "ctrl-popover__trigger",
-                onclick: move |_| { visible.set(!visible()); },
+                onclick: move |_| { if !hover { visible.set(!visible()); } },
                 {props.children}
             }
             div {

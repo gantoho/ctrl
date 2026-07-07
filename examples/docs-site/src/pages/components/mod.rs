@@ -70,6 +70,14 @@ mod splitter;
 mod tour;
 mod transfer;
 
+mod list;
+mod aspect_ratio;
+mod kbd;
+mod scroll_area;
+mod number_flow;
+mod mask;
+mod hover_card;
+
 // Demo components shared across pages
 pub mod _demos;
 
@@ -90,6 +98,8 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("space", "Space 间距", "控制元素间距"),
             ("divider", "Divider 分割线", "区隔内容的分割线"),
             ("splitter", "Splitter 分隔面板", "可拖拽调整的分隔面板"),
+            ("scroll_area", "ScrollArea 滚动区域", "自定义滚动条容器"),
+            ("aspect_ratio", "AspectRatio 宽高比", "固定宽高比容器"),
             ("affix", "Affix 固钉", "将元素固定在可视区"),
             ("watermark", "Watermark 水印", "页面水印"),
         ]),
@@ -126,20 +136,24 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
         ]),
         ("数据展示", vec![
             ("table", "Table 表格", "数据表格"),
+            ("list", "List 列表", "通用结构化列表"),
             ("card", "Card 卡片", "卡片容器"),
             ("tag", "Tag 标签", "标签"),
             ("badge", "Badge 徽标", "徽标数字"),
             ("avatar", "Avatar 头像", "头像"),
             ("tooltip", "Tooltip 文字提示", "文字提示"),
             ("popover", "Popover 气泡卡片", "气泡卡片"),
+            ("hover_card", "HoverCard 悬停卡片", "悬停弹出信息卡片"),
             ("collapse", "Collapse 折叠面板", "折叠面板"),
             ("timeline", "Timeline 时间轴", "时间轴"),
             ("descriptions", "Descriptions 描述列表", "标签-值信息展示"),
             ("statistic", "Statistic 统计数值", "统计数据展示"),
+            ("number_flow", "NumberFlow 数字动画", "数值滚动变化动画"),
             ("image", "Image 图片", "图片展示与预览"),
             ("carousel", "Carousel 走马灯", "轮播图"),
             ("tree", "Tree 树", "树形控件"),
             ("code_block", "CodeBlock 代码块", "代码展示"),
+            ("kbd", "Kbd 键盘按键", "键盘快捷键展示"),
             ("countdown", "Countdown 倒计时", "倒计时"),
             ("virtual_list", "VirtualList 虚拟列表", "长列表虚拟滚动"),
             ("infinite_scroll", "InfiniteScroll 无限滚动", "滚动加载更多"),
@@ -148,6 +162,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("alert", "Alert 警告提示", "警告提示"),
             ("dialog", "Dialog 对话框", "模态对话框"),
             ("drawer", "Drawer 抽屉", "抽屉面板"),
+            ("mask", "Mask 遮罩层", "半透明遮罩"),
             ("message", "Message 全局提示", "全局消息提示"),
             ("notification", "Notification 通知", "通知提醒"),
             ("progress", "Progress 进度条", "进度条"),
@@ -293,6 +308,13 @@ pub fn ComponentPage(name: String) -> Element {
         "virtual_list" => rsx! { virtual_list::VirtualListPage {} },
         "infinite_scroll" => rsx! { infinite_scroll::InfiniteScrollPage {} },
         "affix" => rsx! { affix::AffixPage {} },
+        "list" => rsx! { list::ListPage {} },
+        "aspect_ratio" => rsx! { aspect_ratio::AspectRatioPage {} },
+        "kbd" => rsx! { kbd::KbdPage {} },
+        "scroll_area" => rsx! { scroll_area::ScrollAreaPage {} },
+        "number_flow" => rsx! { number_flow::NumberFlowPage {} },
+        "mask" => rsx! { mask::MaskPage {} },
+        "hover_card" => rsx! { hover_card::HoverCardPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",
                 h1 { "组件未找到" }

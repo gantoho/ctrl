@@ -1,0 +1,47 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — NumberFlow 数字滚动
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-number-flow {
+    display: inline-flex;
+    align-items: baseline;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--ctrl-text);
+    line-height: 1;
+}
+
+/* 单个数字位：裁切窗口，仅显示一行高度 */
+.ctrl-number-flow__digit {
+    display: inline-block;
+    height: 1em;
+    line-height: 1em;
+    overflow: hidden;
+    vertical-align: baseline;
+}
+
+/* 数字滚动列：0-9 纵向排列，通过 translateY 定位到目标数字 */
+.ctrl-number-flow__digit-col {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ctrl-number-flow__digit-col > span {
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+}
+
+/* 分隔符（千分位、小数点等） */
+.ctrl-number-flow__sep {
+    display: inline-block;
+}
+
+/* 前后缀 */
+.ctrl-number-flow__affix {
+    font-size: 0.7em;
+    font-weight: 500;
+    color: var(--ctrl-text-secondary);
+    margin: 0 0.15em;
+}

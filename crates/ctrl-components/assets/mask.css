@@ -1,0 +1,22 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Mask 遮罩
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-mask {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ctrl-mask-in var(--ctrl-transition, 0.2s) ease;
+}
+
+.ctrl-mask--blur {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+@keyframes ctrl-mask-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

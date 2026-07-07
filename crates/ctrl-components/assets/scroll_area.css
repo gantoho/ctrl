@@ -1,0 +1,37 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — ScrollArea 滚动区域
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-scroll-area {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ctrl-border) transparent;
+}
+
+.ctrl-scroll-area--horizontal {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* WebKit 滚动条主题化 */
+.ctrl-scroll-area::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.ctrl-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ctrl-scroll-area::-webkit-scrollbar-thumb {
+    background: var(--ctrl-border);
+    border-radius: var(--ctrl-radius-lg);
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.ctrl-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: var(--ctrl-border-hover);
+    background-clip: content-box;
+}

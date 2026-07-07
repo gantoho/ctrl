@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — List 列表
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--ctrl-bg);
+    border-radius: var(--ctrl-radius-md);
+    box-sizing: border-box;
+}
+
+.ctrl-list--bordered {
+    border: 1px solid var(--ctrl-border);
+}
+
+/* 分隔线：相邻列表项之间 */
+.ctrl-list--split .ctrl-list__item:not(:last-child) {
+    border-bottom: 1px solid var(--ctrl-border);
+}
+
+/* 列表项 */
+.ctrl-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ctrl-spacing-md);
+    padding: var(--ctrl-spacing-md);
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+    transition: background var(--ctrl-transition, 0.2s) ease;
+    box-sizing: border-box;
+}
+
+.ctrl-list__item:hover {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-list__item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ctrl-list__item-extra {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--ctrl-spacing-sm);
+}

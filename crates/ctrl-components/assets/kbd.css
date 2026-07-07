@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Kbd 键盘按键
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.75em;
+    padding: 0.15em 0.5em;
+    background: var(--ctrl-bg-secondary);
+    border: 1px solid var(--ctrl-border);
+    border-bottom-width: 2px;
+    border-radius: var(--ctrl-radius-sm);
+    font-family: var(--ctrl-font-family);
+    font-size: var(--ctrl-font-size-sm);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ctrl-text);
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.ctrl-kbd--sm {
+    font-size: var(--ctrl-font-size-xs);
+    padding: 0.1em 0.4em;
+}
+
+.ctrl-kbd--lg {
+    font-size: var(--ctrl-font-size-md);
+    padding: 0.2em 0.6em;
+}

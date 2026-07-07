@@ -62,8 +62,18 @@ fn App() -> Element {
                     }
                 }
 
+                // 2. Calendar
                 // ════════════════════════════════════
-                // 2. Input
+                Section { title: "Calendar 日历".to_string(),
+                    Row {
+                        DemoCard { title: "基础用法".to_string(),
+                            Calendar {}
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 3. Input
                 // ════════════════════════════════════
                 Section { title: "Input 输入框".to_string(),
                     Row {
@@ -93,7 +103,25 @@ fn App() -> Element {
                 }
 
                 // ════════════════════════════════════
-                // 3. Switch
+                // 3.1 InputTag
+                // ════════════════════════════════════
+                Section { title: "InputTag 标签输入".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            InputTag {
+                                placeholder: "输入后按回车添加".to_string(),
+                            }
+                        }
+                        DemoCard { title: "预设值".to_string(),
+                            InputTag {
+                                value: vec!["Vue".to_string(), "React".to_string(), "Rust".to_string()],
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 4. Switch
                 // ════════════════════════════════════
                 Section { title: "Switch 开关".to_string(),
                     Row {
@@ -653,6 +681,30 @@ fn App() -> Element {
                                 style: "overflow: hidden; border: 2px dashed var(--ctrl-border); border-radius: var(--ctrl-radius-md); padding: 20px; width: 180px; height: 60px; display: flex; align-items: center; justify-content: center;",
                                 Popover { placement: Placement::Top, title: "提示".to_string(), content: rsx! { span { "不会被裁切" } },
                                     Button { variant: Variant::Primary, size: Size::Sm, "点击弹出" }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ════════════════════════════════════
+                // 26.1 Popconfirm
+                // ════════════════════════════════════
+                Section { title: "Popconfirm 气泡确认框".to_string(),
+                    Row {
+                        DemoCard { title: "基本用法".to_string(),
+                            div { style: "display: flex; gap: 12px; flex-wrap: wrap;",
+                                Popconfirm {
+                                    title: "确认删除".to_string(),
+                                    description: "删除后不可恢复，确定吗？".to_string(),
+                                    Button { variant: Variant::Outline, size: Size::Sm, "删除" }
+                                }
+                                Popconfirm {
+                                    title: "确认发布".to_string(),
+                                    confirm_text: "发布".to_string(),
+                                    cancel_text: "再想想".to_string(),
+                                    placement: Placement::Right,
+                                    Button { variant: Variant::Primary, size: Size::Sm, "发布" }
                                 }
                             }
                         }

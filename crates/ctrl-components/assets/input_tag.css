@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — InputTag 标签输入
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-input-tag {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    min-height: 32px;
+    padding: 2px 8px;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    cursor: text;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ctrl-input-tag:focus-within {
+    border-color: var(--ctrl-primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ctrl-primary) 20%, transparent);
+}
+
+/* 标签 */
+.ctrl-input-tag__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 24px;
+    padding: 0 4px 0 8px;
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text);
+    line-height: 1;
+    user-select: none;
+}
+
+.ctrl-input-tag__tag-text {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 关闭按钮 */
+.ctrl-input-tag__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ctrl-text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.ctrl-input-tag__close:hover {
+    background: var(--ctrl-text-secondary);
+    color: var(--ctrl-bg);
+}
+
+/* 输入框 */
+.ctrl-input-tag__input {
+    flex: 1;
+    min-width: 80px;
+    height: 24px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-sm);
+    font-family: inherit;
+    padding: 0;
+}
+
+.ctrl-input-tag__input::placeholder {
+    color: var(--ctrl-text-muted, #bbb);
+}
+
+/* 禁用状态 */
+.ctrl-input-tag--disabled {
+    background: var(--ctrl-bg-disabled, #f5f5f5);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.ctrl-input-tag--disabled .ctrl-input-tag__input {
+    cursor: not-allowed;
+}
+
+.ctrl-input-tag--disabled .ctrl-input-tag__close {
+    cursor: not-allowed;
+}

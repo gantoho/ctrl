@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Popconfirm 气泡确认框
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-popconfirm {
+    display: inline-flex;
+}
+
+.ctrl-popconfirm__trigger {
+    cursor: pointer;
+}
+
+/* 确认卡片 —— fixed 定位，不受 overflow:hidden 裁切 */
+.ctrl-popconfirm__card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1002;
+    min-width: 200px;
+    max-width: 320px;
+    padding: 16px;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    box-shadow: var(--ctrl-shadow-lg);
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text);
+    line-height: 1.6;
+    visibility: hidden;
+}
+
+/* 标题 */
+.ctrl-popconfirm__title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+}
+
+/* 图标 */
+.ctrl-popconfirm__icon {
+    font-size: 16px;
+    color: var(--ctrl-warning, #faad14);
+    flex-shrink: 0;
+}
+
+/* 描述 */
+.ctrl-popconfirm__description {
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-sm);
+    margin-bottom: 12px;
+}
+
+/* 操作按钮区 */
+.ctrl-popconfirm__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.ctrl-popconfirm__btn {
+    padding: 4px 12px;
+    font-size: var(--ctrl-font-size-sm);
+    font-family: inherit;
+    line-height: 1.6;
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+    background: var(--ctrl-bg);
+    color: var(--ctrl-text);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.ctrl-popconfirm__btn:hover {
+    border-color: var(--ctrl-primary);
+    color: var(--ctrl-primary);
+}
+
+.ctrl-popconfirm__btn--confirm {
+    background: var(--ctrl-primary);
+    border-color: var(--ctrl-primary);
+    color: #fff;
+}
+
+.ctrl-popconfirm__btn--confirm:hover {
+    background: var(--ctrl-primary-hover, #3a7bd5);
+    border-color: var(--ctrl-primary-hover, #3a7bd5);
+}

@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Calendar 日历
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-calendar {
+    display: inline-flex;
+    flex-direction: column;
+    width: 280px;
+    padding: 12px;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-md);
+    font-size: var(--ctrl-font-size-sm);
+    color: var(--ctrl-text);
+    user-select: none;
+}
+
+/* 头部：月份切换 */
+.ctrl-calendar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.ctrl-calendar__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: var(--ctrl-radius-sm);
+    background: transparent;
+    color: var(--ctrl-text);
+    cursor: pointer;
+    font-size: var(--ctrl-font-size-md);
+    transition: background 0.2s, color 0.2s;
+}
+
+.ctrl-calendar__nav:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+    color: var(--ctrl-primary);
+}
+
+.ctrl-calendar__month {
+    font-weight: 600;
+    font-size: var(--ctrl-font-size-md);
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: var(--ctrl-radius-sm);
+    transition: background 0.2s, color 0.2s;
+}
+
+.ctrl-calendar__month:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+    color: var(--ctrl-primary);
+}
+
+/* 星期表头 */
+.ctrl-calendar__weekdays {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.ctrl-calendar__weekday {
+    flex: 1;
+    text-align: center;
+    padding: 4px 0;
+    font-weight: 600;
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-xs);
+}
+
+/* 日期网格 */
+.ctrl-calendar__body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ctrl-calendar__cell {
+    width: calc(100% / 7);
+    aspect-ratio: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--ctrl-radius-sm);
+    background: transparent;
+    color: var(--ctrl-text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--ctrl-font-size-sm);
+    transition: background 0.15s, color 0.15s;
+}
+
+.ctrl-calendar__cell:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+}
+
+/* 当月过期日期（已过的不可选） */
+.ctrl-calendar__cell--disabled {
+    color: var(--ctrl-text-disabled, #ccc);
+    cursor: not-allowed;
+}
+
+.ctrl-calendar__cell--disabled:hover {
+    background: transparent;
+}
+
+/* 今天 */
+.ctrl-calendar__cell--today {
+    color: var(--ctrl-primary);
+    font-weight: 700;
+}
+
+/* 选中 */
+.ctrl-calendar__cell--selected {
+    background: var(--ctrl-primary) !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════
+   命令式浮层（CalendarProvider / use_calendar）
+   ═══════════════════════════════════════════════════ */
+.ctrl-calendar-popup__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctrl-calendar-popup__mask {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.ctrl-calendar-popup__panel {
+    position: relative;
+    background: var(--ctrl-bg);
+    border-radius: var(--ctrl-radius-md);
+    box-shadow: var(--ctrl-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
+    padding: 12px;
+}
+
+.ctrl-calendar-popup__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.ctrl-calendar-popup__title {
+    font-weight: 600;
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text);
+}
+
+.ctrl-calendar-popup__close {
+    border: none;
+    background: transparent;
+    color: var(--ctrl-text-secondary, #999);
+    cursor: pointer;
+    font-size: var(--ctrl-font-size-md);
+    line-height: 1;
+    padding: 4px;
+    border-radius: var(--ctrl-radius-sm);
+    transition: background 0.2s, color 0.2s;
+}
+
+.ctrl-calendar-popup__close:hover {
+    background: var(--ctrl-bg-secondary, #f5f5f5);
+    color: var(--ctrl-text);
+}
+
+/* 浮层内的日历去掉自身边框，避免与面板重复 */
+.ctrl-calendar-popup__panel .ctrl-calendar {
+    border: none;
+    padding: 0;
+}

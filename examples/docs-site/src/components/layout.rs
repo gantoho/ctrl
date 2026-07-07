@@ -63,9 +63,11 @@ fn SidebarContent() -> Element {
             Divider { content: "组件".to_string() }
             SidebarItem { label: "组件总览".to_string(), route: Route::ComponentsIndex {}, current: route.clone() }
             SidebarItem { label: "Button 按钮".to_string(), route: Route::ComponentPage { name: "button".to_string() }, current: route.clone() }
+            SidebarItem { label: "Calendar 日历".to_string(), route: Route::ComponentPage { name: "calendar".to_string() }, current: route.clone() }
             SidebarItem { label: "AutoComplete 自动补全".to_string(), route: Route::ComponentPage { name: "auto_complete".to_string() }, current: route.clone() }
             SidebarItem { label: "ConfigProvider 全局配置".to_string(), route: Route::ComponentPage { name: "config_provider".to_string() }, current: route.clone() }
             SidebarItem { label: "Input 输入框".to_string(), route: Route::ComponentPage { name: "input".to_string() }, current: route.clone() }
+            SidebarItem { label: "InputTag 标签输入".to_string(), route: Route::ComponentPage { name: "input_tag".to_string() }, current: route.clone() }
             SidebarItem { label: "Textarea 多行输入".to_string(), route: Route::ComponentPage { name: "textarea".to_string() }, current: route.clone() }
             SidebarItem { label: "Result 结果页".to_string(), route: Route::ComponentPage { name: "result".to_string() }, current: route.clone() }
             SidebarItem { label: "Statistic 统计数值".to_string(), route: Route::ComponentPage { name: "statistic".to_string() }, current: route.clone() }
@@ -98,6 +100,7 @@ fn SidebarContent() -> Element {
             SidebarItem { label: "Skeleton 骨架屏".to_string(), route: Route::ComponentPage { name: "skeleton".to_string() }, current: route.clone() }
             SidebarItem { label: "Backtop 回到顶部".to_string(), route: Route::ComponentPage { name: "backtop".to_string() }, current: route.clone() }
             SidebarItem { label: "Collapse 折叠面板".to_string(), route: Route::ComponentPage { name: "collapse".to_string() }, current: route.clone() }
+            SidebarItem { label: "Popconfirm 气泡确认框".to_string(), route: Route::ComponentPage { name: "popconfirm".to_string() }, current: route.clone() }
             SidebarItem { label: "Popover 气泡卡片".to_string(), route: Route::ComponentPage { name: "popover".to_string() }, current: route.clone() }
             SidebarItem { label: "Drawer 抽屉".to_string(), route: Route::ComponentPage { name: "drawer".to_string() }, current: route.clone() }
             SidebarItem { label: "Notification 通知".to_string(), route: Route::ComponentPage { name: "notification".to_string() }, current: route.clone() }

@@ -122,6 +122,16 @@ pub fn DatePicker(props: DatePickerProps) -> Element {
         }
     };
 
+    let prev_year = {
+        let mut year = current_year.clone();
+        move |_| { year.set(year() - 1); }
+    };
+
+    let next_year = {
+        let mut year = current_year.clone();
+        move |_| { year.set(year() + 1); }
+    };
+
     let prev_month = {
         let mut year = current_year.clone();
         let mut month = current_month.clone();
@@ -231,9 +241,11 @@ pub fn DatePicker(props: DatePickerProps) -> Element {
                 id: "{panel_id}",
                 class: "ctrl-date-picker__panel",
                 div { class: "ctrl-date-picker__header",
+                    button { class: "ctrl-date-picker__nav ctrl-date-picker__nav--year", onclick: prev_year, "«" }
                     button { class: "ctrl-date-picker__nav", onclick: prev_month, "‹" }
                     span { class: "ctrl-date-picker__month-year", "{current_year()}年 {MONTH_NAMES[current_month() as usize - 1]}" }
                     button { class: "ctrl-date-picker__nav", onclick: next_month, "›" }
+                    button { class: "ctrl-date-picker__nav ctrl-date-picker__nav--year", onclick: next_year, "»" }
                 }
                 div { class: "ctrl-date-picker__weekdays",
                     for name in WEEKDAY_NAMES.iter() {

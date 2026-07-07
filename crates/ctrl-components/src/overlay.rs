@@ -148,8 +148,107 @@ pub fn use_fixed_panel_effect(
     });
 }
 
-// ──────────────────────────────────────────────
-// Click-outside（mousedown/mouseup 模式）
+/// position:fixed 弹层面板 —— 支持按 `Placement` 定位（Top/Bottom/Left/Right + Start/End 变体）。
+///
+/// 与 [`use_fixed_panel_effect`] 相同的滚动跟随机制（document capture 模式），
+/// 但坐标依据 placement 与面板自身尺寸计算，适用于 Popover / Popconfirm 等需要多方向弹出的场景。
+pub fn use_fixed_panel_effect_with_placement(
+    panel_id: &str,
+    trigger_id: &str,
+    open: Signal<bool>,
+    gap_px: f64,
+    placement: ctrl_core::types::Placement,
+) {
+    use ctrl_core::types::Placement;
+
+    let pid = panel_id.to_string();
+    let tid = trigger_id.to_string();
+
+    fn set_position(doc: &web_sys::Document, pid: &str, tid: &str, gap: f64, placement: Placement) {
+        let Some(panel) = doc.get_element_by_id(pid) else { return };
+        let Some(panel_el) = panel.dyn_ref::<HtmlElement>() else { return };
+        let Some(trigger) = doc.get_element_by_id(tid) else { return };
+        let t = trigger.get_bounding_client_rect();
+        let pw = panel_el.offset_width() as f64;
+        let ph = panel_el.offset_height() as f64;
+
+        let (left, top) = match placement {
+            Placement::Top => (t.left() + (t.width() - pw) / 2.0, t.top() - ph - gap),
+            Placement::TopStart => (t.left(), t.top() - ph - gap),
+            Placement::TopEnd => (t.right() - pw, t.top() - ph - gap),
+            Placement::Bottom => (t.left() + (t.width() - pw) / 2.0, t.bottom() + gap),
+            Placement::BottomStart => (t.left(), t.bottom() + gap),
+            Placement::BottomEnd => (t.right() - pw, t.bottom() + gap),
+            Placement::Left => (t.left() - pw - gap, t.top() + (t.height() - ph) / 2.0),
+            Placement::Right => (t.right() + gap, t.top() + (t.height() - ph) / 2.0),
+            _ => (t.left() + (t.width() - pw) / 2.0, t.bottom() + gap),
+        };
+        let style = panel_el.style();
+        let _ = style.set_property("left", &format!("{}px", left));
+        let _ = style.set_property("top", &format!("{}px", top));
+    }
+
+    // visibility + 初始定位
+    {
+        let pid2 = pid.clone();
+        let tid2 = tid.clone();
+        use_effect(move || {
+            let doc = match web_sys::window().and_then(|w| w.document()) { Some(d) => d, None => return };
+            let Some(panel) = doc.get_element_by_id(&pid2) else { return };
+            let Some(panel_el) = panel.dyn_ref::<HtmlElement>() else { return };
+            if open() {
+                set_position(&doc, &pid2, &tid2, gap_px, placement);
+                let _ = panel_el.style().set_property("visibility", "visible");
+            } else {
+                let _ = panel_el.style().set_property("visibility", "hidden");
+            }
+        });
+    }
+
+    // scroll 事件：document capture 模式，捕获任意后代滚动容器的滚动
+    let mut scroll_cb: Signal<Option<Closure<dyn FnMut()>>> = use_signal(|| None);
+    {
+        let o = open.clone();
+        let mut sc = scroll_cb.clone();
+        let pid3 = pid.clone();
+        let tid3 = tid.clone();
+        use_effect(move || {
+            if o() {
+                let p = pid3.clone();
+                let t = tid3.clone();
+                let cb = Closure::wrap(Box::new(move || {
+                    if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                        set_position(&doc, &p, &t, gap_px, placement);
+                    }
+                }) as Box<dyn FnMut()>);
+                if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                    let _ = doc.add_event_listener_with_callback_and_bool(
+                        "scroll", cb.as_ref().unchecked_ref(), true,
+                    );
+                }
+                sc.set(Some(cb));
+            } else {
+                if let Some(cb) = sc.take() {
+                    if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                        let _ = doc.remove_event_listener_with_callback_and_bool(
+                            "scroll", cb.as_ref().unchecked_ref(), true,
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+    use_drop(move || {
+        if let Some(cb) = scroll_cb.take() {
+            if let Some(doc) = web_sys::window().and_then(|w| w.document()) {
+                let _ = doc.remove_event_listener_with_callback_and_bool(
+                    "scroll", cb.as_ref().unchecked_ref(), true,
+                );
+            }
+        }
+    });
+}
 // ──────────────────────────────────────────────
 
 /// 创建 mousedown/mouseup 模式的 click-outside 监听器。

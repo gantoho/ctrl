@@ -1,7 +1,9 @@
 pub mod shared;
 
 mod button;
+mod calendar;
 mod input;
+mod input_tag;
 mod textarea;
 mod switch;
 mod checkbox;
@@ -37,6 +39,7 @@ mod empty;
 mod skeleton;
 mod backtop;
 mod collapse;
+mod popconfirm;
 mod popover;
 mod drawer;
 mod notification;
@@ -79,6 +82,7 @@ use ctrl::prelude::*;
 pub fn ComponentsIndex() -> Element {
     let components = vec![
         ("button", "Button 按钮", "按钮用于触发操作"),
+        ("calendar", "Calendar 日历", "月历视图与日期选择"),
         ("auto_complete", "AutoComplete 自动补全", "输入时自动匹配候选项"),
         ("cascader", "Cascader 级联选择", "多级数据选择"),
         ("config_provider", "ConfigProvider 全局配置", "全局配置提供者"),
@@ -86,6 +90,7 @@ pub fn ComponentsIndex() -> Element {
         ("tour", "Tour 引导漫游", "分步引导用户操作"),
         ("transfer", "Transfer 穿梭框", "双栏选择移动"),
         ("input", "Input 输入框", "输入框用于文本输入"),
+        ("input_tag", "InputTag 标签输入", "输入文本生成标签"),
         ("textarea", "Textarea 多行输入", "多行文本输入"),
         ("result", "Result 结果页", "操作结果反馈"),
         ("statistic", "Statistic 统计数值", "统计数据展示"),
@@ -125,6 +130,7 @@ pub fn ComponentsIndex() -> Element {
         ("skeleton", "Skeleton 骨架屏", "骨架屏"),
         ("backtop", "Backtop 回到顶部", "回到顶部"),
         ("collapse", "Collapse 折叠面板", "折叠面板"),
+        ("popconfirm", "Popconfirm 气泡确认框", "二次确认气泡弹窗"),
         ("popover", "Popover 气泡卡片", "气泡卡片"),
         ("drawer", "Drawer 抽屉", "抽屉"),
         ("notification", "Notification 通知", "通知提醒"),
@@ -180,6 +186,7 @@ pub fn ComponentPage(name: String) -> Element {
     // match arm changes, which properly destroys old scopes and creates new ones.
     match name.as_str() {
         "button" => rsx! { button::ButtonPage {} },
+        "calendar" => rsx! { calendar::CalendarPage {} },
         "auto_complete" => rsx! { auto_complete::AutoCompletePage {} },
         "cascader" => rsx! { cascader::CascaderPage {} },
         "config_provider" => rsx! { config_provider::ConfigProviderPage {} },
@@ -187,6 +194,7 @@ pub fn ComponentPage(name: String) -> Element {
         "tour" => rsx! { tour::TourPage {} },
         "transfer" => rsx! { transfer::TransferPage {} },
         "input" => rsx! { input::InputPage {} },
+        "input_tag" => rsx! { input_tag::InputTagPage {} },
         "textarea" => rsx! { textarea::TextareaPage {} },
         "result" => rsx! { result::ResultPage {} },
         "statistic" => rsx! { statistic::StatisticPage {} },
@@ -226,6 +234,7 @@ pub fn ComponentPage(name: String) -> Element {
         "skeleton" => rsx! { skeleton::SkeletonPage {} },
         "backtop" => rsx! { backtop::BacktopPage {} },
         "collapse" => rsx! { collapse::CollapsePage {} },
+        "popconfirm" => rsx! { popconfirm::PopconfirmPage {} },
         "popover" => rsx! { popover::PopoverPage {} },
         "drawer" => rsx! { drawer::DrawerPage {} },
         "notification" => rsx! { notification::NotificationPage {} },

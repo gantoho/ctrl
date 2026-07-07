@@ -1,5 +1,7 @@
 pub mod button;
+pub mod calendar;
 pub mod input;
+pub mod input_tag;
 pub mod switch;
 pub mod checkbox;
 pub mod radio;
@@ -23,6 +25,7 @@ pub mod empty;
 pub mod skeleton;
 pub mod backtop;
 pub mod collapse;
+pub mod popconfirm;
 pub mod popover;
 pub mod drawer;
 pub mod notification;
@@ -79,7 +82,9 @@ pub use float_button::{FloatButton, FloatButtonGroup, FloatButtonGroupProps, Flo
 pub use time_picker::{TimePicker, TimePickerProps};
 pub use tour::{Tour, TourAPI, TourProps, TourProvider, TourProviderProps, TourStep, use_tour};
 pub use button::{Button, ButtonProps};
+pub use calendar::{Calendar, CalendarProps, CalendarConfig, CalendarAPI, CalendarProvider, CalendarProviderProps, use_calendar};
 pub use input::{Input, InputPassword, InputPasswordProps, InputOtp, InputOtpProps, InputProps};
+pub use input_tag::{InputTag, InputTagProps};
 pub use textarea::{Textarea, TextareaProps};
 pub use transfer::{Transfer, TransferItem, TransferProps};
 pub use result::{Result, ResultProps, ResultStatus};
@@ -109,6 +114,7 @@ pub use empty::{Empty, EmptyProps};
 pub use skeleton::{Skeleton, SkeletonCard, SkeletonCardProps, SkeletonList, SkeletonListProps, SkeletonProps, SkeletonRow, SkeletonRowProps};
 pub use backtop::{Backtop, BacktopProps};
 pub use collapse::{Collapse, CollapseItem, CollapseItemProps, CollapseProps};
+pub use popconfirm::{Popconfirm, PopconfirmProps};
 pub use popover::{Popover, PopoverProps};
 pub use drawer::{Drawer, DrawerAPI, DrawerConfig, DrawerProps, DrawerProvider, DrawerProviderProps, use_drawer};
 pub use notification::{

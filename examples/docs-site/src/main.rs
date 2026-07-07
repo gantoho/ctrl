@@ -71,7 +71,19 @@ fn App() -> Element {
 
     rsx! {
         style { {r#"
-            .docs-sidebar-menu.ctrl-menu { width:auto; border-right:none; background:transparent; }
+            .docs-sidebar-menu.ctrl-menu { width:auto; border-right:none; background:transparent; padding-bottom:32px; }
+            /* 侧边栏分类标题：弱化、字号更小、留白更紧凑 */
+            .docs-sidebar-menu .ctrl-divider { margin:16px 0 4px; }
+            .docs-sidebar-menu .ctrl-divider__text { font-size:12px; color:var(--ctrl-text-secondary); font-weight:600; letter-spacing:0.04em; }
+            .docs-sidebar-menu .ctrl-menu__item { border-radius:var(--ctrl-radius-md); margin:1px 8px; padding-top:7px; padding-bottom:7px; }
+            /* 文档内容区：各板块显式间距。
+               注意：Card 会在 .ctrl-card 前渲染一个 <style> 兄弟节点，
+               因此不能用相邻兄弟选择器，改为对每类板块单独设置外边距。 */
+            .docs-content > div > h1 { margin:0 0 4px; }
+            .docs-content > div > p { margin:0 0 24px; color:var(--ctrl-text-secondary); }
+            .docs-content > div > h2 { margin:40px 0 16px; }
+            .docs-content > div > h3 { margin:32px 0 12px; }
+            .docs-content > div > .ctrl-card { margin:0 0 24px; }
         "#} }
         ThemeProvider {
             NotificationProvider {

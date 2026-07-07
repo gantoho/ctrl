@@ -76,96 +76,135 @@ pub mod _demos;
 use dioxus::prelude::*;
 use ctrl::prelude::*;
 
+/// 组件分类目录 —— 侧边栏与组件总览页共用的单一数据源。
+/// 返回：Vec<(分类名, Vec<(路由名, 标题, 描述)>)>
+pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str, &'static str)>)> {
+    vec![
+        ("通用", vec![
+            ("button", "Button 按钮", "触发操作的按钮"),
+            ("typography", "Typography 排版", "标题、文本、链接"),
+            ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
+        ]),
+        ("布局", vec![
+            ("grid", "Grid 栅格", "24 栅格布局"),
+            ("space", "Space 间距", "控制元素间距"),
+            ("divider", "Divider 分割线", "区隔内容的分割线"),
+            ("splitter", "Splitter 分隔面板", "可拖拽调整的分隔面板"),
+            ("affix", "Affix 固钉", "将元素固定在可视区"),
+            ("watermark", "Watermark 水印", "页面水印"),
+        ]),
+        ("导航", vec![
+            ("menu", "Menu 菜单", "导航菜单"),
+            ("tabs", "Tabs 标签页", "选项卡切换"),
+            ("breadcrumb", "Breadcrumb 面包屑", "面包屑导航"),
+            ("pagination", "Pagination 分页", "分页器"),
+            ("steps", "Steps 步骤条", "引导流程步骤"),
+            ("dropdown", "Dropdown 下拉菜单", "下拉菜单"),
+            ("anchor", "Anchor 锚点导航", "页面内锚点导航"),
+            ("backtop", "Backtop 回到顶部", "回到页面顶部"),
+        ]),
+        ("数据录入", vec![
+            ("input", "Input 输入框", "文本输入"),
+            ("input_number", "InputNumber 数字输入框", "数字输入"),
+            ("input_tag", "InputTag 标签输入", "输入文本生成标签"),
+            ("textarea", "Textarea 多行输入", "多行文本输入"),
+            ("select", "Select 选择器", "下拉选择"),
+            ("checkbox", "Checkbox 复选框", "多选场景"),
+            ("radio", "Radio 单选框", "互斥选项选择"),
+            ("switch", "Switch 开关", "两种状态切换"),
+            ("slider", "Slider 滑块", "数值范围选择"),
+            ("rate", "Rate 评分", "评价打分"),
+            ("date_picker", "DatePicker 日期选择器", "日期选择"),
+            ("time_picker", "TimePicker 时间选择", "时间选择"),
+            ("calendar", "Calendar 日历", "月历视图与日期选择"),
+            ("upload", "Upload 上传", "文件上传"),
+            ("form", "Form 表单", "表单容器与校验"),
+            ("cascader", "Cascader 级联选择", "多级数据选择"),
+            ("auto_complete", "AutoComplete 自动补全", "输入时自动匹配候选项"),
+            ("transfer", "Transfer 穿梭框", "双栏选择移动"),
+            ("segmented", "Segmented 分段控制器", "分段选择"),
+        ]),
+        ("数据展示", vec![
+            ("table", "Table 表格", "数据表格"),
+            ("card", "Card 卡片", "卡片容器"),
+            ("tag", "Tag 标签", "标签"),
+            ("badge", "Badge 徽标", "徽标数字"),
+            ("avatar", "Avatar 头像", "头像"),
+            ("tooltip", "Tooltip 文字提示", "文字提示"),
+            ("popover", "Popover 气泡卡片", "气泡卡片"),
+            ("collapse", "Collapse 折叠面板", "折叠面板"),
+            ("timeline", "Timeline 时间轴", "时间轴"),
+            ("descriptions", "Descriptions 描述列表", "标签-值信息展示"),
+            ("statistic", "Statistic 统计数值", "统计数据展示"),
+            ("image", "Image 图片", "图片展示与预览"),
+            ("carousel", "Carousel 走马灯", "轮播图"),
+            ("tree", "Tree 树", "树形控件"),
+            ("code_block", "CodeBlock 代码块", "代码展示"),
+            ("countdown", "Countdown 倒计时", "倒计时"),
+            ("virtual_list", "VirtualList 虚拟列表", "长列表虚拟滚动"),
+            ("infinite_scroll", "InfiniteScroll 无限滚动", "滚动加载更多"),
+        ]),
+        ("反馈", vec![
+            ("alert", "Alert 警告提示", "警告提示"),
+            ("dialog", "Dialog 对话框", "模态对话框"),
+            ("drawer", "Drawer 抽屉", "抽屉面板"),
+            ("message", "Message 全局提示", "全局消息提示"),
+            ("notification", "Notification 通知", "通知提醒"),
+            ("progress", "Progress 进度条", "进度条"),
+            ("loading", "Loading 加载", "加载中"),
+            ("spin", "Spin 加载中", "加载状态"),
+            ("skeleton", "Skeleton 骨架屏", "骨架屏占位"),
+            ("empty", "Empty 空状态", "空状态"),
+            ("result", "Result 结果页", "操作结果反馈"),
+            ("popconfirm", "Popconfirm 气泡确认框", "二次确认气泡弹窗"),
+            ("tour", "Tour 引导漫游", "分步引导用户操作"),
+            ("float_button", "FloatButton 浮动按钮", "浮动操作按钮"),
+        ]),
+        ("其他", vec![
+            ("config_provider", "ConfigProvider 全局配置", "全局配置提供者"),
+        ]),
+    ]
+}
+
 /// Component index page
 #[component]
 #[allow(non_snake_case)]
 pub fn ComponentsIndex() -> Element {
-    let components = vec![
-        ("button", "Button 按钮", "按钮用于触发操作"),
-        ("calendar", "Calendar 日历", "月历视图与日期选择"),
-        ("auto_complete", "AutoComplete 自动补全", "输入时自动匹配候选项"),
-        ("cascader", "Cascader 级联选择", "多级数据选择"),
-        ("config_provider", "ConfigProvider 全局配置", "全局配置提供者"),
-        ("splitter", "Splitter 分隔面板", "可拖拽调整的分隔面板"),
-        ("tour", "Tour 引导漫游", "分步引导用户操作"),
-        ("transfer", "Transfer 穿梭框", "双栏选择移动"),
-        ("input", "Input 输入框", "输入框用于文本输入"),
-        ("input_tag", "InputTag 标签输入", "输入文本生成标签"),
-        ("textarea", "Textarea 多行输入", "多行文本输入"),
-        ("result", "Result 结果页", "操作结果反馈"),
-        ("statistic", "Statistic 统计数值", "统计数据展示"),
-        ("descriptions", "Descriptions 描述列表", "标签-值信息展示"),
-        ("grid", "Grid 栅格", "24 栅格布局"),
-        ("switch", "Switch 开关", "开关用于在两种状态间切换"),
-        ("checkbox", "Checkbox 复选框", "复选框用于多选场景"),
-        ("radio", "Radio 单选框", "单选框用于互斥选项中选择"),
-        ("slider", "Slider 滑块", "滑块用于在数值范围内选择"),
-        ("rate", "Rate 评分", "评分用于评价"),
-        ("image", "Image 图片", "图片展示与预览"),
-        ("space", "Space 间距", "控制元素间距"),
-        ("segmented", "Segmented 分段控制器", "分段控制器"),
-        ("input_number", "InputNumber 数字输入框", "数字输入"),
-        ("upload", "Upload 上传", "文件上传"),
-        ("carousel", "Carousel 走马灯", "轮播图"),
-        ("form", "Form 表单", "表单容器"),
-        ("tree", "Tree 树", "树形控件"),
-        ("date_picker", "DatePicker 日期选择器", "日期选择"),
-        ("select", "Select 选择器", "下拉选择"),
-        ("tag", "Tag 标签", "标签"),
-        ("card", "Card 卡片", "卡片容器"),
-        ("dialog", "Dialog 对话框", "模态对话框"),
-        ("table", "Table 表格", "数据表格"),
-        ("badge", "Badge 徽标", "徽标"),
-        ("avatar", "Avatar 头像", "头像"),
-        ("progress", "Progress 进度条", "进度条"),
-        ("tooltip", "Tooltip 文字提示", "文字提示"),
-        ("tabs", "Tabs 标签页", "标签页"),
-        ("alert", "Alert 警告", "警告提示"),
-        ("breadcrumb", "Breadcrumb 面包屑", "面包屑导航"),
-        ("pagination", "Pagination 分页", "分页"),
-        ("message", "Message 消息", "全局消息提示"),
-        ("divider", "Divider 分割线", "分割线"),
-        ("loading", "Loading 加载", "加载中"),
-        ("empty", "Empty 空状态", "空状态"),
-        ("skeleton", "Skeleton 骨架屏", "骨架屏"),
-        ("backtop", "Backtop 回到顶部", "回到顶部"),
-        ("collapse", "Collapse 折叠面板", "折叠面板"),
-        ("popconfirm", "Popconfirm 气泡确认框", "二次确认气泡弹窗"),
-        ("popover", "Popover 气泡卡片", "气泡卡片"),
-        ("drawer", "Drawer 抽屉", "抽屉"),
-        ("notification", "Notification 通知", "通知提醒"),
-        ("dropdown", "Dropdown 下拉菜单", "下拉菜单"),
-        ("menu", "Menu 菜单", "导航菜单"),
-        ("steps", "Steps 步骤条", "步骤条"),
-        ("timeline", "Timeline 时间轴", "时间轴"),
-        ("typography", "Typography 排版", "标题、文本、链接"),
-        ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
-        ("anchor", "Anchor 锚点导航", "页面内锚点导航"),
-        ("watermark", "Watermark 水印", "页面水印"),
-        ("code_block", "CodeBlock 代码块", "代码展示"),
-        ("countdown", "Countdown 倒计时", "倒计时"),
-        ("spin", "Spin 加载中", "加载状态"),
-        ("float_button", "FloatButton 浮动按钮", "浮动操作"),
-        ("time_picker", "TimePicker 时间选择", "时间选择"),
-    ];
+    let navigator = use_navigator();
+    let catalog = component_catalog();
+    let total: usize = catalog.iter().map(|(_, items)| items.len()).sum();
 
     rsx! {
-        h1 { "组件总览" }
-        p { "Ctrl UI 提供了 50 个高质量组件，覆盖表单、数据展示、反馈、导航等场景。" }
+        div { style: "margin-bottom: 32px;",
+            h1 { style: "margin-bottom: 8px;", "组件总览" }
+            p { style: "color: var(--ctrl-text-secondary); margin: 0;",
+                "Ctrl UI 提供了 {total} 个高质量组件，按通用、布局、导航、数据录入、数据展示、反馈等场景分类。"
+            }
+        }
 
-        Row { gutter: 16,
-            for (name, title, desc) in components {
-                Col { span: 24, sm: Some(12), md: Some(8), lg: Some(6),
-                    div {
-                        key: "{name}",
-                        style: "cursor:pointer;".to_string(),
-                        onclick: move |_| {
-                            let nav = use_navigator();
-                            nav.push(crate::Route::ComponentPage { name: name.to_string() });
-                        },
-                        Card {
-                            title: title.to_string(),
-                            p { "{desc}" }
+        for (category, items) in catalog {
+            div { key: "{category}", style: "margin-bottom: 40px;",
+                div { style: "display:flex; align-items:baseline; gap:12px; margin-bottom:16px;",
+                    h2 { style: "margin:0;", "{category}" }
+                    span { style: "color:var(--ctrl-text-secondary); font-size:var(--ctrl-font-size-sm);",
+                        "{items.len()} 个组件"
+                    }
+                }
+                Row { gutter: 16,
+                    for (name, title, desc) in items {
+                        Col { span: 24, sm: Some(12), md: Some(8), lg: Some(6),
+                            div {
+                                key: "{name}",
+                                style: "cursor:pointer; margin-bottom:16px;",
+                                onclick: {
+                                    let nav = navigator.clone();
+                                    move |_| { let _ = nav.push(crate::Route::ComponentPage { name: name.to_string() }); }
+                                },
+                                Card {
+                                    title: title.to_string(),
+                                    p { style: "color:var(--ctrl-text-secondary); margin:0;", "{desc}" }
+                                }
+                            }
                         }
                     }
                 }

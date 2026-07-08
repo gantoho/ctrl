@@ -77,6 +77,10 @@ mod scroll_area;
 mod number_flow;
 mod mask;
 mod hover_card;
+mod marquee;
+mod gradient_text;
+mod spotlight_card;
+mod typewriter;
 
 // Demo components shared across pages
 pub mod _demos;
@@ -92,6 +96,8 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("button", "Button 按钮", "触发操作的按钮"),
             ("typography", "Typography 排版", "标题、文本、链接"),
             ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
+            ("gradient_text", "GradientText 流光文字", "渐变动画文字"),
+            ("typewriter", "Typewriter 打字机", "逐字打印动画"),
         ]),
         ("布局", vec![
             ("grid", "Grid 栅格", "24 栅格布局"),
@@ -138,6 +144,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("table", "Table 表格", "数据表格"),
             ("list", "List 列表", "通用结构化列表"),
             ("card", "Card 卡片", "卡片容器"),
+            ("spotlight_card", "SpotlightCard 聚光卡片", "光标跟随光晕卡片"),
             ("tag", "Tag 标签", "标签"),
             ("badge", "Badge 徽标", "徽标数字"),
             ("avatar", "Avatar 头像", "头像"),
@@ -151,6 +158,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("number_flow", "NumberFlow 数字动画", "数值滚动变化动画"),
             ("image", "Image 图片", "图片展示与预览"),
             ("carousel", "Carousel 走马灯", "轮播图"),
+            ("marquee", "Marquee 跑马灯", "无缝滚动文字/内容"),
             ("tree", "Tree 树", "树形控件"),
             ("code_block", "CodeBlock 代码块", "代码展示"),
             ("kbd", "Kbd 键盘按键", "键盘快捷键展示"),
@@ -315,6 +323,10 @@ pub fn ComponentPage(name: String) -> Element {
         "number_flow" => rsx! { number_flow::NumberFlowPage {} },
         "mask" => rsx! { mask::MaskPage {} },
         "hover_card" => rsx! { hover_card::HoverCardPage {} },
+        "marquee" => rsx! { marquee::MarqueePage {} },
+        "gradient_text" => rsx! { gradient_text::GradientTextPage {} },
+        "spotlight_card" => rsx! { spotlight_card::SpotlightCardPage {} },
+        "typewriter" => rsx! { typewriter::TypewriterPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",
                 h1 { "组件未找到" }

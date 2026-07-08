@@ -1,0 +1,24 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — GradientText 流光渐变文字
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-gradient-text {
+    display: inline-block;
+    font-weight: 700;
+    background-size: 200% auto;
+    background-position: 0% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.ctrl-gradient-text--animated {
+    animation-name: ctrl-gradient-flow;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes ctrl-gradient-flow {
+    to { background-position: 200% center; }
+}

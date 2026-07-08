@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Typewriter 打字机
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-typewriter {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--ctrl-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.ctrl-typewriter__text {
+    white-space: pre;
+}
+
+.ctrl-typewriter__cursor {
+    display: inline-block;
+    margin-left: 1px;
+    font-weight: 400;
+    color: var(--ctrl-primary);
+    animation: ctrl-typewriter-blink 1s step-end infinite;
+}
+
+@keyframes ctrl-typewriter-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

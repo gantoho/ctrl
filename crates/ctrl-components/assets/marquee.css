@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Marquee 跑马灯
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-marquee {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    width: 100%;
+    gap: var(--ctrl-marquee-gap, var(--ctrl-spacing-lg));
+}
+
+/* 每份内容拷贝：自然宽度、独立平移一份内容 + 一个间距 */
+.ctrl-marquee__group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: max-content;
+    gap: var(--ctrl-marquee-gap, var(--ctrl-spacing-lg));
+    animation-name: ctrl-marquee-x;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+}
+
+@keyframes ctrl-marquee-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--ctrl-marquee-gap, var(--ctrl-spacing-lg)))); }
+}
+
+/* ── 纵向 ── */
+.ctrl-marquee--vertical {
+    flex-direction: column;
+    height: 100%;
+}
+
+.ctrl-marquee--vertical .ctrl-marquee__group {
+    flex-direction: column;
+    min-width: 0;
+    animation-name: ctrl-marquee-y;
+}
+
+@keyframes ctrl-marquee-y {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-100% - var(--ctrl-marquee-gap, var(--ctrl-spacing-lg)))); }
+}
+
+/* ── 悬停暂停 ── */
+.ctrl-marquee--pause:hover .ctrl-marquee__group {
+    animation-play-state: paused;
+}

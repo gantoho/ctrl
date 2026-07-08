@@ -1,0 +1,33 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — SpotlightCard 聚光灯卡片
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-spotlight-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-lg);
+    background: var(--ctrl-bg);
+    isolation: isolate;
+}
+
+/* 跟随光标的径向光晕 */
+.ctrl-spotlight-card__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--ctrl-spotlight-opacity, 0);
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+        var(--ctrl-spotlight-radius, 240px) circle at var(--ctrl-spotlight-x, 50%) var(--ctrl-spotlight-y, 50%),
+        color-mix(in srgb, var(--ctrl-spotlight-color, var(--ctrl-primary)) 22%, transparent),
+        transparent 70%
+    );
+}
+
+.ctrl-spotlight-card__content {
+    position: relative;
+    z-index: 1;
+    padding: var(--ctrl-spacing-lg);
+}

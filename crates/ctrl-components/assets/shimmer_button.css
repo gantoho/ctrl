@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — ShimmerButton 微光按钮
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-shimmer-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    overflow: hidden;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--ctrl-radius-md);
+    background: var(--ctrl-primary);
+    color: #fff;
+    font-size: var(--ctrl-font-size-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ctrl-shimmer-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--ctrl-shadow-md);
+}
+
+.ctrl-shimmer-button:active {
+    transform: translateY(0);
+}
+
+.ctrl-shimmer-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ctrl-shimmer-button__label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ctrl-shimmer-button__shine {
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 75%;
+    height: 100%;
+    z-index: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.55),
+        transparent
+    );
+    transform: skewX(-20deg);
+    animation: ctrl-shimmer-sweep 2.5s ease-in-out infinite;
+}
+
+@keyframes ctrl-shimmer-sweep {
+    0% {
+        left: -150%;
+    }
+    60%,
+    100% {
+        left: 150%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-shimmer-button__shine {
+        animation: none;
+        display: none;
+    }
+}

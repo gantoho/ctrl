@@ -1,0 +1,20 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — CopyButton 复制按钮
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-copy-button__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ctrl-copy-button__icon {
+    display: inline-flex;
+    font-size: 0.9em;
+    line-height: 1;
+}
+
+.ctrl-copy-button--copied {
+    color: var(--ctrl-success);
+    border-color: var(--ctrl-success);
+}

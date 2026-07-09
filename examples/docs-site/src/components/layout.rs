@@ -16,6 +16,7 @@ pub fn DocsLayout() -> Element {
             }
             Col {
                 span: 20,
+                class: "docs-scroll-container".to_string(),
                 style: "height:100vh; overflow-y:auto;",
                 div { style: "display:flex; justify-content:flex-end; padding:12px 24px 0;",
                     Button {

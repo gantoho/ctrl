@@ -1,0 +1,44 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — TextReveal 文字揭示
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-text-reveal {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.ctrl-text-reveal__unit {
+    display: inline-block;
+    opacity: 0;
+    white-space: pre;
+    animation-name: ctrl-text-reveal-in;
+    animation-duration: var(--ctrl-text-reveal-duration, 500ms);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+}
+
+.ctrl-text-reveal__space {
+    display: inline-block;
+    white-space: pre;
+}
+
+@keyframes ctrl-text-reveal-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.5em) rotate(4deg);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+        filter: blur(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-text-reveal__unit {
+        animation: none;
+        opacity: 1;
+    }
+}

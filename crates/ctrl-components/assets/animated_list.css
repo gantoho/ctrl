@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — AnimatedList 动画列表
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-animated-list > * {
+    animation-name: ctrl-animated-list-in;
+    animation-duration: var(--ctrl-animated-list-duration, 500ms);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+}
+
+/* 方向：位移起点由 CSS 变量控制 */
+.ctrl-animated-list--up > * {
+    --ctrl-animated-list-from-x: 0;
+    --ctrl-animated-list-from-y: 16px;
+}
+.ctrl-animated-list--down > * {
+    --ctrl-animated-list-from-x: 0;
+    --ctrl-animated-list-from-y: -16px;
+}
+.ctrl-animated-list--left > * {
+    --ctrl-animated-list-from-x: 16px;
+    --ctrl-animated-list-from-y: 0;
+}
+.ctrl-animated-list--right > * {
+    --ctrl-animated-list-from-x: -16px;
+    --ctrl-animated-list-from-y: 0;
+}
+
+@keyframes ctrl-animated-list-in {
+    from {
+        opacity: 0;
+        transform: translate(
+            var(--ctrl-animated-list-from-x, 0),
+            var(--ctrl-animated-list-from-y, 16px)
+        );
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+/* 交错延迟：覆盖前 20 项 */
+.ctrl-animated-list > *:nth-child(1) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 0); }
+.ctrl-animated-list > *:nth-child(2) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 1); }
+.ctrl-animated-list > *:nth-child(3) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 2); }
+.ctrl-animated-list > *:nth-child(4) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 3); }
+.ctrl-animated-list > *:nth-child(5) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 4); }
+.ctrl-animated-list > *:nth-child(6) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 5); }
+.ctrl-animated-list > *:nth-child(7) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 6); }
+.ctrl-animated-list > *:nth-child(8) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 7); }
+.ctrl-animated-list > *:nth-child(9) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 8); }
+.ctrl-animated-list > *:nth-child(10) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 9); }
+.ctrl-animated-list > *:nth-child(11) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 10); }
+.ctrl-animated-list > *:nth-child(12) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 11); }
+.ctrl-animated-list > *:nth-child(13) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 12); }
+.ctrl-animated-list > *:nth-child(14) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 13); }
+.ctrl-animated-list > *:nth-child(15) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 14); }
+.ctrl-animated-list > *:nth-child(16) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 15); }
+.ctrl-animated-list > *:nth-child(17) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 16); }
+.ctrl-animated-list > *:nth-child(18) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 17); }
+.ctrl-animated-list > *:nth-child(19) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 18); }
+.ctrl-animated-list > *:nth-child(20) { animation-delay: calc(var(--ctrl-animated-list-stagger) * 19); }
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-animated-list > * {
+        animation: none;
+    }
+}

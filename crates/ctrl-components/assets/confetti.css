@@ -1,0 +1,122 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Confetti 彩带庆祝
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.ctrl-confetti__burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+}
+
+/* X 轴层：水平惯性平移（爆发后减速） */
+.ctrl-confetti__x {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-name: ctrl-confetti-x;
+    animation-timing-function: cubic-bezier(0.16, 0.84, 0.44, 1);
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-duration: var(--ctrl-c-dur);
+    animation-delay: var(--ctrl-c-delay);
+}
+
+/* Y 轴层：抛物线（上升减速 → 下落加速，模拟重力） */
+.ctrl-confetti__y {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-name: ctrl-confetti-y;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-duration: var(--ctrl-c-dur);
+    animation-delay: var(--ctrl-c-delay);
+}
+
+/* 纸片本体：旋转 + 翻飞 + 淡出 */
+.ctrl-confetti__chip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    animation-name: ctrl-confetti-chip;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-duration: var(--ctrl-c-dur);
+    animation-delay: var(--ctrl-c-delay);
+}
+
+@keyframes ctrl-confetti-x {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(var(--ctrl-c-tx));
+    }
+}
+
+@keyframes ctrl-confetti-y {
+    0% {
+        transform: translateY(0);
+        /* 上升段：减速（惯性对抗重力） */
+        animation-timing-function: cubic-bezier(0.12, 0.6, 0.4, 1);
+    }
+    35% {
+        transform: translateY(var(--ctrl-c-peak));
+        /* 下落段：加速（重力） */
+        animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.9);
+    }
+    100% {
+        transform: translateY(var(--ctrl-c-fall));
+    }
+}
+
+@keyframes ctrl-confetti-chip {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(var(--ctrl-c-rs)) scaleX(1);
+    }
+    25% {
+        transform: translate(-50%, -50%)
+            rotate(calc(var(--ctrl-c-rs) + (var(--ctrl-c-re) - var(--ctrl-c-rs)) * 0.25))
+            scaleX(-0.4);
+    }
+    50% {
+        transform: translate(-50%, -50%)
+            rotate(calc(var(--ctrl-c-rs) + (var(--ctrl-c-re) - var(--ctrl-c-rs)) * 0.5))
+            scaleX(0.7);
+    }
+    75% {
+        transform: translate(-50%, -50%)
+            rotate(calc(var(--ctrl-c-rs) + (var(--ctrl-c-re) - var(--ctrl-c-rs)) * 0.75))
+            scaleX(-0.9);
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--ctrl-c-re)) scaleX(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-confetti__x,
+    .ctrl-confetti__y,
+    .ctrl-confetti__chip {
+        animation: none;
+    }
+    .ctrl-confetti__chip {
+        display: none;
+    }
+}

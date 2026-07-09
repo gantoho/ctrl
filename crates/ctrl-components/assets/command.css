@@ -1,0 +1,152 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Command 命令面板
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-command__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+    background: var(--ctrl-mask-bg);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    animation: ctrl-command-fade 0.15s ease;
+}
+
+.ctrl-command {
+    width: 100%;
+    max-width: 560px;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-lg);
+    box-shadow: var(--ctrl-shadow-lg);
+    overflow: hidden;
+    animation: ctrl-command-pop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 搜索区 */
+.ctrl-command__search {
+    display: flex;
+    align-items: center;
+    gap: var(--ctrl-spacing-sm);
+    padding: 0 var(--ctrl-spacing-md);
+    border-bottom: 1px solid var(--ctrl-border);
+}
+
+.ctrl-command__search-icon {
+    font-size: 18px;
+    color: var(--ctrl-text-secondary);
+    flex-shrink: 0;
+}
+
+.ctrl-command__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 14px 0;
+    font-size: var(--ctrl-font-size-md);
+    color: var(--ctrl-text);
+    font-family: inherit;
+}
+
+.ctrl-command__input::placeholder {
+    color: var(--ctrl-text-secondary);
+}
+
+/* 列表 */
+.ctrl-command__list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--ctrl-spacing-xs);
+    scrollbar-width: thin;
+}
+
+.ctrl-command__group {
+    padding: var(--ctrl-spacing-xs) var(--ctrl-spacing-sm);
+    font-size: var(--ctrl-font-size-xs);
+    font-weight: 600;
+    color: var(--ctrl-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ctrl-command__item {
+    display: flex;
+    align-items: center;
+    gap: var(--ctrl-spacing-sm);
+    padding: 10px 12px;
+    border-radius: var(--ctrl-radius-md);
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.ctrl-command__item--active {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-command__item-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+
+.ctrl-command__item-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ctrl-command__item-label {
+    color: var(--ctrl-text);
+    font-size: var(--ctrl-font-size-md);
+    line-height: 1.4;
+}
+
+.ctrl-command__item-desc {
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-sm);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctrl-command__item-shortcut {
+    flex-shrink: 0;
+    padding: 2px 8px;
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+    background: var(--ctrl-bg-secondary);
+    border: 1px solid var(--ctrl-border);
+    border-radius: var(--ctrl-radius-sm);
+}
+
+.ctrl-command__item--active .ctrl-command__item-shortcut {
+    background: var(--ctrl-bg);
+}
+
+.ctrl-command__empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--ctrl-text-secondary);
+    font-size: var(--ctrl-font-size-sm);
+}
+
+@keyframes ctrl-command-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes ctrl-command-pop {
+    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -6,3 +6,5 @@ description = "Ctrl UI 组件库核心层：主题系统、公共类型、工具
 
 [dependencies]
 dioxus = { workspace = true }
+wasm-bindgen = { workspace = true }
+web-sys = { workspace = true }

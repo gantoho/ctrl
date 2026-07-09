@@ -40,5 +40,6 @@ pub mod prelude {
     pub use ctrl_core::theme::{ThemeProvider, ThemeProviderProps};
     pub use ctrl_core::types::*;
     pub use ctrl_core::utils::cn;
+    pub use ctrl_core::shortcut::*;
     pub use ctrl_components::*;
 }

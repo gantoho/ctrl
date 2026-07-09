@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — FlipCard 翻转卡片
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-flip-card {
+    perspective: 1000px;
+    display: inline-block;
+    width: 240px;
+    height: 160px;
+}
+
+.ctrl-flip-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* 悬停翻转 */
+.ctrl-flip-card--hover:hover .ctrl-flip-card__inner {
+    transform: rotateY(180deg);
+}
+
+.ctrl-flip-card--hover.ctrl-flip-card--vertical:hover .ctrl-flip-card__inner {
+    transform: rotateX(180deg);
+}
+
+/* 点击翻转 */
+.ctrl-flip-card--flipped .ctrl-flip-card__inner {
+    transform: rotateY(180deg);
+}
+
+.ctrl-flip-card--flipped.ctrl-flip-card--vertical .ctrl-flip-card__inner {
+    transform: rotateX(180deg);
+}
+
+.ctrl-flip-card__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--ctrl-radius-lg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctrl-flip-card__back {
+    transform: rotateY(180deg);
+}
+
+.ctrl-flip-card--vertical .ctrl-flip-card__back {
+    transform: rotateX(180deg);
+}

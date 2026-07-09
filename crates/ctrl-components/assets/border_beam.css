@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — BorderBeam 边框光束
+   ═══════════════════════════════════════════════════ */
+
+@property --ctrl-border-beam-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.ctrl-border-beam {
+    --ctrl-border-beam-size: 2px;
+    --ctrl-border-beam-duration: 4s;
+    --ctrl-border-beam-from: var(--ctrl-primary);
+    --ctrl-border-beam-to: #a855f7;
+    --ctrl-border-beam-radius: var(--ctrl-radius-lg);
+
+    position: relative;
+    border-radius: var(--ctrl-border-beam-radius);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--ctrl-bg);
+    padding: var(--ctrl-border-beam-size);
+}
+
+/* 静态底边框 */
+.ctrl-border-beam__base {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--ctrl-border);
+}
+
+/* 旋转的光束（conic 明亮弧段） */
+.ctrl-border-beam__beam {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: conic-gradient(
+        from var(--ctrl-border-beam-angle),
+        transparent 0turn,
+        transparent 0.72turn,
+        var(--ctrl-border-beam-from) 0.86turn,
+        var(--ctrl-border-beam-to) 1turn
+    );
+    animation: ctrl-border-beam-rotate var(--ctrl-border-beam-duration) linear infinite;
+}
+
+.ctrl-border-beam--reverse .ctrl-border-beam__beam {
+    animation-direction: reverse;
+}
+
+/* 中心遮罩，露出边框轨道 */
+.ctrl-border-beam__mask {
+    position: absolute;
+    inset: var(--ctrl-border-beam-size);
+    z-index: 1;
+    border-radius: calc(var(--ctrl-border-beam-radius) - var(--ctrl-border-beam-size));
+    background: var(--ctrl-bg);
+}
+
+.ctrl-border-beam__content {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes ctrl-border-beam-rotate {
+    to {
+        --ctrl-border-beam-angle: 360deg;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-border-beam__beam {
+        animation: none;
+    }
+}

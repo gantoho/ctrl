@@ -436,6 +436,8 @@ name = "ctrl-core"
 version = "0.1.0"
 dependencies = [
  "dioxus",
+ "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

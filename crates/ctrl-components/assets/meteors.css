@@ -1,0 +1,65 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Meteors 流星
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-meteors {
+    position: relative;
+    overflow: hidden;
+}
+
+.ctrl-meteors__layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ctrl-meteors__meteor {
+    position: absolute;
+    top: -10%;
+    width: 2px;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--ctrl-primary);
+    box-shadow: 0 0 6px 1px var(--ctrl-primary);
+    transform: rotate(215deg);
+    animation-name: ctrl-meteor-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.ctrl-meteors__meteor::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--ctrl-primary), transparent);
+}
+
+.ctrl-meteors__content {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes ctrl-meteor-fall {
+    0% {
+        transform: rotate(215deg) translateX(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(215deg) translateX(-600px);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-meteors__meteor {
+        animation: none;
+        opacity: 0;
+    }
+}

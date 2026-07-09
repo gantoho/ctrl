@@ -10,6 +10,8 @@ pub fn MaskPage() -> Element {
     let mut visible = use_signal(|| false);
     let mut color_visible = use_signal(|| false);
     let mut blur_visible = use_signal(|| false);
+    let mut transparent_visible = use_signal(|| false);
+    let mut fullscreen_visible = use_signal(|| false);
 
     rsx! {
 div { id: "mask", style: "margin-top: 64px;",
@@ -105,6 +107,7 @@ div { id: "mask", style: "margin-top: 64px;",
                                 open: true,
                                 blur: true,
                                 color: "transparent".to_string(),
+                                onclick: move |_| blur_visible.set(false),
                             }
                         }
                         Button {
@@ -122,30 +125,81 @@ div { id: "mask", style: "margin-top: 64px;",
                 title: "透明遮罩".to_string(),
                 description: Some("创建不可见但可点击的遮罩，阻止底层交互但不遮挡视觉。".to_string()),
                 demo: rsx! {
-                    div { style: "position:relative; height:200px; background:var(--ctrl-bg-secondary); border-radius:var(--ctrl-radius-md); border:1px solid var(--ctrl-border); display:flex; align-items:center; justify-content:center; overflow:hidden;",
+                    div { style: "position:relative; height:200px; background:var(--ctrl-bg-secondary); border-radius:var(--ctrl-radius-md); border:1px solid var(--ctrl-border); display:flex; flex-direction:column; gap:16px; align-items:center; justify-content:center; overflow:hidden;",
                         Space { gap: "xs".to_string(),
                             Tag { color: "var(--ctrl-primary)".to_string(), "标签 A" }
                             Tag { color: "var(--ctrl-success)".to_string(), "标签 B" }
                             Tag { color: "var(--ctrl-warning)".to_string(), "标签 C" }
                         }
-                        Mask {
-                            open: true,
-                            color: "transparent".to_string(),
-                            div {
-                                style: "background:var(--ctrl-bg); padding:16px 24px; border-radius:var(--ctrl-radius-md); box-shadow:var(--ctrl-shadow-md);",
-                                onclick: move |e: MouseEvent| e.stop_propagation(),
-                                p { style: "margin:0; font-size:var(--ctrl-font-size-sm); color:var(--ctrl-text-secondary);", "透明遮罩 — 底层不可交互" }
+                        Button {
+                            variant: Variant::Primary,
+                            size: Size::Sm,
+                            onclick: move |_| transparent_visible.set(true),
+                            "显示透明遮罩"
+                        }
+                        if transparent_visible() {
+                            Mask {
+                                open: true,
+                                color: "transparent".to_string(),
+                                onclick: move |_| transparent_visible.set(false),
+                                div {
+                                    style: "background:var(--ctrl-bg); padding:16px 24px; border-radius:var(--ctrl-radius-md); box-shadow:var(--ctrl-shadow-md); text-align:center;",
+                                    onclick: move |e: MouseEvent| e.stop_propagation(),
+                                    p { style: "margin:0 0 12px 0; font-size:var(--ctrl-font-size-sm); color:var(--ctrl-text-secondary);", "透明遮罩 — 底层不可交互" }
+                                    Button {
+                                        variant: Variant::Outline,
+                                        size: Size::Sm,
+                                        onclick: move |_| transparent_visible.set(false),
+                                        "关闭"
+                                    }
+                                }
                             }
                         }
                     }
                 },
-                code: "Mask { open: true, color: \"transparent\".to_string(),\n    // 底层内容可见但不可交互\n}".to_string(),
+                code: "Mask { open: true, color: \"transparent\".to_string(), onclick: |_| ...,\n    // 底层内容可见但不可交互\n}".to_string(),
+            }
+
+            DemoBox {
+                title: "全屏弹窗".to_string(),
+                description: Some("开启 fullscreen 后，无论 Mask 写在哪个容器内都会以 fixed 覆盖整个视口，适合 Dialog/Drawer 等全屏弹窗场景。".to_string()),
+                demo: rsx! {
+                    div { style: "position:relative; height:200px; background:var(--ctrl-bg-secondary); border-radius:var(--ctrl-radius-md); border:1px solid var(--ctrl-border); display:flex; align-items:center; justify-content:center; overflow:hidden;",
+                        p { style: "color:var(--ctrl-text-secondary);", "点击后遮罩将覆盖整个页面" }
+                        Button {
+                            variant: Variant::Primary,
+                            style: "position:absolute; z-index:1;",
+                            onclick: move |_| fullscreen_visible.set(true),
+                            "打开全屏遮罩"
+                        }
+                        if fullscreen_visible() {
+                            Mask {
+                                open: true,
+                                fullscreen: true,
+                                onclick: move |_| fullscreen_visible.set(false),
+                                div {
+                                    style: "background:var(--ctrl-bg); padding:24px; border-radius:var(--ctrl-radius-lg); box-shadow:var(--ctrl-shadow-lg); text-align:center;",
+                                    onclick: move |e: MouseEvent| e.stop_propagation(),
+                                    p { style: "margin:0 0 12px 0; color:var(--ctrl-text);", "全屏遮罩 — 覆盖整个视口" }
+                                    Button {
+                                        variant: Variant::Primary,
+                                        size: Size::Sm,
+                                        onclick: move |_| fullscreen_visible.set(false),
+                                        "关闭"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                code: "Mask { open: true, fullscreen: true, onclick: |_| ...,\n    div { /* 弹窗内容，覆盖整个视口 */ }\n}".to_string(),
             }
 
             h2 { "Mask Props" }
             PropsTable { headers: vec!["属性".to_string(), "类型".to_string(), "默认值".to_string(), "说明".to_string()], rows: vec![
                 ("open", "bool", "false", "是否显示遮罩"),
                 ("blur", "bool", "false", "是否启用背景模糊"),
+                ("fullscreen", "bool", "false", "全屏弹窗：无论写在何处都 fixed 覆盖整个视口（默认以容器为准）"),
                 ("color", "String", "var(--ctrl-mask-bg)", "遮罩背景色"),
                 ("z_index", "i32", "1000", "层级"),
                 ("class", "String", "\"\"", "自定义 CSS 类"),

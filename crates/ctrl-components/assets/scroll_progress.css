@@ -1,0 +1,25 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — ScrollProgress 滚动进度条
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-scroll-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--ctrl-scroll-progress-height, 3px);
+    background: transparent;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.ctrl-scroll-progress--fixed {
+    position: fixed;
+}
+
+.ctrl-scroll-progress__bar {
+    height: 100%;
+    background: var(--ctrl-scroll-progress-bg);
+    border-radius: 0 2px 2px 0;
+    transition: width 0.1s linear;
+}

@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Tilt 3D 倾斜卡片
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-tilt {
+    perspective: var(--ctrl-tilt-perspective, 800px);
+    display: inline-block;
+}
+
+.ctrl-tilt__inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--ctrl-tilt-rx, 0deg)) rotateY(var(--ctrl-tilt-ry, 0deg))
+        scale(var(--ctrl-tilt-scale, 1));
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+    border-radius: inherit;
+}
+
+.ctrl-tilt__content {
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+.ctrl-tilt__glare {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: var(--ctrl-tilt-glare-opacity, 0);
+    transition: opacity 0.2s ease-out;
+    background: radial-gradient(
+        circle at var(--ctrl-tilt-glare-x, 50%) var(--ctrl-tilt-glare-y, 50%),
+        rgba(255, 255, 255, 0.45),
+        rgba(255, 255, 255, 0) 60%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-tilt__inner {
+        transform: none;
+        transition: none;
+    }
+    .ctrl-tilt__glare {
+        display: none;
+    }
+}

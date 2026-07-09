@@ -1,0 +1,44 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — AvatarGroup 头像组
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-avatar-group {
+    display: inline-flex;
+    align-items: center;
+}
+
+.ctrl-avatar-group .ctrl-avatar {
+    border: 2px solid var(--ctrl-bg);
+    box-sizing: content-box;
+    transition: transform 0.15s ease;
+    cursor: default;
+}
+
+.ctrl-avatar-group .ctrl-avatar:hover {
+    transform: translateY(-3px);
+    z-index: 2;
+    position: relative;
+}
+
+/* 堆叠重叠：按尺寸设置负边距 */
+.ctrl-avatar-group--sm .ctrl-avatar:not(:first-child) {
+    margin-left: -8px;
+}
+
+.ctrl-avatar-group--md .ctrl-avatar:not(:first-child) {
+    margin-left: -12px;
+}
+
+.ctrl-avatar-group--lg .ctrl-avatar:not(:first-child) {
+    margin-left: -16px;
+}
+
+/* "+N" 折叠项 */
+.ctrl-avatar-group__more {
+    background: var(--ctrl-bg-secondary);
+}
+
+.ctrl-avatar-group__more .ctrl-avatar__text {
+    color: var(--ctrl-text-secondary);
+    font-weight: 600;
+}

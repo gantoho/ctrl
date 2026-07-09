@@ -11,6 +11,11 @@ pub struct MaskProps {
     #[props(default = false)]
     pub blur: bool,
 
+    /// 是否全屏弹窗：为 true 时无论 Mask 写在何处都以 fixed 覆盖整个视口；
+    /// 为 false（默认）时以 absolute 限定于最近的定位父容器
+    #[props(default = false)]
+    pub fullscreen: bool,
+
     /// 遮罩背景色（默认主题 mask 色）
     #[props(default = "var(--ctrl-mask-bg)".to_string())]
     pub color: String,
@@ -35,6 +40,10 @@ pub struct MaskProps {
 }
 
 /// Mask 遮罩组件
+///
+/// 默认 `position: absolute` 限定于最近的定位父容器；
+/// 设置 `fullscreen: true` 则无论写在何处都以 `position: fixed` 覆盖整个视口，
+/// 适合 Dialog/Drawer 等全屏弹窗场景。
 #[allow(non_snake_case)]
 pub fn Mask(props: MaskProps) -> Element {
     const CSS: &str = include_str!("../../assets/mask.css");
@@ -44,6 +53,9 @@ pub fn Mask(props: MaskProps) -> Element {
     }
 
     let mut classes = vec!["ctrl-mask".to_string()];
+    if props.fullscreen {
+        classes.push("ctrl-mask--fullscreen".into());
+    }
     if props.blur {
         classes.push("ctrl-mask--blur".to_string());
     }

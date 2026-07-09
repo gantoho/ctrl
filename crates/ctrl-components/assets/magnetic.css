@@ -1,0 +1,21 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Magnetic 磁吸
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-magnetic {
+    display: inline-block;
+}
+
+.ctrl-magnetic__inner {
+    display: inline-block;
+    transform: translate(var(--ctrl-magnetic-x, 0), var(--ctrl-magnetic-y, 0));
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-magnetic__inner {
+        transform: none;
+        transition: none;
+    }
+}

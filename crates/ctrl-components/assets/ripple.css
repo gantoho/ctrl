@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Ripple 涟漪背景
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-ripple {
+    --ctrl-ripple-color: var(--ctrl-primary);
+    --ctrl-ripple-duration: 3s;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.ctrl-ripple__layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.ctrl-ripple__circle {
+    position: absolute;
+    border-width: 1px;
+    border-color: var(--ctrl-ripple-color);
+    border-radius: 50%;
+    animation: ctrl-ripple-pulse var(--ctrl-ripple-duration) ease-in-out infinite;
+}
+
+.ctrl-ripple__content {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes ctrl-ripple-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-ripple__circle {
+        animation: none;
+    }
+}

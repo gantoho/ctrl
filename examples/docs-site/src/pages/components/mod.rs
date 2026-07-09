@@ -1,6 +1,7 @@
 pub mod shared;
 
 mod button;
+mod copy_button;
 mod calendar;
 mod input;
 mod input_tag;
@@ -26,7 +27,9 @@ mod dialog;
 mod table;
 mod badge;
 mod avatar;
+mod avatar_group;
 mod progress;
+mod circular_progress;
 mod tooltip;
 mod tabs;
 mod alert;
@@ -37,6 +40,8 @@ mod divider;
 mod loading;
 mod empty;
 mod skeleton;
+mod command;
+mod shortcut;
 mod backtop;
 mod collapse;
 mod popconfirm;
@@ -80,6 +85,19 @@ mod hover_card;
 mod marquee;
 mod gradient_text;
 mod spotlight_card;
+mod border_beam;
+mod meteors;
+mod shimmer_button;
+mod flip_card;
+mod ripple;
+mod aurora_background;
+mod confetti;
+mod tilt;
+mod dot_pattern;
+mod scroll_progress;
+mod magnetic;
+mod animated_list;
+mod text_reveal;
 mod typewriter;
 
 // Demo components shared across pages
@@ -94,10 +112,14 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
     vec![
         ("通用", vec![
             ("button", "Button 按钮", "触发操作的按钮"),
+            ("copy_button", "CopyButton 复制按钮", "一键复制到剪贴板"),
+            ("shimmer_button", "ShimmerButton 微光按钮", "高光扫过的强调按钮"),
             ("typography", "Typography 排版", "标题、文本、链接"),
             ("color_picker", "ColorPicker 颜色选择器", "颜色选择"),
             ("gradient_text", "GradientText 流光文字", "渐变动画文字"),
             ("typewriter", "Typewriter 打字机", "逐字打印动画"),
+            ("text_reveal", "TextReveal 文字揭示", "文字逐词揭示"),
+            ("shortcut", "Shortcut 快捷键", "键盘快捷键系统与 Hook"),
         ]),
         ("布局", vec![
             ("grid", "Grid 栅格", "24 栅格布局"),
@@ -116,6 +138,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("pagination", "Pagination 分页", "分页器"),
             ("steps", "Steps 步骤条", "引导流程步骤"),
             ("dropdown", "Dropdown 下拉菜单", "下拉菜单"),
+            ("command", "Command 命令面板", "⌘K 可搜索命令菜单"),
             ("anchor", "Anchor 锚点导航", "页面内锚点导航"),
             ("backtop", "Backtop 回到顶部", "回到页面顶部"),
         ]),
@@ -143,11 +166,23 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
         ("数据展示", vec![
             ("table", "Table 表格", "数据表格"),
             ("list", "List 列表", "通用结构化列表"),
+            ("animated_list", "AnimatedList 动画列表", "交错入场的列表"),
             ("card", "Card 卡片", "卡片容器"),
             ("spotlight_card", "SpotlightCard 聚光卡片", "光标跟随光晕卡片"),
+            ("tilt", "Tilt 3D 倾斜", "鼠标驱动的透视倾斜卡片"),
+            ("magnetic", "Magnetic 磁吸", "光标磁吸位移"),
+            ("border_beam", "BorderBeam 边框光束", "沿边框流动的光束"),
+            ("meteors", "Meteors 流星", "流星雨背景装饰"),
+            ("ripple", "Ripple 涟漪背景", "同心圆扩散背景"),
+            ("dot_pattern", "DotPattern 点阵背景", "点阵 / 网格装饰背景"),
+            ("aurora_background", "AuroraBackground 极光背景", "多色渐变流动背景"),
+            ("confetti", "Confetti 彩带庆祝", "喷射彩带庆祝动效"),
+            ("scroll_progress", "ScrollProgress 滚动进度", "页面阅读进度条"),
+            ("flip_card", "FlipCard 翻转卡片", "3D 翻转正反面"),
             ("tag", "Tag 标签", "标签"),
             ("badge", "Badge 徽标", "徽标数字"),
             ("avatar", "Avatar 头像", "头像"),
+            ("avatar_group", "AvatarGroup 头像组", "堆叠头像与 +N 溢出"),
             ("tooltip", "Tooltip 文字提示", "文字提示"),
             ("popover", "Popover 气泡卡片", "气泡卡片"),
             ("hover_card", "HoverCard 悬停卡片", "悬停弹出信息卡片"),
@@ -174,6 +209,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("message", "Message 全局提示", "全局消息提示"),
             ("notification", "Notification 通知", "通知提醒"),
             ("progress", "Progress 进度条", "进度条"),
+            ("circular_progress", "CircularProgress 环形进度", "环形/仪表盘进度"),
             ("loading", "Loading 加载", "加载中"),
             ("spin", "Spin 加载中", "加载状态"),
             ("skeleton", "Skeleton 骨架屏", "骨架屏占位"),
@@ -248,6 +284,8 @@ pub fn ComponentPage(name: String) -> Element {
     // match arm changes, which properly destroys old scopes and creates new ones.
     match name.as_str() {
         "button" => rsx! { button::ButtonPage {} },
+        "copy_button" => rsx! { copy_button::CopyButtonPage {} },
+        "shimmer_button" => rsx! { shimmer_button::ShimmerButtonPage {} },
         "calendar" => rsx! { calendar::CalendarPage {} },
         "auto_complete" => rsx! { auto_complete::AutoCompletePage {} },
         "cascader" => rsx! { cascader::CascaderPage {} },
@@ -283,7 +321,9 @@ pub fn ComponentPage(name: String) -> Element {
         "table" => rsx! { table::TablePage {} },
         "badge" => rsx! { badge::BadgePage {} },
         "avatar" => rsx! { avatar::AvatarPage {} },
+        "avatar_group" => rsx! { avatar_group::AvatarGroupPage {} },
         "progress" => rsx! { progress::ProgressPage {} },
+        "circular_progress" => rsx! { circular_progress::CircularProgressPage {} },
         "tooltip" => rsx! { tooltip::TooltipPage {} },
         "tabs" => rsx! { tabs::TabsPage {} },
         "alert" => rsx! { alert::AlertPage {} },
@@ -301,6 +341,8 @@ pub fn ComponentPage(name: String) -> Element {
         "drawer" => rsx! { drawer::DrawerPage {} },
         "notification" => rsx! { notification::NotificationPage {} },
         "dropdown" => rsx! { dropdown::DropdownPage {} },
+        "command" => rsx! { command::CommandPage {} },
+        "shortcut" => rsx! { shortcut::ShortcutPage {} },
         "menu" => rsx! { menu::MenuPage {} },
         "steps" => rsx! { steps::StepsPage {} },
         "timeline" => rsx! { timeline::TimelinePage {} },
@@ -326,6 +368,18 @@ pub fn ComponentPage(name: String) -> Element {
         "marquee" => rsx! { marquee::MarqueePage {} },
         "gradient_text" => rsx! { gradient_text::GradientTextPage {} },
         "spotlight_card" => rsx! { spotlight_card::SpotlightCardPage {} },
+        "border_beam" => rsx! { border_beam::BorderBeamPage {} },
+        "meteors" => rsx! { meteors::MeteorsPage {} },
+        "ripple" => rsx! { ripple::RipplePage {} },
+        "aurora_background" => rsx! { aurora_background::AuroraBackgroundPage {} },
+        "confetti" => rsx! { confetti::ConfettiPage {} },
+        "tilt" => rsx! { tilt::TiltPage {} },
+        "magnetic" => rsx! { magnetic::MagneticPage {} },
+        "animated_list" => rsx! { animated_list::AnimatedListPage {} },
+        "text_reveal" => rsx! { text_reveal::TextRevealPage {} },
+        "dot_pattern" => rsx! { dot_pattern::DotPatternPage {} },
+        "scroll_progress" => rsx! { scroll_progress::ScrollProgressPage {} },
+        "flip_card" => rsx! { flip_card::FlipCardPage {} },
         "typewriter" => rsx! { typewriter::TypewriterPage {} },
         _ => rsx! {
             div { style: "padding:40px; text-align:center;",

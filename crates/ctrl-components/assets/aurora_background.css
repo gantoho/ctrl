@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — AuroraBackground 极光背景
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-aurora {
+    --ctrl-aurora-duration: 12s;
+    --ctrl-aurora-blur: 40px;
+    --ctrl-aurora-gradient: #6366f1, #a855f7, #06b6d4, #3b82f6;
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--ctrl-bg);
+}
+
+.ctrl-aurora__layer {
+    position: absolute;
+    inset: -50%;
+    z-index: 0;
+    background: conic-gradient(
+        from 0deg,
+        var(--ctrl-aurora-gradient),
+        #6366f1
+    );
+    filter: blur(var(--ctrl-aurora-blur));
+    opacity: 0.55;
+    animation: ctrl-aurora-flow var(--ctrl-aurora-duration) linear infinite;
+}
+
+.ctrl-aurora__content {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes ctrl-aurora-flow {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-aurora__layer {
+        animation: none;
+    }
+}

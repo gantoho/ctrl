@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — DotPattern 点阵背景
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-dot-pattern {
+    --ctrl-dot-gap: 20px;
+    --ctrl-dot-size: 1px;
+    --ctrl-dot-color: var(--ctrl-border);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.ctrl-dot-pattern__layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: radial-gradient(
+        var(--ctrl-dot-color) var(--ctrl-dot-size),
+        transparent var(--ctrl-dot-size)
+    );
+    background-size: var(--ctrl-dot-gap) var(--ctrl-dot-gap);
+    background-position: center;
+}
+
+/* 网格线模式 */
+.ctrl-dot-pattern--grid .ctrl-dot-pattern__layer {
+    background-image: linear-gradient(
+            to right,
+            var(--ctrl-dot-color) var(--ctrl-dot-size),
+            transparent var(--ctrl-dot-size)
+        ),
+        linear-gradient(
+            to bottom,
+            var(--ctrl-dot-color) var(--ctrl-dot-size),
+            transparent var(--ctrl-dot-size)
+        );
+}
+
+/* 中心径向淡出遮罩 */
+.ctrl-dot-pattern--fade .ctrl-dot-pattern__layer {
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+}
+
+.ctrl-dot-pattern__content {
+    position: relative;
+    z-index: 1;
+}

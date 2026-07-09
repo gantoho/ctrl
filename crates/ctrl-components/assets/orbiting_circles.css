@@ -1,0 +1,92 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — OrbitingCircles 环绕轨道
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-orbiting-circles {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctrl-orbiting-circles__path {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed var(--ctrl-border);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.ctrl-orbiting-circles__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* orbit：中心锚点，绕中心旋转 */
+.ctrl-orbiting-circles__orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    animation-name: ctrl-orbit-spin;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--ctrl-orbit-dur, 20s);
+    animation-delay: var(--ctrl-orbit-delay, 0s);
+    animation-direction: var(--ctrl-orbit-dir, normal);
+}
+
+/* arm：把 item 推到轨道半径处（静态） */
+.ctrl-orbiting-circles__arm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(calc(var(--ctrl-orbit-radius) * -1));
+}
+
+/* item：反向自转，抵消 orbit 旋转，保持正立 */
+.ctrl-orbiting-circles__item {
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    border-radius: 50%;
+    box-shadow: var(--ctrl-shadow-sm);
+    animation-name: ctrl-orbit-counter;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--ctrl-orbit-dur, 20s);
+    animation-delay: var(--ctrl-orbit-delay, 0s);
+    animation-direction: var(--ctrl-orbit-dir, normal);
+}
+
+@keyframes ctrl-orbit-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ctrl-orbit-counter {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-orbiting-circles__orbit,
+    .ctrl-orbiting-circles__item {
+        animation: none;
+    }
+}

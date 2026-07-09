@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — RetroGrid 复古网格
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-retro-grid {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 透视容器：将网格平面向后仰倒，形成地平线纵深 */
+.ctrl-retro-grid__wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    perspective: 200px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%);
+    mask-image: linear-gradient(to bottom, transparent, #000 40%);
+}
+
+.ctrl-retro-grid__lines {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    top: -50%;
+    height: 300%;
+    transform: rotateX(var(--ctrl-retro-angle, 65deg));
+    transform-origin: center bottom;
+    background-image: linear-gradient(
+            to right,
+            var(--ctrl-retro-color) 1px,
+            transparent 0
+        ),
+        linear-gradient(to bottom, var(--ctrl-retro-color) 1px, transparent 0);
+    background-size: var(--ctrl-retro-cell, 60px) var(--ctrl-retro-cell, 60px);
+    animation: ctrl-retro-scroll var(--ctrl-retro-duration, 15s) linear infinite;
+    opacity: 0.5;
+}
+
+/* 底部与顶部渐隐叠加，增强地平线氛围 */
+.ctrl-retro-grid__fade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        var(--ctrl-bg) 0%,
+        transparent 40%,
+        transparent 90%
+    );
+    pointer-events: none;
+}
+
+.ctrl-retro-grid__content {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes ctrl-retro-scroll {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 0 var(--ctrl-retro-cell, 60px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-retro-grid__lines {
+        animation: none;
+    }
+}

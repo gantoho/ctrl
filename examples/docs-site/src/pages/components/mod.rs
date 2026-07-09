@@ -98,6 +98,9 @@ mod scroll_progress;
 mod magnetic;
 mod animated_list;
 mod text_reveal;
+mod orbiting_circles;
+mod retro_grid;
+mod image_comparison;
 mod typewriter;
 
 // Demo components shared across pages
@@ -176,6 +179,9 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("ripple", "Ripple 涟漪背景", "同心圆扩散背景"),
             ("dot_pattern", "DotPattern 点阵背景", "点阵 / 网格装饰背景"),
             ("aurora_background", "AuroraBackground 极光背景", "多色渐变流动背景"),
+            ("retro_grid", "RetroGrid 复古网格", "透视流动网格背景"),
+            ("orbiting_circles", "OrbitingCircles 环绕轨道", "元素绕中心环绕"),
+            ("image_comparison", "ImageComparison 图片对比", "拖拽滑块对比前后图"),
             ("confetti", "Confetti 彩带庆祝", "喷射彩带庆祝动效"),
             ("scroll_progress", "ScrollProgress 滚动进度", "页面阅读进度条"),
             ("flip_card", "FlipCard 翻转卡片", "3D 翻转正反面"),
@@ -377,6 +383,9 @@ pub fn ComponentPage(name: String) -> Element {
         "magnetic" => rsx! { magnetic::MagneticPage {} },
         "animated_list" => rsx! { animated_list::AnimatedListPage {} },
         "text_reveal" => rsx! { text_reveal::TextRevealPage {} },
+        "orbiting_circles" => rsx! { orbiting_circles::OrbitingCirclesPage {} },
+        "retro_grid" => rsx! { retro_grid::RetroGridPage {} },
+        "image_comparison" => rsx! { image_comparison::ImageComparisonPage {} },
         "dot_pattern" => rsx! { dot_pattern::DotPatternPage {} },
         "scroll_progress" => rsx! { scroll_progress::ScrollProgressPage {} },
         "flip_card" => rsx! { flip_card::FlipCardPage {} },

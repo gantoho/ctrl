@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — ColorSwatch 色卡
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-color-swatch {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+}
+
+.ctrl-color-swatch__item {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.ctrl-color-swatch__item:hover {
+    transform: translateY(-2px);
+}
+
+.ctrl-color-swatch__block {
+    width: var(--ctrl-color-swatch-size, 64px);
+    height: var(--ctrl-color-swatch-size, 64px);
+    border-radius: var(--ctrl-radius-md);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow-sm);
+    margin: 0 auto;
+}
+
+.ctrl-color-swatch__label {
+    display: block;
+    margin-top: 6px;
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text);
+    font-weight: 600;
+}
+
+.ctrl-color-swatch__extra {
+    display: block;
+    font-size: var(--ctrl-font-size-xs);
+    color: var(--ctrl-text-secondary);
+    margin-top: 2px;
+}
+
+.ctrl-color-swatch__copied {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ctrl-success);
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: var(--ctrl-radius-sm);
+    pointer-events: none;
+    animation: ctrl-color-swatch-copied 1.2s ease forwards;
+}
+
+@keyframes ctrl-color-swatch-copied {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-4px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

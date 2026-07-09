@@ -1,0 +1,73 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Snowfall 飘雪
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-snowfall {
+    position: relative;
+    overflow: hidden;
+}
+
+.ctrl-snowfall__layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.ctrl-snowfall__content {
+    position: relative;
+    z-index: 1;
+}
+
+.ctrl-snowfall__flake {
+    position: absolute;
+    top: 0;
+    left: var(--ctrl-snow-left, 50%);
+    width: var(--ctrl-snow-size, 4px);
+    height: var(--ctrl-snow-size, 4px);
+    animation-name: ctrl-snowfall-fall, ctrl-snowfall-sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-duration: var(--ctrl-snow-dur, 10s), calc(var(--ctrl-snow-dur, 10s) * 0.4);
+    animation-delay: var(--ctrl-snow-delay, 0s);
+    animation-iteration-count: infinite;
+    opacity: var(--ctrl-snow-opacity, 0.6);
+}
+
+.ctrl-snowfall__dot {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+@keyframes ctrl-snowfall-fall {
+    0% {
+        top: -10%;
+    }
+    100% {
+        top: 110%;
+    }
+}
+
+@keyframes ctrl-snowfall-sway {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(calc(var(--ctrl-snow-sway, 40px) * 1));
+    }
+    50% {
+        transform: translateX(calc(var(--ctrl-snow-sway, 40px) * -0.6));
+    }
+    75% {
+        transform: translateX(calc(var(--ctrl-snow-sway, 40px) * 0.4));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-snowfall__flake {
+        animation: none;
+        display: none;
+    }
+}

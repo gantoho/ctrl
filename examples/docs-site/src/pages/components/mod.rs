@@ -104,6 +104,9 @@ mod image_comparison;
 mod lens;
 mod bento_grid;
 mod word_rotate;
+mod snowfall;
+mod color_swatch;
+mod context_menu;
 mod typewriter;
 
 // Demo components shared across pages
@@ -127,6 +130,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("text_reveal", "TextReveal 文字揭示", "文字逐词揭示"),
             ("word_rotate", "WordRotate 单词轮播", "关键词垂直翻转轮播"),
             ("shortcut", "Shortcut 快捷键", "键盘快捷键系统与 Hook"),
+            ("context_menu", "ContextMenu 右键菜单", "右键弹出操作菜单"),
         ]),
         ("布局", vec![
             ("grid", "Grid 栅格", "24 栅格布局"),
@@ -188,6 +192,8 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("image_comparison", "ImageComparison 图片对比", "拖拽滑块对比前后图"),
             ("lens", "Lens 放大镜", "悬停局部放大图片"),
             ("bento_grid", "BentoGrid 便当网格", "大小不一的特性网格"),
+            ("snowfall", "Snowfall 飘雪", "雪花飘落背景装饰"),
+            ("color_swatch", "ColorSwatch 色卡", "颜色样本网格"),
             ("confetti", "Confetti 彩带庆祝", "喷射彩带庆祝动效"),
             ("scroll_progress", "ScrollProgress 滚动进度", "页面阅读进度条"),
             ("flip_card", "FlipCard 翻转卡片", "3D 翻转正反面"),
@@ -395,6 +401,9 @@ pub fn ComponentPage(name: String) -> Element {
         "lens" => rsx! { lens::LensPage {} },
         "bento_grid" => rsx! { bento_grid::BentoGridPage {} },
         "word_rotate" => rsx! { word_rotate::WordRotatePage {} },
+        "snowfall" => rsx! { snowfall::SnowfallPage {} },
+        "color_swatch" => rsx! { color_swatch::ColorSwatchPage {} },
+        "context_menu" => rsx! { context_menu::ContextMenuPage {} },
         "dot_pattern" => rsx! { dot_pattern::DotPatternPage {} },
         "scroll_progress" => rsx! { scroll_progress::ScrollProgressPage {} },
         "flip_card" => rsx! { flip_card::FlipCardPage {} },

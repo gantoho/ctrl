@@ -1,0 +1,45 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — BentoGrid 便当网格
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-bento-grid {
+    display: grid;
+    width: 100%;
+}
+
+.ctrl-bento-grid__cell {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: var(--ctrl-radius-lg);
+    background: var(--ctrl-bg);
+    border: 1px solid var(--ctrl-border);
+    box-shadow: var(--ctrl-shadow-sm);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.ctrl-bento-grid__cell:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ctrl-shadow-lg);
+    border-color: var(--ctrl-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-bento-grid__cell {
+        transition: none;
+    }
+    .ctrl-bento-grid__cell:hover {
+        transform: none;
+    }
+}
+
+/* 窄屏退化为单列 */
+@media (max-width: 640px) {
+    .ctrl-bento-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .ctrl-bento-grid__cell {
+        grid-column: span 1 !important;
+    }
+}

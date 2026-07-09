@@ -101,6 +101,9 @@ mod text_reveal;
 mod orbiting_circles;
 mod retro_grid;
 mod image_comparison;
+mod lens;
+mod bento_grid;
+mod word_rotate;
 mod typewriter;
 
 // Demo components shared across pages
@@ -122,6 +125,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("gradient_text", "GradientText 流光文字", "渐变动画文字"),
             ("typewriter", "Typewriter 打字机", "逐字打印动画"),
             ("text_reveal", "TextReveal 文字揭示", "文字逐词揭示"),
+            ("word_rotate", "WordRotate 单词轮播", "关键词垂直翻转轮播"),
             ("shortcut", "Shortcut 快捷键", "键盘快捷键系统与 Hook"),
         ]),
         ("布局", vec![
@@ -182,6 +186,8 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("retro_grid", "RetroGrid 复古网格", "透视流动网格背景"),
             ("orbiting_circles", "OrbitingCircles 环绕轨道", "元素绕中心环绕"),
             ("image_comparison", "ImageComparison 图片对比", "拖拽滑块对比前后图"),
+            ("lens", "Lens 放大镜", "悬停局部放大图片"),
+            ("bento_grid", "BentoGrid 便当网格", "大小不一的特性网格"),
             ("confetti", "Confetti 彩带庆祝", "喷射彩带庆祝动效"),
             ("scroll_progress", "ScrollProgress 滚动进度", "页面阅读进度条"),
             ("flip_card", "FlipCard 翻转卡片", "3D 翻转正反面"),
@@ -386,6 +392,9 @@ pub fn ComponentPage(name: String) -> Element {
         "orbiting_circles" => rsx! { orbiting_circles::OrbitingCirclesPage {} },
         "retro_grid" => rsx! { retro_grid::RetroGridPage {} },
         "image_comparison" => rsx! { image_comparison::ImageComparisonPage {} },
+        "lens" => rsx! { lens::LensPage {} },
+        "bento_grid" => rsx! { bento_grid::BentoGridPage {} },
+        "word_rotate" => rsx! { word_rotate::WordRotatePage {} },
         "dot_pattern" => rsx! { dot_pattern::DotPatternPage {} },
         "scroll_progress" => rsx! { scroll_progress::ScrollProgressPage {} },
         "flip_card" => rsx! { flip_card::FlipCardPage {} },

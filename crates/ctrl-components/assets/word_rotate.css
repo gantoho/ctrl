@@ -1,0 +1,38 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — WordRotate 单词轮播
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-word-rotate {
+    display: inline-flex;
+    overflow: hidden;
+    vertical-align: bottom;
+    font-weight: inherit;
+}
+
+.ctrl-word-rotate__inner {
+    display: inline-flex;
+}
+
+.ctrl-word-rotate__word {
+    display: inline-block;
+    white-space: nowrap;
+    animation: ctrl-word-rotate-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+@keyframes ctrl-word-rotate-in {
+    from {
+        opacity: 0;
+        transform: translateY(100%) rotateX(-40deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctrl-word-rotate__word {
+        animation: none;
+    }
+}

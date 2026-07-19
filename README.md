@@ -363,6 +363,38 @@ match name.as_str() {
 
 ---
 
+## 本地开发
+
+### 前置要求
+
+- [Rust](https://www.rust-lang.org) 1.75+
+- [Trunk](https://trunkrs.dev) — WASM 构建工具
+
+```sh
+# 安装 Trunk
+cargo install trunk
+```
+
+### 运行文档站点
+
+```sh
+cd examples/docs-site
+trunk serve
+```
+
+浏览器访问 `http://127.0.0.1:8080/` 查看组件文档。
+
+### 运行 Demo
+
+```sh
+cd examples/demo
+trunk serve
+```
+
+> `trunk serve` 默认监听 `8080` 端口，同时运行多个项目时可通过 `--port` 指定不同端口。
+
+---
+
 ## 浏览器兼容性
 
 基于 Dioxus 0.7 + WebAssembly 构建，支持所有现代浏览器。

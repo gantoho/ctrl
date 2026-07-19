@@ -174,7 +174,7 @@ fn begin_drag(
             let latest_val = latest_val.clone();
             let raf_scheduled = raf_scheduled.clone();
             let raf_id = raf_id.clone();
-            let mut value = value;
+            let value = value;
             let onchange = onchange.clone();
             Closure::wrap(Box::new(move |e: web_sys::MouseEvent| {
                 e.prevent_default();
@@ -200,7 +200,7 @@ fn begin_drag(
                         let mut sv = value;
                         let oc = onchange.clone();
                         let sched = raf_scheduled.clone();
-                        let rid_c = rid.clone();
+                        let _rid_c = rid.clone();
                         let raf_closure = Closure::once(Box::new(move || {
                             let v = *lv.borrow();
                             sv.set(v);
@@ -265,7 +265,7 @@ fn begin_drag(
             let latest_val = latest_val.clone();
             let raf_scheduled = raf_scheduled.clone();
             let raf_id = raf_id.clone();
-            let mut value = value;
+            let value = value;
             let onchange = onchange.clone();
             Closure::wrap(Box::new(move |e: web_sys::TouchEvent| {
                 e.prevent_default();

@@ -208,7 +208,7 @@ fn DemoStartButton() -> Element {
 #[allow(non_snake_case)]
 fn PlacementVariantsDemo() -> Element {
     let mut open = use_signal(|| false);
-    let mut placement = use_signal(|| Placement::Bottom);
+    let placement = use_signal(|| Placement::Bottom);
 
     let box_style = "padding: 10px 16px; background: var(--ctrl-bg); border: 2px solid var(--ctrl-primary); border-radius: var(--ctrl-radius-md); display: inline-block;";
 
@@ -402,7 +402,7 @@ fn ComplexLayoutTourDemo() -> Element {
                                     "{status}"
                                 }
                                 span {
-                                    id: if name == "订单 #1002" {{ "tour-cx-action" }} else {{ "" }},
+                                    id: if name == "订单 #1002" { "tour-cx-action" } else { "" },
                                     style: "flex:1; display: flex; gap: 4px;",
                                     span { style: "color: var(--ctrl-primary); cursor: pointer;", "编辑" }
                                     span { style: "color: var(--ctrl-text-secondary); cursor: pointer;", "删除" }

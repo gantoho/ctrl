@@ -9,12 +9,76 @@
     z-index: 10;
 }
 
+/* 蓄力模式下接收指针事件 */
+.ctrl-confetti--charge {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
 .ctrl-confetti__burst {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 0;
     height: 0;
+}
+
+/* ── 蓄力指示器 ── */
+.ctrl-confetti__charge-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.ctrl-confetti__charge-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid var(--ctrl-color-primary, #6366f1);
+    border-radius: 50%;
+    animation: ctrl-confetti-charge-pulse 0.8s ease-in-out infinite;
+}
+
+.ctrl-confetti__charge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.ctrl-confetti__charge-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ctrl-color-primary, #6366f1);
+    user-select: none;
+}
+
+.ctrl-confetti__charge-pct {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ctrl-color-primary, #6366f1);
+    user-select: none;
+}
+
+@keyframes ctrl-confetti-charge-pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        border-color: var(--ctrl-color-primary, #6366f1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        border-color: #a855f7;
+    }
 }
 
 /* X 轴层：水平惯性平移（爆发后减速） */
@@ -118,5 +182,8 @@
     }
     .ctrl-confetti__chip {
         display: none;
+    }
+    .ctrl-confetti__charge-ring {
+        animation: none;
     }
 }

@@ -34,7 +34,7 @@ pub struct InputTagProps {
 pub fn InputTag(props: InputTagProps) -> Element {
     const CSS: &str = include_str!("../../assets/input_tag.css");
     let mut input_value = use_signal(|| String::new());
-    let mut tags = use_signal(|| props.value.clone());
+    let tags = use_signal(|| props.value.clone());
 
     let wrapper_class = {
         let base = if props.class.is_empty() {
@@ -63,7 +63,7 @@ pub fn InputTag(props: InputTagProps) -> Element {
         }
     };
 
-    let mut handle_keydown = {
+    let handle_keydown = {
         let mut input_value = input_value;
         let mut tags = tags;
         let max_reached = max_reached;

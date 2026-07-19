@@ -84,6 +84,7 @@ fn compute_default_sizes(infos: &[PanelReg]) -> Vec<f64> {
 }
 
 /// Clamp a panel size to its min/max constraints.
+#[allow(dead_code)]
 fn clamp_size(size: f64, info: &PanelReg) -> f64 {
     let min = info.min_size;
     let max = if info.max_size > 0.0 { info.max_size } else { f64::MAX };

@@ -107,6 +107,7 @@ mod word_rotate;
 mod snowfall;
 mod color_swatch;
 mod context_menu;
+mod masonry;
 mod typewriter;
 
 // Demo components shared across pages
@@ -131,6 +132,7 @@ pub fn component_catalog() -> Vec<(&'static str, Vec<(&'static str, &'static str
             ("word_rotate", "WordRotate 单词轮播", "关键词垂直翻转轮播"),
             ("shortcut", "Shortcut 快捷键", "键盘快捷键系统与 Hook"),
             ("context_menu", "ContextMenu 右键菜单", "右键弹出操作菜单"),
+            ("masonry", "Masonry 瀑布流", "瀑布流布局"),
         ]),
         ("布局", vec![
             ("grid", "Grid 栅格", "24 栅格布局"),
@@ -404,6 +406,7 @@ pub fn ComponentPage(name: String) -> Element {
         "snowfall" => rsx! { snowfall::SnowfallPage {} },
         "color_swatch" => rsx! { color_swatch::ColorSwatchPage {} },
         "context_menu" => rsx! { context_menu::ContextMenuPage {} },
+        "masonry" => rsx! { masonry::MasonryPage {} },
         "dot_pattern" => rsx! { dot_pattern::DotPatternPage {} },
         "scroll_progress" => rsx! { scroll_progress::ScrollProgressPage {} },
         "flip_card" => rsx! { flip_card::FlipCardPage {} },

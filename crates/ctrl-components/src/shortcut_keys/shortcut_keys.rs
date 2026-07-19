@@ -40,10 +40,17 @@ pub fn ShortcutKeys(props: ShortcutKeysProps) -> Element {
         style { {CSS} }
         span { class: "{wrapper_class}",
             for (i, key) in keys.iter().enumerate() {
-                if props.separator && i > 0 {
-                    span { class: "ctrl-shortcut-keys__plus", "+" }
+                {
+                    let k = format!("{i}");
+                    rsx! {
+                        if props.separator && i > 0 {
+                            span { key: "{k}", class: "ctrl-shortcut-keys__plus", "+" }
+                            Kbd { size: props.size, "{key}" }
+                        } else {
+                            Kbd { key: "{k}", size: props.size, "{key}" }
+                        }
+                    }
                 }
-                Kbd { key: "{i}", size: props.size, "{key}" }
             }
         }
     }

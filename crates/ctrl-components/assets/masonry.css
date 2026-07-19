@@ -1,0 +1,13 @@
+/* ═══════════════════════════════════════════════════
+   Ctrl UI — Masonry 瀑布流
+   ═══════════════════════════════════════════════════ */
+
+.ctrl-masonry {
+    column-count: var(--ctrl-masonry-cols, 3);
+    column-gap: var(--ctrl-masonry-gap, 16px);
+}
+
+.ctrl-masonry > * {
+    break-inside: avoid;
+    margin-bottom: var(--ctrl-masonry-gap, 16px);
+}

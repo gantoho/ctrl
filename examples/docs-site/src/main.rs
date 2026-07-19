@@ -47,12 +47,12 @@ fn read_theme_preference() -> bool {
 }
 
 /// 持久化主题偏好并设置 data-theme 属性
-pub fn apply_theme(is_dark: bool) {
+pub fn apply_theme(_is_dark: bool) {
     #[cfg(target_arch = "wasm32")]
     {
-        let theme = if is_dark { "dark" } else { "light" };
+        let theme = if _is_dark { "dark" } else { "light" };
         let _ = js_sys::eval(&format!("localStorage.setItem('ctrl-theme', '{theme}')"));
-        let attr = if is_dark { "dark" } else { "" };
+        let attr = if _is_dark { "dark" } else { "" };
         let _ = js_sys::eval(&format!("document.documentElement.setAttribute('data-theme', '{attr}')"));
     }
 }

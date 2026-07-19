@@ -63,7 +63,7 @@ pub struct TimePickerProps {
 pub fn TimePicker(props: TimePickerProps) -> Element {
     const CSS: &str = include_str!("../../assets/time_picker.css");
 
-    let mut inner_value = use_signal(|| props.value.clone());
+    let inner_value = use_signal(|| props.value.clone());
     let mut open = use_signal(|| false);
 
     let tp_id = use_signal(|| {
@@ -89,7 +89,7 @@ pub fn TimePicker(props: TimePickerProps) -> Element {
     };
 
     // 提交时间值
-    let mut commit_time = {
+    let commit_time = {
         let mut inner_value = inner_value;
         let show_second = props.show_second;
         let onchange = props.onchange.clone();
@@ -190,7 +190,7 @@ pub fn TimePicker(props: TimePickerProps) -> Element {
                             for i in 0..len {
                                 if let Some(el) = active_list.get(i) {
                                     let elem: web_sys::Element = el.unchecked_into();
-                                    let mut opts = web_sys::ScrollIntoViewOptions::new();
+                                    let opts = web_sys::ScrollIntoViewOptions::new();
                                     opts.set_block(web_sys::ScrollLogicalPosition::Center);
                                     opts.set_behavior(web_sys::ScrollBehavior::Smooth);
                                     elem.scroll_into_view_with_scroll_into_view_options(&opts);
@@ -251,7 +251,7 @@ pub fn TimePicker(props: TimePickerProps) -> Element {
                                         class: if *h_ == hour() { "ctrl-time-picker__item ctrl-time-picker__item--active" } else { "ctrl-time-picker__item" },
                                         onclick: {
                                             let h = *h_;
-                                            let mut parse = parse_time.clone();
+                                            let parse = parse_time.clone();
                                             let mut commit = commit_time.clone();
                                             move |_| {
                                                 let (_, m, s) = parse();
@@ -272,7 +272,7 @@ pub fn TimePicker(props: TimePickerProps) -> Element {
                                         class: if *m_ == minute() { "ctrl-time-picker__item ctrl-time-picker__item--active" } else { "ctrl-time-picker__item" },
                                         onclick: {
                                             let m = *m_;
-                                            let mut parse = parse_time.clone();
+                                            let parse = parse_time.clone();
                                             let mut commit = commit_time.clone();
                                             move |_| {
                                                 let (h, _, s) = parse();
@@ -293,13 +293,13 @@ pub fn TimePicker(props: TimePickerProps) -> Element {
                                         div {
                                             class: if *s_ == second() { "ctrl-time-picker__item ctrl-time-picker__item--active" } else { "ctrl-time-picker__item" },
                                             onclick: {
-                                                let s = *s_;
-                                                let mut parse = parse_time.clone();
-                                                let mut commit = commit_time.clone();
-                                                move |_| {
-                                                    let (h, m, _) = parse();
-                                                    second.set(s);
-                                                    commit(h, m, s);
+                                            let s = *s_;
+                                            let parse = parse_time.clone();
+                                            let mut commit = commit_time.clone();
+                                            move |_| {
+                                                let (h, m, _) = parse();
+                                                second.set(s);
+                                                commit(h, m, s);
                                                 }
                                             },
                                             "{s_:02}"

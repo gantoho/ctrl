@@ -31,7 +31,7 @@ pub struct WordRotateProps {
 pub fn WordRotate(props: WordRotateProps) -> Element {
     const CSS: &str = include_str!("../../assets/word_rotate.css");
 
-    let mut idx = use_signal(|| 0usize);
+    let idx = use_signal(|| 0usize);
     let words = props.words.clone();
     let duration = props.duration;
 

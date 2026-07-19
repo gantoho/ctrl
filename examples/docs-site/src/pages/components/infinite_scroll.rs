@@ -53,7 +53,7 @@ pub fn InfiniteScrollPage() -> Element {
 #[component]
 #[allow(non_snake_case)]
 fn InfiniteScrollDemo() -> Element {
-    let mut count = use_signal(|| 20usize);
+    let count = use_signal(|| 20usize);
     let mut loading = use_signal(|| false);
 
     rsx! {

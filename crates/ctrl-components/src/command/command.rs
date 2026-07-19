@@ -202,15 +202,15 @@ pub fn Command(props: CommandProps) -> Element {
                             let onselect_item = props.onselect.clone();
                             let onclose_item = props.onclose.clone();
                             rsx! {
-                                if show_group {
-                                    if let Some(group) = &item.group {
-                                        div { class: "ctrl-command__group", "{group}" }
+                                div { key: "{key}",
+                                    if show_group {
+                                        if let Some(group) = &item.group {
+                                            div { class: "ctrl-command__group", "{group}" }
+                                        }
                                     }
-                                }
-                                div {
-                                    key: "{item.key}",
-                                    class: "{item_class}",
-                                    onmouseenter: move |_| active.set(i),
+                                    div {
+                                        class: "{item_class}",
+                                        onmouseenter: move |_| active.set(i),
                                     onclick: move |_| {
                                         onselect_item.call(key.clone());
                                         onclose_item.call(());
@@ -227,6 +227,7 @@ pub fn Command(props: CommandProps) -> Element {
                                     if let Some(shortcut) = &item.shortcut {
                                         span { class: "ctrl-command__item-shortcut", "{shortcut}" }
                                     }
+                                }
                                 }
                             }
                         }

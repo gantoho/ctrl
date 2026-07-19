@@ -49,7 +49,7 @@ const TICK_MS: f64 = 40.0;
 pub fn Typewriter(props: TypewriterProps) -> Element {
     const CSS: &str = include_str!("../../assets/typewriter.css");
 
-    let mut state = use_signal(|| TypeState { word_idx: 0, len: 0, deleting: false, acc: 0.0 });
+    let state = use_signal(|| TypeState { word_idx: 0, len: 0, deleting: false, acc: 0.0 });
 
     let words = props.words.clone();
     let type_speed = props.type_speed;

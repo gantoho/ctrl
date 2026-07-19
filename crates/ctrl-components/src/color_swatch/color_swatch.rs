@@ -58,7 +58,7 @@ pub struct ColorSwatchProps {
 pub fn ColorSwatch(props: ColorSwatchProps) -> Element {
     const CSS: &str = include_str!("../../assets/color_swatch.css");
 
-    let mut copied = use_signal(|| None::<usize>);
+    let copied = use_signal(|| None::<usize>);
 
     let container_class = if props.class.is_empty() {
         "ctrl-color-swatch".to_string()
